@@ -6,9 +6,8 @@ Authors@R: c(
   person("Joanna", "Zyla",  email = "joanna.zyla@polsl.pl",role = c("aut","cre")).
   person("Aleksandra", "Bilska",  email = "aleksandra.bilska@ipipan.waw.pl",role = c("aut","cre")))
 Maintainer: The package maintainer <joanna.zyla@polsl.pl>
-
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
+Description: Tu bedzie opis.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.3.2
