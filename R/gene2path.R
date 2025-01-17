@@ -24,7 +24,6 @@ gene2path<- function(X, Y, method = "ssGSEA"){
     stop("No data.")}
 
 
-  x<-1
 
 
 }
