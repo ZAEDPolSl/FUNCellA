@@ -1,4 +1,4 @@
-#' Function to transform gene level information to pathway level by single-sample approaches
+#' Function to transform genes to pathway level by single-sample approaches
 #'
 #' Function reduce genes to pathways.
 #'
@@ -9,7 +9,7 @@
 #' @param filt_min numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.
 #' @param filt_max numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.
 #'
-#' @returns Function returns...
+#' @return Function returns...
 #'
 #' @examples
 #' \dontrun{
