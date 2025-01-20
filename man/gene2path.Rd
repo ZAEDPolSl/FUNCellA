@@ -14,7 +14,7 @@ gene2path(
 )
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{X}{matrix of data}
 
 \item{pathway}{list of pathways to analysis.}
 

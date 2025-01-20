@@ -2,7 +2,7 @@
 #'
 #' Function reduce genes to pathways.
 #'
-#' @param X matrix of data.
+#' @param X matrix of data
 #' @param pathway list of pathways to analysis.
 #' @param method methods for single-sample pathway enrichment analysis.
 #' @param filt_cov numeric vector of length 1. Minimum % of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65% will be taken.
@@ -16,6 +16,8 @@
 #'
 #'
 #' }
+#'
+#' @import cli
 #'
 #' @seealso \code{\link{gaussian_mixture_vector}}, \code{\link{EM_iter}}
 #'
@@ -36,10 +38,10 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filter
   # check of filtration by coverage ----
   if (filt_cov!=0){
     pathway<-cover_check(X,pathway,filt_cov)
-  }
+  } else {cli_alert_success("No filtration due to coverage")}
 
   # check of filtration by pathways size ----
-
+  pathway<-min_max_filter(pathway,filt_min,filter_max)
 
   # run of gene to path transformation ----
   switch(method,
