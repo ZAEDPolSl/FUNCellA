@@ -2,7 +2,7 @@
 % Please edit documentation in R/gene2path.R
 \name{gene2path}
 \alias{gene2path}
-\title{Function to transform gene level information to pathway level by single-sample approaches}
+\title{Function to transform genes to pathway level by single-sample approaches}
 \usage{
 gene2path(
   X,
