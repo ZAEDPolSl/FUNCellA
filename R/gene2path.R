@@ -3,8 +3,11 @@
 #' Function reduce genes to pathways.
 #'
 #' @param X matrix of data.
-#' @param pathway list of pathways to analsysis
+#' @param pathway list of pathways to analysis.
 #' @param method methods for single-sample pathway enrichment analysis.
+#' @param filt_cov numeric vector of length 1. Minimum % of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65% will be taken.
+#' @param filt_min numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.
+#' @param filt_max numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.
 #'
 #' @returns Function returns...
 #'
@@ -17,16 +20,29 @@
 #' @seealso \code{\link{gaussian_mixture_vector}}, \code{\link{EM_iter}}
 #'
 #' @export
-gene2path<- function(X, pathway, method = "ssGSEA"){
-  # Check part
+gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filter_max=500){
+  # parameters check part ----
   if (!hasArg("X")){
     stop("No data.")}
-#
-#   if (method=="ssGSEA"){
-#     dfssGSEA <- gsva(as.matrix(data), pathway, method = "ssgsea", kcdf = "Gaussian", mx.diff = F)
-#     dfssGSEA <- as.data.frame(dfssGSEA)
 
-    switch(method,
+  if (!hasArg("pathway")){
+    stop("No pathway list.")}
+
+  if (filt_cov<0 | filt_cov>1){
+    stop("filt_cov has to be value from 0 to 1")}
+
+  method <- match.arg(method,choices=c('ssGSEA','Mean','BINA',"CERNO","ZSc",'JASMINE'))
+
+  # check of filtration by coverage ----
+  if (filt_cov!=0){
+    pathway<-cover_check(X,pathway,filt_cov)
+  }
+
+  # check of filtration by pathways size ----
+
+
+  # run of gene to path transformation ----
+  switch(method,
       "ssGSEA"= df_path<-ssGSEA(X,pathway),
       "Mean" =  df_path<-Mean_path(X,pathway)
     )

@@ -4,14 +4,27 @@
 \alias{gene2path}
 \title{Function to transform gene level information to pathway level by single-sample approaches}
 \usage{
-gene2path(X, pathway, method = "ssGSEA")
+gene2path(
+  X,
+  pathway,
+  method = "ssGSEA",
+  filt_cov = 0,
+  filt_min = 15,
+  filter_max = 500
+)
 }
 \arguments{
 \item{X}{matrix of data.}
 
-\item{pathway}{list of pathways to analsysis}
+\item{pathway}{list of pathways to analysis.}
 
 \item{method}{methods for single-sample pathway enrichment analysis.}
+
+\item{filt_cov}{numeric vector of length 1. Minimum % of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65% will be taken.}
+
+\item{filt_min}{numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.}
+
+\item{filt_max}{numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.}
 }
 \value{
 Function returns...
