@@ -2,14 +2,14 @@
 % Please edit documentation in R/gene2path.R
 \name{gene2path}
 \alias{gene2path}
-\title{Function to transform gene level information to pathway level by single-sample approaches.}
+\title{Function to transform gene level information to pathway level by single-sample approaches}
 \usage{
-gene2path(X, Y, method = "ssGSEA")
+gene2path(X, pathway, method = "ssGSEA")
 }
 \arguments{
 \item{X}{matrix of data.}
 
-\item{Y}{list of pathways}
+\item{pathway}{list of pathways to analsysis}
 
 \item{method}{methods for single-sample pathway enrichment analysis.}
 }

@@ -3,7 +3,7 @@
 \docType{data}
 \name{pathways}
 \alias{pathways}
-\title{Exemplary data of pathways.}
+\title{Exemplary data of pathways}
 \format{
 A list with 45 elements which represent pathways. Each element contain vector of gene names (characters) of each pathway.
 Names represent CellMarker pathway ID for which information are given in pathways_info file.

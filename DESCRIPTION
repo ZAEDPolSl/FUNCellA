@@ -1,15 +1,15 @@
 Package: SinglePathGMM
 Type: Package
-Title: Single-sample pathway enrichment with GMM.
+Title: Single-sample pathway enrichment with GMM
 Version: 0.1.0
 Authors@R: c(
-  person("Joanna", "Zyla",  email = "joanna.zyla@polsl.pl",role = c("aut","cre")).
-  person("Aleksandra", "Bilska",  email = "aleksandra.bilska@ipipan.waw.pl",role = c("aut","cre")))
+  person("Joanna", "Zyla",  email = "joanna.zyla@polsl.pl",role = c("aut","cre")),
+  person("Aleksandra", "Bilska",  email = "aleksandra.bilska@ipipan.waw.pl",role = c("aut")))
 Maintainer: The package maintainer <joanna.zyla@polsl.pl>
 Description: Tu bedzie opis.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
-Depends: 
-    R (>= 3.5)
+Depends:
+    R (>= 3.5), GSVA

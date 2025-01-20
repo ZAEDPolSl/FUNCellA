@@ -3,9 +3,9 @@
 \docType{data}
 \name{pathways_info}
 \alias{pathways_info}
-\title{Pathay description for exemplary data.}
+\title{Pathay description for exemplary data}
 \format{
-A data frame with {45} rows and {3} variables:
+A data frame with 45 rows and 3 columns variables:
 \describe{
   \item{ID}{ID pathways ID which math to names of pathway data.}
   \item{Title}{Title pathways title}
