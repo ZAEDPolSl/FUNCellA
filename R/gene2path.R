@@ -28,7 +28,7 @@ gene2path<- function(X, pathway, method = "ssGSEA"){
 
     switch(method,
       "ssGSEA"= df_path<-ssGSEA(X,pathway),
-      "Mean" =  df_path<-Mean(X,pathway)
+      "Mean" =  df_path<-Mean_path(X,pathway)
     )
 
 
