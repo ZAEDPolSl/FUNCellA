@@ -22,7 +22,7 @@
 #' @seealso \code{\link{gaussian_mixture_vector}}, \code{\link{EM_iter}}
 #'
 #' @export
-gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filter_max=500){
+gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_max=500){
   # parameters check part ----
   if (!hasArg("X")){
     stop("No data.")}
@@ -41,7 +41,7 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filter
   } else {cli_alert_success("No filtration due to coverage")}
 
   # check of filtration by pathways size ----
-  pathway<-min_max_filter(pathway,filt_min,filter_max)
+  pathway<-min_max_filter(pathway,filt_min,filt_max)
 
   # run of gene to path transformation ----
   switch(method,
