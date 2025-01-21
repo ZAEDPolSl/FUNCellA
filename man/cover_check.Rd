@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions_filter.R
 \name{cover_check}
 \alias{cover_check}
-\title{Function to check coverage of gene-pathway mapping.}
+\title{Function to check coverage of gene-pathway mapping}
 \usage{
 cover_check(X, pathway, filt_cov)
 }
@@ -11,7 +11,7 @@ cover_check(X, pathway, filt_cov)
 
 \item{pathway}{list of pathways to analysis}
 
-\item{filt_cov}{numeric vector of length 1. Minimum % of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65% will be taken.}
+\item{filt_cov}{numeric vector of length 1. Minimum \% of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65\% will be taken.}
 }
 \value{
 A list of filtered pathways.

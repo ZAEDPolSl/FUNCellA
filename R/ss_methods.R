@@ -11,7 +11,7 @@
 #'
 #' @export
 Path_ssGSEA<-function(X,pathway){
-  df_path <- ssgseaParam(as.matrix(data), pathway)
+  df_path <- ssgseaParam(as.matrix(X), pathway)
   df_path <- as.data.frame(gsva(df_path))
   rownames(df_path)<-names(pathway)
 return(df_path)
@@ -41,6 +41,7 @@ Path_Mean <- function(pathway, X){
 #'
 #' @param X matrix of data.
 #' @param pathway list of pathways to analysis
+#' @param type type of adjustment of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
 #'
@@ -52,17 +53,17 @@ Path_Mean <- function(pathway, X){
 #' @export
 Path_JASMINE<-function(X,pathway,type="oddsratio"){
 
-  df_path <- matrix(NA,length(pathway),ncol(data))
+  df_path <- matrix(NA,length(pathway),ncol(X))
   idprog <- cli_progress_bar("Calculating JASMINE scores", total=length(pathway))
   for (i in 1:length(pathway)){
-    df_path[i,]<-as.vector(JASMINE(data,pathway[[i]],type)$JAS_Scores)
+    df_path[i,]<-as.vector(JASMINE(X,pathway[[i]],type)$JAS_Scores)
     cli_progress_update(id=idprog)
   }
   cli_progress_done(idprog)
 
   df_path<-as.data.frame(df_path)
   rownames(df_path) <- names(pathway)
-  colnames(df_path) <- colnames(data)
+  colnames(df_path) <- colnames(X)
   cli_alert_success('JASMINE scores calculated')
   return(df_path)
 }

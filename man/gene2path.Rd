@@ -21,13 +21,13 @@ gene2path(
 
 \item{method}{methods for single-sample pathway enrichment analysis.}
 
-\item{filt_cov}{numeric vector of length 1. Minimum % of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65% will be taken.}
+\item{filt_cov}{numeric vector of length 1. Minimum \% of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65\% will be taken.}
 
 \item{filt_min}{numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.}
 
 \item{filt_max}{numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.}
 
-\item{type}{type of adjustemnt of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.}
+\item{type}{type of adjustment of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.}
 }
 \value{
 Function returns...

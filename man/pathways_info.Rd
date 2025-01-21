@@ -3,7 +3,7 @@
 \docType{data}
 \name{pathways_info}
 \alias{pathways_info}
-\title{Pathay description for exemplary data}
+\title{Description for exemplary pathways}
 \format{
 A data frame with 45 rows and 3 columns variables:
 \describe{

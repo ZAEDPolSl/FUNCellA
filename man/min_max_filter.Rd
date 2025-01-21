@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions_filter.R
 \name{min_max_filter}
 \alias{min_max_filter}
-\title{Function to remove pathways from analysis by their size.}
+\title{Function to remove pathways from analysis by their size}
 \usage{
 min_max_filter(pathway, filt_min, filt_max)
 }

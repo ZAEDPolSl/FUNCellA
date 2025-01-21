@@ -10,7 +10,7 @@
 #' @source \url{https://cran.r-project.org/web/packages/tmod/index.html}
 "pathways"
 
-#' Pathay description for exemplary data
+#' Description for exemplary pathways
 #'
 #' File containing 45 pathways form CellMarker database.
 #'

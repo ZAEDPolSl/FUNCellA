@@ -13,6 +13,8 @@ Path_JASMINE(X, pathway, type = "oddsratio")
 \item{X}{matrix of data.}
 
 \item{pathway}{list of pathways to analysis}
+
+\item{type}{type of adjustment of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.}
 }
 \value{
 A data.frame with pathways in rows and samples in columns.

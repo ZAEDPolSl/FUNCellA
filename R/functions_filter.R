@@ -1,10 +1,10 @@
-#' Function to check coverage of gene-pathway mapping.
+#' Function to check coverage of gene-pathway mapping
 #'
 #' The function...
 #'
 #' @param X matrix of data.
 #' @param pathway list of pathways to analysis
-#' @param filt_cov numeric vector of length 1. Minimum % of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65% will be taken.
+#' @param filt_cov numeric vector of length 1. Minimum \% of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65\% will be taken.
 #'
 #' @return A list of filtered pathways.
 #'
@@ -31,7 +31,7 @@ cover_check<- function(X,pathway,filt_cov){
   return(pathway)
 }
 
-#' Function to remove pathways from analysis by their size.
+#' Function to remove pathways from analysis by their size
 #'
 #' The function...
 #'
