@@ -10,7 +10,8 @@ gene2path(
   method = "ssGSEA",
   filt_cov = 0,
   filt_min = 15,
-  filt_max = 500
+  filt_max = 500,
+  type = "oddsratio"
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ gene2path(
 \item{filt_min}{numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.}
 
 \item{filt_max}{numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.}
+
+\item{type}{type of adjustemnt of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.}
 }
 \value{
 Function returns...
@@ -38,7 +41,4 @@ Function reduce genes to pathways.
 
 }
 
-}
-\seealso{
-\code{\link{gaussian_mixture_vector}}, \code{\link{EM_iter}}
 }

@@ -21,7 +21,6 @@
 #'
 #' @import cli
 #'
-#' @seealso \code{\link{gaussian_mixture_vector}}, \code{\link{EM_iter}}
 #'
 #' @export
 gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_max=500,type="oddsratio"){

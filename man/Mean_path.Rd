@@ -4,12 +4,12 @@
 \alias{Mean_path}
 \title{Function to perform Mean pathway enrichment}
 \usage{
-Mean_path(X, pathway)
+Mean_path(pathway, X)
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{pathway}{list of pathways to analysis}
 
-\item{pathway}{list of pathways to analsysis}
+\item{X}{matrix of data.}
 }
 \value{
 A data.frame with pathways in rows and samples in columns.

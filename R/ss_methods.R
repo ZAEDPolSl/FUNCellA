@@ -28,9 +28,10 @@ return(df_path)
 #'
 #'
 #' @export
-calMean <- function(pathway, cell){
-  dfMean <- as.data.frame(do.call(rbind, lapply(pathway, function(path) colMeans(Path_df(path, X)))))
-  return(dfMean)
+Mean_path <- function(pathway, X){
+  df_path <- as.data.frame(do.call(rbind, lapply(pathway, function(path) colMeans(Path_df(path, X)))))
+  rownames(df_path) <- names(pathway)
+  return(df_path)
 }
 
 
