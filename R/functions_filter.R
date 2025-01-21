@@ -47,9 +47,9 @@ min_max_filter<- function(pathway,filt_min,filt_max){
   cli_alert_info("PATHWAY SIZE FILTRATION")
   name <- c()
   for (i in 1:length(pathway)){
-       siz<-length(pathway[[i]])
-       if (siz<filt_min | siz>filt_max){
-           name <- append(name, names(pathway[i]))}
+    siz<-length(pathway[[i]])
+    if (siz<filt_min | siz>filt_max){
+      name <- append(name, names(pathway[i]))}
 
   }
   cli_alert_success(paste0('In total removed: ',length(name)," pathways"))

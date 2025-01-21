@@ -9,15 +9,8 @@
 #' @param filt_min numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.
 #' @param filt_max numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.
 #' @param type type of adjustemnt of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.
-
 #'
 #' @return Function returns...
-#'
-#' @examples
-#' \dontrun{
-#'
-#'
-#' }
 #'
 #' @import cli
 #'
@@ -46,9 +39,9 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_m
 
   # run of gene to path transformation ----
   switch(method,
-      "ssGSEA"= df_path<-ssGSEA(X,pathway),
-      "Mean" =  df_path<-Mean_path(X,pathway),
-      "JASMINE" = df_path<-JAS_path(X,pathway,type)
+      "ssGSEA"= df_path<-Path_ssGSEA(X,pathway),
+      "Mean" =  df_path<-Path_Mean(X,pathway),
+      "JASMINE" = df_path<-Path_JASMINE(X,pathway,type)
     )
 
 

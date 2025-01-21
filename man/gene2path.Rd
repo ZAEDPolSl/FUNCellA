@@ -35,10 +35,3 @@ Function returns...
 \description{
 Function reduce genes to pathways.
 }
-\examples{
-\dontrun{
-
-
-}
-
-}

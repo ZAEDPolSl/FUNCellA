@@ -10,7 +10,7 @@
 #' @import GSVA
 #'
 #' @export
-ssGSEA<-function(X,pathway){
+Path_ssGSEA<-function(X,pathway){
   df_path <- ssgseaParam(as.matrix(data), pathway)
   df_path <- as.data.frame(gsva(df_path))
   rownames(df_path)<-names(pathway)
@@ -28,7 +28,7 @@ return(df_path)
 #'
 #'
 #' @export
-Mean_path <- function(pathway, X){
+Path_Mean <- function(pathway, X){
   df_path <- as.data.frame(do.call(rbind, lapply(pathway, function(path) colMeans(Path_df(path, X)))))
   rownames(df_path) <- names(pathway)
   return(df_path)
@@ -46,16 +46,23 @@ Mean_path <- function(pathway, X){
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
 #'
+#'
+#' @import cli
+#'
 #' @export
-JAS_path<-function(X,pathway,type="oddsratio"){
+Path_JASMINE<-function(X,pathway,type="oddsratio"){
 
   df_path <- matrix(NA,length(pathway),ncol(data))
+  idprog <- cli_progress_bar("Calculating JASMINE scores", total=length(pathway))
   for (i in 1:length(pathway)){
-    df_path[i,]<-as.vector(JASMINE(data,pathway[[i]],method =type)$JAS_Scores)
+    df_path[i,]<-as.vector(JASMINE(data,pathway[[i]],type)$JAS_Scores)
+    cli_progress_update(id=idprog)
   }
+  cli_progress_done(idprog)
 
   df_path<-as.data.frame(df_path)
   rownames(df_path) <- names(pathway)
   colnames(df_path) <- colnames(data)
+  cli_alert_success('JASMINE scores calculated')
   return(df_path)
 }
