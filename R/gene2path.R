@@ -8,6 +8,8 @@
 #' @param filt_cov numeric vector of length 1. Minimum % of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65% will be taken.
 #' @param filt_min numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.
 #' @param filt_max numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.
+#' @param type type of adjustemnt of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.
+
 #'
 #' @return Function returns...
 #'
@@ -22,7 +24,7 @@
 #' @seealso \code{\link{gaussian_mixture_vector}}, \code{\link{EM_iter}}
 #'
 #' @export
-gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_max=500){
+gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_max=500,type="oddsratio"){
   # parameters check part ----
   if (!hasArg("X")){
     stop("No data.")}
@@ -47,7 +49,7 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_m
   switch(method,
       "ssGSEA"= df_path<-ssGSEA(X,pathway),
       "Mean" =  df_path<-Mean_path(X,pathway),
-      "JASMINE" =  df_path<-JAS_path(X,pathway,'oddsratio')
+      "JASMINE" = df_path<-JAS_path(X,pathway,type)
     )
 
 
