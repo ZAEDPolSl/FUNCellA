@@ -30,5 +30,8 @@ return(df_path)
 #' @export
 Mean_path<-function(X,pathway){
   .....
+
+
+  blaaa<-1
   return(df_path)
 }
