@@ -10,7 +10,7 @@ gene2path(
   method = "ssGSEA",
   filt_cov = 0,
   filt_min = 15,
-  filter_max = 500
+  filt_max = 500
 )
 }
 \arguments{

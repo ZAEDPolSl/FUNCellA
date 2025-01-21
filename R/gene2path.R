@@ -46,7 +46,8 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_m
   # run of gene to path transformation ----
   switch(method,
       "ssGSEA"= df_path<-ssGSEA(X,pathway),
-      "Mean" =  df_path<-Mean_path(X,pathway)
+      "Mean" =  df_path<-Mean_path(X,pathway),
+      "JASMINE" =  df_path<-JAS_path(X,pathway,'oddsratio')
     )
 
 

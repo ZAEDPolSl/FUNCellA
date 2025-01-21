@@ -5,7 +5,7 @@
 #' @param X matrix of data.
 #' @param pathway list of pathways to analysis
 #'
-#' @returns A data.frame with pathways in rows and samples in columns.
+#' @return A data.frame with pathways in rows and samples in columns.
 #'
 #' @import GSVA
 #'
@@ -24,7 +24,7 @@ return(df_path)
 #' @param X matrix of data.
 #' @param pathway list of pathways to analsysis
 #'
-#' @returns A data.frame with pathways in rows and samples in columns.
+#' @return A data.frame with pathways in rows and samples in columns.
 #'
 #'
 #' @export
@@ -33,5 +33,31 @@ Mean_path<-function(X,pathway){
 
 
   blaaa<-1
+  return(df_path)
+}
+
+
+#' Function to perform JASMINE pathway enrichment
+#'
+#' The function...
+#'
+#' @param X matrix of data.
+#' @param pathway list of pathways to analysis
+#'
+#' @return A data.frame with pathways in rows and samples in columns.
+#'
+#' @source \url{https://github.com/NNoureen/JASMINE}
+#'
+#' @export
+JAS_path<-function(X,pathway,type="oddsratio"){
+
+  df_path <- matrix(NA,length(pathway),ncol(data))
+  for (i in 1:length(pathway)){
+    df_path[i,]<-as.vector(JASMINE(data,pathway[[i]],method =type)$JAS_Scores)
+  }
+
+  df_path<-as.data.frame(df_path)
+  rownames(df_path) <- names(pathway)
+  colnames(df_path) <- colnames(data)
   return(df_path)
 }
