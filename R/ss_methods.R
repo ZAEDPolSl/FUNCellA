@@ -22,16 +22,13 @@ return(df_path)
 #' The function...
 #'
 #' @param X matrix of data.
-#' @param pathway list of pathways to analsysis
+#' @param pathway list of pathways to analysis
 #'
 #' @returns A data.frame with pathways in rows and samples in columns.
 #'
 #'
 #' @export
-Mean_path<-function(X,pathway){
-  .....
-
-
-  blaaa<-1
-  return(df_path)
+calMean <- function(pathways, cells){
+  dfMean <- as.data.frame(do.call(rbind, lapply(pathways, function(path) colMeans(Path_df(path, cells)))))
+  return(dfMean)
 }
