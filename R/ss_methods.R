@@ -82,8 +82,8 @@ Path_JASMINE<-function(X,pathway,type="oddsratio"){
 #'
 #' @export
 Path_Cerno <- function(X, pathways) {
-  idprog <- cli_progress_bar("Calculating CERNO scores", total=length(pathway))
   dfCerno <- do.call(rbind, lapply(pathways, function(pathway) {
+    idprog <- cli_progress_bar("Calculating CERNO scores", total=length(pathway))
     cli_progress_update(id = idprog)
     df <- Path_df(pathway, X)
     row_AUC <- rowAUC(df, X)
