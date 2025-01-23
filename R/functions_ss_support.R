@@ -150,7 +150,7 @@ JASMINE <- function(X,g_vec,type="oddsratio")
 #' @importFrom matrixStats rowVars
 #'
 #'
-Path_df <- function(g_vec, X){
+Path_df <- function(g_vec,X){
   g_vec<-unlist(g_vec)
   data_path <- X[rownames(X) %in% g_vec,]
   tmp <- rowVars(as.matrix(data_path))
