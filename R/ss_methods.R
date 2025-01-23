@@ -28,7 +28,7 @@ return(df_path)
 #'
 #'
 #' @export
-Path_Mean <- function(pathway, X){
+Path_Mean <- function(X,pathway){
   df_path <- as.data.frame(do.call(rbind, lapply(pathway, function(path) colMeans(Path_df(path, X)))))
   rownames(df_path) <- names(pathway)
   return(df_path)

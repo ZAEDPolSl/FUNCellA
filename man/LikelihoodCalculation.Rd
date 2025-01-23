@@ -15,7 +15,7 @@ LikelihoodCalculation(X, g_vec)
 \item{g_vec}{vector of gene names from pathway.}
 }
 \value{
-A vector of likelihood.
+A vector of likelihoods.
 }
 \description{
 The function...

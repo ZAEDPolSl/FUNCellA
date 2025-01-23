@@ -15,7 +15,7 @@ ORCalculation(X, g_vec)
 \item{g_vec}{vector of gene names from pathway.}
 }
 \value{
-A vector of odds ratio.
+A vector of odds ratios.
 }
 \description{
 The function...

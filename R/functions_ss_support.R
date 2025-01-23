@@ -143,16 +143,18 @@ JASMINE <- function(X,g_vec,type="oddsratio")
 #' The function...
 #'
 #' @param X matrix of data.
-#' @param pathway list of pathways to analysis
+#' @param g_vec vector of gene names from pathway.
 #'
 #' @return data frame
 #'
+#' @importFrom matrixStats rowVars
 #'
-Path_df <- function(pathway, X){
-  pathway<-unlist(pathway)
-  x <- X[rownames(X) %in% pathway,]
-  tmp <- rowVars(as.matrix(x))
+#'
+Path_df <- function(g_vec, X){
+  g_vec<-unlist(g_vec)
+  data_path <- X[rownames(X) %in% g_vec,]
+  tmp <- rowVars(as.matrix(data_path))
 
-  m <- x[!(is.na(tmp)==T | tmp == 0),]
-  return(m)
+  data_path <- data_path[!(is.na(tmp)==T | tmp == 0),]
+  return(data_path)
 }
