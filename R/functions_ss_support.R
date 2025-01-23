@@ -149,6 +149,7 @@ JASMINE <- function(X,g_vec,type="oddsratio")
 #'
 #'
 Path_df <- function(pathway, X){
+  pathway<-unlist(pathway)
   x <- X[rownames(X) %in% pathway,]
   tmp <- rowVars(as.matrix(x))
 
