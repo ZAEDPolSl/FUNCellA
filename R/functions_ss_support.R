@@ -158,3 +158,40 @@ Path_df <- function(g_vec, X){
   data_path <- data_path[!(is.na(tmp)==T | tmp == 0),]
   return(data_path)
 }
+
+#' Function to rank data
+#'
+#' The function...
+#'
+#' @param X matrix of data.
+#'
+#' @return ranked data frame
+#'
+#'
+Rank_data <- function(X){
+  rank_df <- as.data.frame(lapply(X, function(col) {
+    rank(dplyr::desc(as.numeric(col)), ties.method = "average")
+  }))
+  rownames(rank_df) <- rownames(X)
+  colnames(rank_df) <- colnames(X)
+  return(rank_df)
+}
+
+#' Function to calculate AUC
+#'
+#' The function...
+#'
+#' @param X matrix of data.
+#' @param df data.frame from CERNO function
+#'
+#' @return data frame
+#'
+#'
+rowAUC <- function(X,df) {
+  row_AUC <- apply(as.matrix(df), 2, function(col) {
+    cell <- as.numeric(col)
+    AUC <- (nrow(df) * (nrow(X) - nrow(df)) + (nrow(df) * (nrow(df) + 1) / 2) - sum(cell)) / (nrow(df) * (nrow(X) - nrow(df)))
+    return(AUC)
+  })
+  return(row_AUC)
+}

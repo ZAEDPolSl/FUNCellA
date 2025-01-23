@@ -68,3 +68,28 @@ Path_JASMINE<-function(X,pathway,type="oddsratio"){
   cli_alert_success('JASMINE scores calculated')
   return(df_path)
 }
+
+#' Function to perform CERNO pathway enrichment
+#'
+#' The function...
+#'
+#' @param X matrix of data.
+#' @param pathway list of pathways to analysis
+#'
+#' @return A data.frame with pathways in rows and samples in columns.
+#'
+#'@import cli
+#'
+#' @export
+Path_Cerno <- function(X, pathways) {
+  #idprog <- cli_progress_bar("Calculating JASMINE scores", total=length(pathway))
+  dfCerno <- do.call(rbind, lapply(pathways, function(pathway) {
+    #cli_progress_update(id = idprog)
+    df <- Path_df(pathway, X)
+    row_AUC <- rowAUC(df, X)
+    return(row_AUC)
+  }))
+  #cli_progress_done(idprog)
+  rownames(dfCerno) <- names(pathways)
+  return(dfCerno)
+}
