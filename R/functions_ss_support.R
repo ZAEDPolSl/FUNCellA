@@ -136,3 +136,22 @@ JASMINE <- function(X,g_vec,type="oddsratio")
     return(FinalScores)
   }
 }
+
+
+#' Function to calculate JASMINE score pathway enrichment
+#'
+#' The function...
+#'
+#' @param X matrix of data.
+#' @param pathway list of pathways to analysis
+#'
+#' @return data frame
+#'
+#'
+Path_df <- function(pathway, X){
+  x <- X[rownames(X) %in% pathway,]
+  tmp <- rowVars(as.matrix(x))
+
+  m <- x[!(is.na(tmp)==T | tmp == 0),]
+  return(m)
+}
