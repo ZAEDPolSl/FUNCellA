@@ -53,15 +53,16 @@ Path_Mean <- function(pathway, X){
 #' @export
 Path_JASMINE<-function(X,pathway,type="oddsratio"){
 
-  df_path <- matrix(NA,length(pathway),ncol(X))
+
   idprog <- cli_progress_bar("Calculating JASMINE scores", total=length(pathway))
-  for (i in 1:length(pathway)){
-    df_path[i,]<-as.vector(JASMINE(X,pathway[[i]],type)$JAS_Scores)
-    cli_progress_update(id=idprog)
-  }
+  df_path <- as.data.frame(do.call(rbind, lapply(pathway, function(path) {
+    result <- as.vector(JASMINE(X, path, type))
+    cli_progress_update(id = idprog)
+    return(result)
+  })))
+
   cli_progress_done(idprog)
 
-  df_path<-as.data.frame(df_path)
   rownames(df_path) <- names(pathway)
   colnames(df_path) <- colnames(X)
   cli_alert_success('JASMINE scores calculated')

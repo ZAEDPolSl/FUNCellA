@@ -11,12 +11,12 @@
 #'
 RankCalculation <- function(X,g_vec){
 
-  subdata = X[X!=0]                                                                      ### Removing Dropouts from single cell
-  DataRanksUpdated=rank(subdata)                                                         ### Calculating ranks of each signature gene per cell
-  DataRanksSigGenes = DataRanksUpdated[which(names(DataRanksUpdated) %in% g_vec)]        ### Shortling rank vector for signature genes
-  CumSum = ifelse(length(DataRanksSigGenes),mean(DataRanksSigGenes,na.rm = TRUE),0 )     ### Calculating Mean of ranks for signature genes
-  FinalRawRank = CumSum/length(subdata)                                                  ### Normalizing Means by total coverage
-  return(FinalRawRank)
+  subdata = X[X!=0]
+  rank_subdata=rank(subdata)
+  rank_path = rank_subdata[which(names(rank_subdata) %in% g_vec)]
+  CumSum = ifelse(length(rank_path),mean(rank_path,na.rm = TRUE),0 )
+  final_rank = CumSum/length(subdata)
+  return(final_rank)
 }
 
 #' Function to calculated Odds Ratio in JASMINE pathway enrichment
@@ -26,22 +26,28 @@ RankCalculation <- function(X,g_vec){
 #' @param X matrix of data.
 #' @param g_vec vector of gene names from pathway.
 #'
-#' @return A vector of odds ratio.
+#' @return A vector of odds ratios.
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
 #'
 ORCalculation <- function(X,g_vec){
-  GE = X[which(rownames(X) %in% g_vec),]                                          ### Subsetting data for signature genes
-  NGE = X[-which(rownames(X) %in% g_vec),]                                        ### Subsetting data for non-signature genes
-  SigGenesExp = apply(GE,2,function(x) length(x[x!=0]))                                 ### Calculating Number of expressed Signature Genes per cell
-  NSigGenesExp = apply(NGE,2,function(x) length(x[x!=0]))                               ### Calculating Number of expressed Non-Signature Genes per cell
-  SigGenesNE = nrow(GE) - SigGenesExp                                                   ### Calculating Number of Not expressed Signature Genes per cell
-  SigGenesNE = replace(SigGenesNE,SigGenesNE==0,1)									                    ### Replacing Zero's with 1
-  NSigGenesExp = replace(NSigGenesExp,NSigGenesExp==0,1)                                ### Replacing Zero's with 1
-  NSigGenesNE = nrow(X) - (NSigGenesExp + SigGenesExp)                               ### Calculating Number of Not expressed Non-Signature Genes per cell
-  NSigGenesNE = NSigGenesNE - SigGenesNE
-  OR = (SigGenesExp * NSigGenesNE) / (SigGenesNE * NSigGenesExp)                        ### Calculating Enrichment (Odds Ratio)
-  return(OR)
+    sig_gene_indices <- which(rownames(X) %in% g_vec)
+    non_sig_gene_indices <- setdiff(seq_len(nrow(X)), sig_gene_indices)
+
+    GE <- X[sig_gene_indices, , drop = FALSE]
+    NGE <- X[non_sig_gene_indices, , drop = FALSE]
+
+    SigGenesExp <- colSums(GE != 0)
+    NSigGenesExp <- colSums(NGE != 0)
+
+    SigGenesNE <- pmax(nrow(GE) - SigGenesExp, 1)  # Replace 0 with 1
+    NSigGenesExp <- pmax(NSigGenesExp, 1)         # Replace 0 with 1
+    NSigGenesNE <- pmax(nrow(X) - (NSigGenesExp + SigGenesExp) - SigGenesNE, 0)
+
+    # Calculate the Odds Ratio (Enrichment)
+    OR <- (SigGenesExp * NSigGenesNE) / (SigGenesNE * NSigGenesExp)
+
+    return(OR)
 }
 
 #' Function to calculated Likelihood in JASMINE pathway enrichment
@@ -51,23 +57,31 @@ ORCalculation <- function(X,g_vec){
 #' @param X matrix of data.
 #' @param g_vec vector of gene names from pathway.
 #'
-#' @return A vector of likelihood.
+#' @return A vector of likelihoods.
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
 #'
-LikelihoodCalculation <- function(X,g_vec){
-  GE = X[which(rownames(X) %in% g_vec),]
-  NGE = X[-which(rownames(X) %in% g_vec),]
-  SigGenesExp = apply(GE,2,function(x) length(x[x!=0]))
-  NSigGenesExp = apply(NGE,2,function(x) length(x[x!=0]))
-  SigGenesNE = nrow(GE) - SigGenesExp
-  SigGenesNE = replace(SigGenesNE,SigGenesNE==0,1)
-  NSigGenesExp = replace(NSigGenesExp,NSigGenesExp==0,1)
-  NSigGenesNE = nrow(X) - (NSigGenesExp + SigGenesExp)
-  NSigGenesNE = NSigGenesNE - SigGenesNE
-  LR1 = SigGenesExp*(NSigGenesExp + NSigGenesNE)
-  LR2 = NSigGenesExp * (SigGenesExp + SigGenesNE)
-  LR = LR1/LR2
+LikelihoodCalculation <- function(X, g_vec) {
+  sig_gene_indices <- which(rownames(X) %in% g_vec)
+  non_sig_gene_indices <- setdiff(seq_len(nrow(X)), sig_gene_indices)
+
+  GE <- X[sig_gene_indices, , drop = FALSE]
+  NGE <- X[non_sig_gene_indices, , drop = FALSE]
+
+  SigGenesExp <- colSums(GE != 0)
+  NSigGenesExp <- colSums(NGE != 0)
+
+  SigGenesNE <- pmax(nrow(GE) - SigGenesExp, 1)  # Replace 0 with 1
+  NSigGenesExp <- pmax(NSigGenesExp, 1)         # Replace 0 with 1
+
+  # Calculate the number of not expressed non-signature genes per cell
+  NSigGenesNE <- pmax(nrow(X) - (NSigGenesExp + SigGenesExp) - SigGenesNE, 0)
+
+  # Calculate Likelihood Ratios
+  LR1 <- SigGenesExp * (NSigGenesExp + NSigGenesNE)
+  LR2 <- NSigGenesExp * (SigGenesExp + SigGenesNE)
+  LR <- LR1 / LR2
+
   return(LR)
 }
 
@@ -81,10 +95,10 @@ LikelihoodCalculation <- function(X,g_vec){
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
 #'
-NormalizationJAS <- function(JAS_Scores)
+Norm_JASMINE <- function(data)
 {
-  JAS_Scores = (JAS_Scores - min(JAS_Scores))/(max(JAS_Scores)- min(JAS_Scores))
-  return(JAS_Scores)
+  data_norm = (data - min(data))/(max(data)- min(data))
+  return(data_norm)
 }
 
 #' Function to calculate JASMINE score pathway enrichment
@@ -101,24 +115,24 @@ NormalizationJAS <- function(JAS_Scores)
 #'
 JASMINE <- function(X,g_vec,type="oddsratio")
 {
+  g_vec<-unlist(g_vec)
   idx = match(g_vec,rownames(X))
   idx = idx[!is.na(idx)]
   if(length(idx)> 1){
     RM = apply(X,2,function(x) RankCalculation(x,g_vec))                              ### Mean RankCalculation for single cell data matrix
-    RM = NormalizationJAS(RM)                                                            ### Normalizing Mean Ranks
+    RM = Norm_JASMINE(RM)                                                            ### Normalizing Mean Ranks
 
     if(type == "oddsratio"){
       OR = ORCalculation(X,g_vec)			                                             ### Signature Enrichment Calculation for single cell data matrix (OR)
-      OR = NormalizationJAS(OR)															 ### Normalizing Enrichment Scores (OR)
+      OR = Norm_JASMINE(OR)															 ### Normalizing Enrichment Scores (OR)
       JAS_Scores = (RM + OR)/2
     }else if(type == "likelihood"){
 
       LR = LikelihoodCalculation(X,g_vec)			                                     ### Signature Enrichment Calculation for single cell data matrix  (LR)
-      LR = NormalizationJAS(LR)															 ### Normalizing Enrichment Scores (LR)
+      LR = Norm_JASMINE(LR)															 ### Normalizing Enrichment Scores (LR)
       JAS_Scores = (RM + LR)/2
     }
     FinalScores = data.frame(names(RM),JAS_Scores)                                       ### JASMINE scores
-    colnames(FinalScores)[1]='SampleID'
     return(FinalScores)
   }
 }
