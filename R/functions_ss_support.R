@@ -138,19 +138,19 @@ JASMINE <- function(X,g_vec,type="oddsratio")
 }
 
 
-#' Function to extract matrix of gene in pathway
+#' Function to extract matrix of genes in pathway
 #'
 #' The function...
 #'
 #' @param X matrix of data.
 #' @param g_vec vector of gene names from pathway.
 #'
-#' @return data frame
+#' @return A data.frame with pathway genes in rows and samples in columns.
 #'
 #' @importFrom matrixStats rowVars
 #'
 #'
-Path_df <- function(g_vec,X){
+Path_extract <- function(X,g_vec){
   g_vec<-unlist(g_vec)
   data_path <- X[rownames(X) %in% g_vec,]
   tmp <- rowVars(as.matrix(data_path))
@@ -165,7 +165,7 @@ Path_df <- function(g_vec,X){
 #'
 #' @param X matrix of data.
 #'
-#' @return ranked data frame
+#' @return A data.frame with ranked genes rows and samples in columns.
 #'
 #' @importFrom dplyr desc
 #'
@@ -184,9 +184,9 @@ Rank_data <- function(X){
 #' The function...
 #'
 #' @param X matrix of data.
-#' @param df data.frame from CERNO function
+#' @param df data.frame of ranked genes in pathway.
 #'
-#' @return data frame
+#' @return a vector of CERNO AUC calculation.
 #'
 #'
 rowAUC <- function(X,df) {

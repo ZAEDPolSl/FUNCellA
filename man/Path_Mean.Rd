@@ -9,7 +9,7 @@ Path_Mean(X, pathway)
 \arguments{
 \item{X}{matrix of data.}
 
-\item{pathway}{list of pathways to analysis}
+\item{pathway}{list of pathways to analysis.}
 }
 \value{
 A data.frame with pathways in rows and samples in columns.

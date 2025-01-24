@@ -9,10 +9,10 @@ rowAUC(X, df)
 \arguments{
 \item{X}{matrix of data.}
 
-\item{df}{data.frame from CERNO function}
+\item{df}{data.frame of ranked genes in pathway.}
 }
 \value{
-data frame
+a vector of CERNO AUC calculation.
 }
 \description{
 The function...

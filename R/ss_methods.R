@@ -3,7 +3,7 @@
 #' The function...
 #'
 #' @param X matrix of data.
-#' @param pathway list of pathways to analysis
+#' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
 #'
@@ -22,7 +22,7 @@ return(df_path)
 #' The function...
 #'
 #' @param X matrix of data.
-#' @param pathway list of pathways to analysis
+#' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
 #'
@@ -40,7 +40,7 @@ Path_Mean <- function(X,pathway){
 #' The function...
 #'
 #' @param X matrix of data.
-#' @param pathway list of pathways to analysis
+#' @param pathway list of pathways to analysis.
 #' @param type type of adjustment of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
@@ -74,7 +74,7 @@ Path_JASMINE<-function(X,pathway,type="oddsratio"){
 #' The function...
 #'
 #' @param X matrix of data.
-#' @param pathway list of pathways to analysis
+#' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
 #'
@@ -82,10 +82,15 @@ Path_JASMINE<-function(X,pathway,type="oddsratio"){
 #'
 #' @export
 Path_Cerno <- function(X, pathway) {
+  cli_alert_info("Ranking calculation")
+  X_ranked<-Rank_data(X)
+  cli_alert_success('Ranks calculated')
+
   idprog <- cli_progress_bar("Calculating CERNO scores", total=length(pathway))
+  X_ranked<-Rank_data(X)
   dfCerno <- do.call(rbind, lapply(pathway, function(path) {
-    df <- Path_df(path, X)
-    row_AUC <- rowAUC(df, X)
+    df_path <- Path_extract(X_ranked,path)
+    row_AUC <- rowAUC(X_ranked,df_path)
     cli_progress_update(id = idprog)
     return(row_AUC)
   }))

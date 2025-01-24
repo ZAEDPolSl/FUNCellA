@@ -10,8 +10,8 @@ Description: Tu bedzie opis.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
 Depends:
-    R (>= 3.5), GSVA, cli, dplyr
+    R (>= 3.5), GSVA, cli
 Imports:
-    methods
+    methods, matrixStats, dplyr
+RoxygenNote: 7.3.2

@@ -10,7 +10,7 @@ Rank_data(X)
 \item{X}{matrix of data.}
 }
 \value{
-ranked data frame
+A data.frame with ranked genes rows and samples in columns.
 }
 \description{
 The function...
