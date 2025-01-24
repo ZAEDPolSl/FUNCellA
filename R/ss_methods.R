@@ -95,6 +95,7 @@ Path_Cerno <- function(X, pathway) {
     return(row_AUC)
   }))
   cli_progress_done(idprog)
+  dfCerno<-as.data.frame(dfCerno)
   rownames(dfCerno) <- names(pathway)
   cli_alert_success('CERNO scores calculated')
   return(dfCerno)
