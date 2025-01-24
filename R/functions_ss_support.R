@@ -1,4 +1,4 @@
-#' Function to rank data on JASMINE pathway enrichment
+#' Function to rank data without zero counts
 #'
 #' The function...
 #'
@@ -9,7 +9,7 @@
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
 #'
-RankCalculation <- function(X,g_vec){
+Rank_dropout<- function(X,g_vec){
 
   subdata = X[X!=0]
   rank_subdata=rank(subdata)
@@ -30,7 +30,7 @@ RankCalculation <- function(X,g_vec){
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
 #'
-ORCalculation <- function(X,g_vec){
+Calc_OR <- function(X,g_vec){
     sig_gene_indices <- which(rownames(X) %in% g_vec)
     non_sig_gene_indices <- setdiff(seq_len(nrow(X)), sig_gene_indices)
 
@@ -61,7 +61,7 @@ ORCalculation <- function(X,g_vec){
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
 #'
-LikelihoodCalculation <- function(X, g_vec) {
+Calc_Likelihood <- function(X, g_vec) {
   sig_gene_indices <- which(rownames(X) %in% g_vec)
   non_sig_gene_indices <- setdiff(seq_len(nrow(X)), sig_gene_indices)
 
@@ -119,20 +119,19 @@ JASMINE <- function(X,g_vec,type="oddsratio")
   idx = match(g_vec,rownames(X))
   idx = idx[!is.na(idx)]
   if(length(idx)> 1){
-    RM = apply(X,2,function(x) RankCalculation(x,g_vec))                              ### Mean RankCalculation for single cell data matrix
-    RM = Norm_JASMINE(RM)                                                            ### Normalizing Mean Ranks
+    RM = apply(X,2,function(x) Rank_dropout(x,g_vec))
+    RM = Norm_JASMINE(RM)
 
     if(type == "oddsratio"){
-      OR = ORCalculation(X,g_vec)			                                             ### Signature Enrichment Calculation for single cell data matrix (OR)
-      OR = Norm_JASMINE(OR)															 ### Normalizing Enrichment Scores (OR)
+      OR = Calc_OR(X,g_vec)
       JAS_Scores = (RM + OR)/2
     }else if(type == "likelihood"){
 
-      LR = LikelihoodCalculation(X,g_vec)			                                     ### Signature Enrichment Calculation for single cell data matrix  (LR)
-      LR = Norm_JASMINE(LR)															 ### Normalizing Enrichment Scores (LR)
+      LR = Calc_Likelihood(X,g_vec)
+      LR = Norm_JASMINE(LR)
       JAS_Scores = (RM + LR)/2
     }
-    FinalScores = data.frame(names(RM),JAS_Scores)                                       ### JASMINE scores
+    FinalScores = data.frame(names(RM),JAS_Scores)
     return(FinalScores)
   }
 }
@@ -150,7 +149,7 @@ JASMINE <- function(X,g_vec,type="oddsratio")
 #' @importFrom matrixStats rowVars
 #'
 #'
-Path_extract <- function(X,g_vec){
+extract_pathway <- function(X,g_vec){
   g_vec<-unlist(g_vec)
   data_path <- X[rownames(X) %in% g_vec,]
   tmp <- rowVars(as.matrix(data_path))
@@ -179,7 +178,7 @@ Rank_data <- function(X){
   return(rank_df)
 }
 
-#' Function to calculate AUC fo CERNO method
+#' Function to calculate AUC for CERNO pathway enrichment
 #'
 #' The function...
 #'
@@ -189,7 +188,7 @@ Rank_data <- function(X){
 #' @return a vector of CERNO AUC calculation.
 #'
 #'
-rowAUC <- function(X,df) {
+Calc_AUC <- function(X,df) {
   row_AUC <- apply(as.matrix(df), 2, function(col) {
     cell <- as.numeric(col)
     AUC <- (nrow(df) * (nrow(X) - nrow(df)) + (nrow(df) * (nrow(df) + 1) / 2) - sum(cell)) / (nrow(df) * (nrow(X) - nrow(df)))

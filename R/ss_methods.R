@@ -10,7 +10,7 @@
 #' @import GSVA
 #'
 #' @export
-Path_ssGSEA<-function(X,pathway){
+path_ssGSEA<-function(X,pathway){
   df_path <- ssgseaParam(as.matrix(X), pathway)
   df_path <- as.data.frame(gsva(df_path))
   rownames(df_path)<-names(pathway)
@@ -28,7 +28,7 @@ return(df_path)
 #'
 #'
 #' @export
-Path_Mean <- function(X,pathway){
+path_Mean <- function(X,pathway){
   df_path <- as.data.frame(do.call(rbind, lapply(pathway, function(path) colMeans(Path_df(path, X)))))
   rownames(df_path) <- names(pathway)
   return(df_path)
@@ -51,7 +51,7 @@ Path_Mean <- function(X,pathway){
 #' @import cli
 #'
 #' @export
-Path_JASMINE<-function(X,pathway,type="oddsratio"){
+path_JASMINE<-function(X,pathway,type="oddsratio"){
 
 
   idprog <- cli_progress_bar("Calculating JASMINE scores", total=length(pathway))
@@ -81,15 +81,15 @@ Path_JASMINE<-function(X,pathway,type="oddsratio"){
 #' @import cli
 #'
 #' @export
-Path_Cerno <- function(X, pathway) {
+path_CERNO<- function(X, pathway) {
   cli_alert_info("Ranking calculation")
   X_ranked<-Rank_data(X)
   cli_alert_success('Ranks calculated')
 
   idprog <- cli_progress_bar("Calculating CERNO scores", total=length(pathway))
   dfCerno <- do.call(rbind, lapply(pathway, function(path) {
-    df_path <- Path_extract(X_ranked,path)
-    row_AUC <- rowAUC(X_ranked,df_path)
+    df_path <- extract_pathway(X_ranked,path)
+    row_AUC <- Calc_AUC(X_ranked,df_path)
     cli_progress_update(id = idprog)
     return(row_AUC)
   }))

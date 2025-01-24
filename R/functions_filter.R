@@ -10,7 +10,7 @@
 #'
 #' @import cli
 #'
-cover_check<- function(X,pathway,filt_cov){
+filter_cover<- function(X,pathway,filt_cov){
   cli_alert_info("PATHWAY COVERAGE FILTRATION")
   name <- c()
   for (i in 1:length(pathway)){
@@ -43,7 +43,7 @@ cover_check<- function(X,pathway,filt_cov){
 #'
 #' @import cli
 #'
-min_max_filter<- function(pathway,filt_min,filt_max){
+filter_minmax<- function(pathway,filt_min,filt_max){
   cli_alert_info("PATHWAY SIZE FILTRATION")
   name <- c()
   for (i in 1:length(pathway)){

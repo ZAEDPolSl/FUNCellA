@@ -32,18 +32,18 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_m
 
   # check of filtration by coverage ----
   if (filt_cov!=0){
-    pathway<-cover_check(X,pathway,filt_cov)
+    pathway<-filter_cover(X,pathway,filt_cov)
   } else {cli_alert_success("No filtration due to coverage")}
 
   # check of filtration by pathways size ----
-  pathway<-min_max_filter(pathway,filt_min,filt_max)
+  pathway<-filter_minmax(pathway,filt_min,filt_max)
 
   # run of gene to path transformation ----
   switch(method,
-      "ssGSEA"= df_path<-Path_ssGSEA(X,pathway),
-      "Mean" =  df_path<-Path_Mean(X,pathway),
-      "JASMINE" = df_path<-Path_JASMINE(X,pathway,type),
-      "CERNO" = df_path<-Path_Cerno(X,pathway)
+      "ssGSEA"= df_path<-path_ssGSEA(X,pathway),
+      "Mean" =  df_path<-path_Mean(X,pathway),
+      "JASMINE" = df_path<-path_JASMINE(X,pathway,type),
+      "CERNO" = df_path<-path_CERNO(X,pathway)
     )
 
 
