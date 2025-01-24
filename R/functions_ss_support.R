@@ -138,7 +138,7 @@ JASMINE <- function(X,g_vec,type="oddsratio")
 }
 
 
-#' Function to calculate JASMINE score pathway enrichment
+#' Function to extract matrix of gene in pathway
 #'
 #' The function...
 #'
@@ -167,17 +167,19 @@ Path_df <- function(g_vec,X){
 #'
 #' @return ranked data frame
 #'
+#' @importFrom dplyr desc
+#'
 #'
 Rank_data <- function(X){
   rank_df <- as.data.frame(lapply(X, function(col) {
-    rank(dplyr::desc(as.numeric(col)), ties.method = "average")
+    rank(desc(as.numeric(col)), ties.method = "average")
   }))
   rownames(rank_df) <- rownames(X)
   colnames(rank_df) <- colnames(X)
   return(rank_df)
 }
 
-#' Function to calculate AUC
+#' Function to calculate AUC fo CERNO method
 #'
 #' The function...
 #'

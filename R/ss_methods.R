@@ -78,19 +78,19 @@ Path_JASMINE<-function(X,pathway,type="oddsratio"){
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
 #'
-#'@import cli
+#' @import cli
 #'
 #' @export
-Path_Cerno <- function(X, pathways) {
-  dfCerno <- do.call(rbind, lapply(pathways, function(pathway) {
-    idprog <- cli_progress_bar("Calculating CERNO scores", total=length(pathway))
-    cli_progress_update(id = idprog)
-    df <- Path_df(pathway, X)
+Path_Cerno <- function(X, pathway) {
+  idprog <- cli_progress_bar("Calculating CERNO scores", total=length(pathway))
+  dfCerno <- do.call(rbind, lapply(pathway, function(path) {
+    df <- Path_df(path, X)
     row_AUC <- rowAUC(df, X)
-    cli_progress_done(idprog)
+    cli_progress_update(id = idprog)
     return(row_AUC)
   }))
-  rownames(dfCerno) <- names(pathways)
+  cli_progress_done(idprog)
+  rownames(dfCerno) <- names(pathway)
   cli_alert_success('CERNO scores calculated')
   return(dfCerno)
 }
