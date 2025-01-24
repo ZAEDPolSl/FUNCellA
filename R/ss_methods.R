@@ -87,7 +87,6 @@ Path_Cerno <- function(X, pathway) {
   cli_alert_success('Ranks calculated')
 
   idprog <- cli_progress_bar("Calculating CERNO scores", total=length(pathway))
-  X_ranked<-Rank_data(X)
   dfCerno <- do.call(rbind, lapply(pathway, function(path) {
     df_path <- Path_extract(X_ranked,path)
     row_AUC <- rowAUC(X_ranked,df_path)
