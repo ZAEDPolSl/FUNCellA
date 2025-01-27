@@ -19,6 +19,67 @@ Rank_dropout<- function(X,g_vec){
   return(final_rank)
 }
 
+#' Function to rank data
+#'
+#' The function...
+#'
+#' @param X matrix of data.
+#'
+#' @return A data.frame with ranked genes rows and samples in columns.
+#'
+#' @importFrom dplyr desc
+#'
+#'
+Rank_data <- function(X){
+  rank_df <- as.data.frame(lapply(X, function(col) {
+    rank(desc(as.numeric(col)), ties.method = "average")
+  }))
+  rownames(rank_df) <- rownames(X)
+  colnames(rank_df) <- colnames(X)
+  return(rank_df)
+}
+
+#' Function to extract matrix of genes in pathway
+#'
+#' The function...
+#'
+#' @param X matrix of data.
+#' @param g_vec vector of gene names from pathway.
+#'
+#' @return A data.frame with pathway genes in rows and samples in columns.
+#'
+#' @importFrom matrixStats rowVars
+#'
+#'
+extract_pathway <- function(X,g_vec){
+  g_vec<-unlist(g_vec)
+  data_path <- X[rownames(X) %in% g_vec,]
+  tmp <- rowVars(as.matrix(data_path))
+
+  data_path <- data_path[!(is.na(tmp)==T | tmp == 0),]
+  return(data_path)
+}
+
+
+#' Function to calculate AUC for CERNO pathway enrichment
+#'
+#' The function...
+#'
+#' @param X matrix of data.
+#' @param df data.frame of ranked genes in pathway.
+#'
+#' @return A vector of CERNO AUC calculation.
+#'
+#'
+Calc_AUC <- function(X,df) {
+  row_AUC <- apply(as.matrix(df), 2, function(col) {
+    cell <- as.numeric(col)
+    AUC <- (nrow(df) * (nrow(X) - nrow(df)) + (nrow(df) * (nrow(df) + 1) / 2) - sum(cell)) / (nrow(df) * (nrow(X) - nrow(df)))
+    return(AUC)
+  })
+  return(row_AUC)
+}
+
 #' Function to calculated Odds Ratio in JASMINE pathway enrichment
 #'
 #' The function...
@@ -137,65 +198,4 @@ JASMINE <- function(X,g_vec,type="oddsratio")
     FinalScores = (RM + ES)/2
     return(FinalScores)
   }
-}
-
-
-#' Function to extract matrix of genes in pathway
-#'
-#' The function...
-#'
-#' @param X matrix of data.
-#' @param g_vec vector of gene names from pathway.
-#'
-#' @return A data.frame with pathway genes in rows and samples in columns.
-#'
-#' @importFrom matrixStats rowVars
-#'
-#'
-extract_pathway <- function(X,g_vec){
-  g_vec<-unlist(g_vec)
-  data_path <- X[rownames(X) %in% g_vec,]
-  tmp <- rowVars(as.matrix(data_path))
-
-  data_path <- data_path[!(is.na(tmp)==T | tmp == 0),]
-  return(data_path)
-}
-
-#' Function to rank data
-#'
-#' The function...
-#'
-#' @param X matrix of data.
-#'
-#' @return A data.frame with ranked genes rows and samples in columns.
-#'
-#' @importFrom dplyr desc
-#'
-#'
-Rank_data <- function(X){
-  rank_df <- as.data.frame(lapply(X, function(col) {
-    rank(desc(as.numeric(col)), ties.method = "average")
-  }))
-  rownames(rank_df) <- rownames(X)
-  colnames(rank_df) <- colnames(X)
-  return(rank_df)
-}
-
-#' Function to calculate AUC for CERNO pathway enrichment
-#'
-#' The function...
-#'
-#' @param X matrix of data.
-#' @param df data.frame of ranked genes in pathway.
-#'
-#' @return A vector of CERNO AUC calculation.
-#'
-#'
-Calc_AUC <- function(X,df) {
-  row_AUC <- apply(as.matrix(df), 2, function(col) {
-    cell <- as.numeric(col)
-    AUC <- (nrow(df) * (nrow(X) - nrow(df)) + (nrow(df) * (nrow(df) + 1) / 2) - sum(cell)) / (nrow(df) * (nrow(X) - nrow(df)))
-    return(AUC)
-  })
-  return(row_AUC)
 }
