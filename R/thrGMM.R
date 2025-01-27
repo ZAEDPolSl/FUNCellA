@@ -22,9 +22,15 @@ thrGMM<-function(X, K=10, parallel=F){
   opt$sigmas.dev<-0
 
   ret<-list()
+  idprog <- cli_progress_bar("Calculating GMM decompositons", total=nrow(X))
   for(i in 1:nrow(X)){
     tmp<-as.numeric(X[i,])
     ret[[i]]<-runGMM(tmp,opts = opt)
+    cli_progress_update(id = idprog)
   }
+  cli_progress_done(idprog)
+  cli_alert_success('GMM calculated')
+
+names(ret)<-rownames(X)
 return(ret)
 }
