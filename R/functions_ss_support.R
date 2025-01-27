@@ -95,10 +95,10 @@ Calc_Likelihood <- function(X, g_vec) {
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
 #'
-Norm_JASMINE <- function(data)
+scale_minmax <- function(x)
 {
-  data_norm = (data - min(data))/(max(data)- min(data))
-  return(data_norm)
+  x_scale = (x - min(x))/(max(x)- min(x))
+  return(x_scale)
 }
 
 #' Function to calculate JASMINE score pathway enrichment
@@ -120,18 +120,16 @@ JASMINE <- function(X,g_vec,type="oddsratio")
   idx = idx[!is.na(idx)]
   if(length(idx)> 1){
     RM = apply(X,2,function(x) Rank_dropout(x,g_vec))
-    RM = Norm_JASMINE(RM)
+    RM = scale_minmax(RM)
 
-    if(type == "oddsratio"){
-      OR = Calc_OR(X,g_vec)
-      JAS_Scores = (RM + OR)/2
+    if(type == "oddsratio"){ # effect size calculation
+      ES = Calc_OR(X,g_vec)
+      ES = scale_minmax(ES)
     }else if(type == "likelihood"){
-
-      LR = Calc_Likelihood(X,g_vec)
-      LR = Norm_JASMINE(LR)
-      JAS_Scores = (RM + LR)/2
+      ES = Calc_Likelihood(X,g_vec)
+      ES = scale_minmax(ES)
     }
-    FinalScores = data.frame(names(RM),JAS_Scores)
+    FinalScores = as.vector((RM + ES)/2)
     return(FinalScores)
   }
 }

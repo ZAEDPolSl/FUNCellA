@@ -70,7 +70,6 @@ pathJASMINE<-function(X,pathway,type="oddsratio"){
   })))
 
   cli_progress_done(idprog)
-
   rownames(df_path) <- names(pathway)
   colnames(df_path) <- colnames(X)
   cli_alert_success('JASMINE scores calculated')
@@ -95,7 +94,6 @@ pathJASMINE<-function(X,pathway,type="oddsratio"){
 pathCERNO<- function(X, pathway) {
   cli_alert_info("Ranking calculation")
   X_ranked<-Rank_data(X)
-  cli_alert_success('Ranks calculated')
 
   idprog <- cli_progress_bar("Calculating CERNO scores", total=length(pathway))
   dfCerno <- do.call(rbind, lapply(pathway, function(path) {
