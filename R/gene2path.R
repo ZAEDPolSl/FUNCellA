@@ -40,10 +40,10 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_m
 
   # run of gene to path transformation ----
   switch(method,
-      "ssGSEA"= df_path<-path_ssGSEA(X,pathway),
-      "Mean" =  df_path<-path_Mean(X,pathway),
-      "JASMINE" = df_path<-path_JASMINE(X,pathway,type),
-      "CERNO" = df_path<-path_CERNO(X,pathway)
+      "ssGSEA"= df_path<-pathssGSEA(X,pathway),
+      "Mean" =  df_path<-pathMean(X,pathway),
+      "JASMINE" = df_path<-pathJASMINE(X,pathway,type),
+      "CERNO" = df_path<-pathCERNO(X,pathway)
     )
 
 

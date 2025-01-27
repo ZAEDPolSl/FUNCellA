@@ -9,8 +9,14 @@
 #'
 #' @import GSVA
 #'
+#' @source \url{https://github.com/rcastelo/GSVA}
+#' @references Barbie, D.A. et al. Systematic RNA interference reveals that
+#' oncogenic KRAS-driven cancers require TBK1.
+#' *Nature*, 462(5):108-112, 2009.
+#'
 #' @export
-path_ssGSEA<-function(X,pathway){
+#'
+pathssGSEA<-function(X,pathway){
   df_path <- ssgseaParam(as.matrix(X), pathway)
   df_path <- as.data.frame(gsva(df_path))
   rownames(df_path)<-names(pathway)
@@ -28,7 +34,8 @@ return(df_path)
 #'
 #'
 #' @export
-path_Mean <- function(X,pathway){
+#'
+pathMean <- function(X,pathway){
   df_path <- as.data.frame(do.call(rbind, lapply(pathway, function(path) colMeans(Path_df(path, X)))))
   rownames(df_path) <- names(pathway)
   return(df_path)
@@ -46,12 +53,13 @@ path_Mean <- function(X,pathway){
 #' @return A data.frame with pathways in rows and samples in columns.
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
-#'
+#' @references Noureen, N. et al. Signature-scoring methods developed for bulk samples are
+#' not adequate for cancer single-cell RNA sequencing data. Elife, 2022, 11: e71994.
 #'
 #' @import cli
-#'
 #' @export
-path_JASMINE<-function(X,pathway,type="oddsratio"){
+#'
+pathJASMINE<-function(X,pathway,type="oddsratio"){
 
 
   idprog <- cli_progress_bar("Calculating JASMINE scores", total=length(pathway))
@@ -78,10 +86,13 @@ path_JASMINE<-function(X,pathway,type="oddsratio"){
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
 #'
-#' @import cli
+#' @references Zyla, J. et al. Gene set enrichment for reproducible science: comparison of CERNO and
+#' eight other algorithms. Bioinformatics, 2019, 35.24: 5146-5154.
 #'
+#' @import cli
 #' @export
-path_CERNO<- function(X, pathway) {
+#'
+pathCERNO<- function(X, pathway) {
   cli_alert_info("Ranking calculation")
   X_ranked<-Rank_data(X)
   cli_alert_success('Ranks calculated')
