@@ -96,6 +96,7 @@ scale_minmax <- function(x)
 #'
 #' @return A matrix or vector of normalized data.
 #'
+#' @importFrom stats sd
 #'
 scale_zscore <- function(X)
 {
