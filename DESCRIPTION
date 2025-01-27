@@ -3,15 +3,17 @@ Type: Package
 Title: Single-sample pathway enrichment with GMM
 Version: 0.1.0
 Authors@R: c(
-  person("Joanna", "Zyla",  email = "joanna.zyla@polsl.pl",role = c("aut","cre")),
+  person("Joanna", "Zyla",  email = "joanna.zyla@polsl.pl",role = c("aut","cre"), comment = c(ORCID = "0000-0002-2895-7969")),
   person("Aleksandra", "Bilska",  email = "aleksandra.bilska@ipipan.waw.pl",role = c("aut")))
 Maintainer: The package maintainer <joanna.zyla@polsl.pl>
 Description: Tu bedzie opis.
+URL: https://github.com/ZAEDPolSl/SinglePathGMM
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+Remotes: git::https://github.com/ZAEDPolSl/dpGMM
 Depends:
-    R (>= 3.5), GSVA, cli
+    R (>= 3.5), GSVA, cli, dpGMM
 Imports:
     methods, matrixStats, dplyr
 RoxygenNote: 7.3.2
