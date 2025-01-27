@@ -12,7 +12,7 @@
 #' @source \url{https://github.com/rcastelo/GSVA}
 #' @references Barbie, D.A. et al. Systematic RNA interference reveals that
 #' oncogenic KRAS-driven cancers require TBK1.
-#' *Nature*, 462(5):108-112, 2009.
+#' Nature, 462(5):108-112, 2009.
 #'
 #' @export
 #'
@@ -36,7 +36,7 @@ return(df_path)
 #' @export
 #'
 pathMean <- function(X,pathway){
-  df_path <- as.data.frame(do.call(rbind, lapply(pathway, function(path) colMeans(Path_df(path, X)))))
+  df_path <- as.data.frame(do.call(rbind, lapply(pathway, function(path) colMeans(extract_pathway(X,path)))))
   rownames(df_path) <- names(pathway)
   return(df_path)
 }

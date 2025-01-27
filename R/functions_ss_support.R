@@ -185,7 +185,7 @@ Rank_data <- function(X){
 #' @param X matrix of data.
 #' @param df data.frame of ranked genes in pathway.
 #'
-#' @return a vector of CERNO AUC calculation.
+#' @return A vector of CERNO AUC calculation.
 #'
 #'
 Calc_AUC <- function(X,df) {
