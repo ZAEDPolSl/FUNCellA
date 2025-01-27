@@ -23,5 +23,5 @@ The function...
 \references{
 Barbie, D.A. et al. Systematic RNA interference reveals that
 oncogenic KRAS-driven cancers require TBK1.
-*Nature*, 462(5):108-112, 2009.
+Nature, 462(5):108-112, 2009.
 }

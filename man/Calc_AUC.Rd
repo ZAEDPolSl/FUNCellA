@@ -12,7 +12,7 @@ Calc_AUC(X, df)
 \item{df}{data.frame of ranked genes in pathway.}
 }
 \value{
-a vector of CERNO AUC calculation.
+A vector of CERNO AUC calculation.
 }
 \description{
 The function...
