@@ -2,18 +2,15 @@
 % Please edit documentation in R/functions_ss_support.R
 \name{scale_minmax}
 \alias{scale_minmax}
-\title{Function to normalize JASMINE score}
-\source{
-\url{https://github.com/NNoureen/JASMINE}
-}
+\title{Function to min-max normalization}
 \usage{
 scale_minmax(x)
 }
 \arguments{
-\item{JAS_Scores}{vector of of data.}
+\item{x}{vector of of data.}
 }
 \value{
-A vector of normalized JASMINE score.
+A vector of normalized data.
 }
 \description{
 The function...

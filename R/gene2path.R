@@ -43,7 +43,8 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_m
       "ssGSEA"= df_path<-pathssGSEA(X,pathway),
       "Mean" =  df_path<-pathMean(X,pathway),
       "JASMINE" = df_path<-pathJASMINE(X,pathway,type),
-      "CERNO" = df_path<-pathCERNO(X,pathway)
+      "CERNO" = df_path<-pathCERNO(X,pathway),
+      "ZSc" = df_path<-pathZScore(X,pathway)
     )
 
 

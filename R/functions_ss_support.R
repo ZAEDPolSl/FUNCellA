@@ -13,7 +13,7 @@ Rank_dropout<- function(X,g_vec){
 
   subdata = X[X!=0]
   rank_subdata=rank(subdata)
-  rank_path = rank_subdata[which(names(rank_subdata) %in% g_vec)]
+  rank_path <- rank_subdata[match(g_vec, names(rank_subdata), nomatch = 0)]
   CumSum = ifelse(length(rank_path),mean(rank_path,na.rm = TRUE),0 )
   final_rank = CumSum/length(subdata)
   return(final_rank)
@@ -31,23 +31,17 @@ Rank_dropout<- function(X,g_vec){
 #' @source \url{https://github.com/NNoureen/JASMINE}
 #'
 Calc_OR <- function(X,g_vec){
-    sig_gene_indices <- which(rownames(X) %in% g_vec)
-    non_sig_gene_indices <- setdiff(seq_len(nrow(X)), sig_gene_indices)
+  sig_gene_indices <- which(rownames(X) %in% g_vec)
+  non_sig_gene_indices <- setdiff(seq_len(nrow(X)), sig_gene_indices)
 
-    GE <- X[sig_gene_indices, , drop = FALSE]
-    NGE <- X[non_sig_gene_indices, , drop = FALSE]
+  SigGenesExp <- colSums(X[sig_gene_indices, , drop = FALSE] != 0)
+  NSigGenesExp <- colSums(X[non_sig_gene_indices, , drop = FALSE] != 0)
 
-    SigGenesExp <- colSums(GE != 0)
-    NSigGenesExp <- colSums(NGE != 0)
+  SigGenesNE <- pmax(length(sig_gene_indices) - SigGenesExp, 1)
+  NSigGenesNE <- pmax(nrow(X) - (NSigGenesExp + SigGenesExp) - SigGenesNE, 0)
 
-    SigGenesNE <- pmax(nrow(GE) - SigGenesExp, 1)  # Replace 0 with 1
-    NSigGenesExp <- pmax(NSigGenesExp, 1)         # Replace 0 with 1
-    NSigGenesNE <- pmax(nrow(X) - (NSigGenesExp + SigGenesExp) - SigGenesNE, 0)
-
-    # Calculate the Odds Ratio (Enrichment)
-    OR <- (SigGenesExp * NSigGenesNE) / (SigGenesNE * NSigGenesExp)
-
-    return(OR)
+  OR <- (SigGenesExp * NSigGenesNE) / (SigGenesNE * NSigGenesExp)
+  return(OR)
 }
 
 #' Function to calculated Likelihood in JASMINE pathway enrichment
@@ -65,39 +59,49 @@ Calc_Likelihood <- function(X, g_vec) {
   sig_gene_indices <- which(rownames(X) %in% g_vec)
   non_sig_gene_indices <- setdiff(seq_len(nrow(X)), sig_gene_indices)
 
-  GE <- X[sig_gene_indices, , drop = FALSE]
-  NGE <- X[non_sig_gene_indices, , drop = FALSE]
+  SigGenesExp <- colSums(X[sig_gene_indices, , drop = FALSE] != 0)
+  NSigGenesExp <- colSums(X[non_sig_gene_indices, , drop = FALSE] != 0)
 
-  SigGenesExp <- colSums(GE != 0)
-  NSigGenesExp <- colSums(NGE != 0)
-
-  SigGenesNE <- pmax(nrow(GE) - SigGenesExp, 1)  # Replace 0 with 1
-  NSigGenesExp <- pmax(NSigGenesExp, 1)         # Replace 0 with 1
-
-  # Calculate the number of not expressed non-signature genes per cell
+  SigGenesNE <- pmax(length(sig_gene_indices) - SigGenesExp, 1)
   NSigGenesNE <- pmax(nrow(X) - (NSigGenesExp + SigGenesExp) - SigGenesNE, 0)
 
-  # Calculate Likelihood Ratios
   LR1 <- SigGenesExp * (NSigGenesExp + NSigGenesNE)
   LR2 <- NSigGenesExp * (SigGenesExp + SigGenesNE)
+
   LR <- LR1 / LR2
 
   return(LR)
 }
 
-#' Function to normalize JASMINE score
+#' Function to min-max normalization
 #'
 #' The function...
 #'
-#' @param JAS_Scores vector of of data.
+#' @param x vector of of data.
 #'
-#' @return A vector of normalized JASMINE score.
+#' @return A vector of normalized data.
 #'
-#' @source \url{https://github.com/NNoureen/JASMINE}
 #'
 scale_minmax <- function(x)
 {
   x_scale = (x - min(x))/(max(x)- min(x))
+  return(x_scale)
+}
+
+#' Function to z-score normalization
+#'
+#' The function...
+#'
+#' @param X matrix or vector of of data.
+#'
+#' @return A matrix or vector of normalized data.
+#'
+#'
+scale_zscore <- function(X)
+{
+  row_means <- rowMeans(X)
+  row_sds <- apply(X, 1, sd)
+  x_scale <- (X - row_means) / row_sds
   return(x_scale)
 }
 
@@ -116,20 +120,20 @@ scale_minmax <- function(x)
 JASMINE <- function(X,g_vec,type="oddsratio")
 {
   g_vec<-unlist(g_vec)
-  idx = match(g_vec,rownames(X))
-  idx = idx[!is.na(idx)]
+  idx <- which(rownames(X) %in% g_vec)
   if(length(idx)> 1){
     RM = apply(X,2,function(x) Rank_dropout(x,g_vec))
     RM = scale_minmax(RM)
 
-    if(type == "oddsratio"){ # effect size calculation
+    # effect size calculation
+    if(type == "oddsratio"){
       ES = Calc_OR(X,g_vec)
-      ES = scale_minmax(ES)
     }else if(type == "likelihood"){
       ES = Calc_Likelihood(X,g_vec)
-      ES = scale_minmax(ES)
     }
-    FinalScores = as.vector((RM + ES)/2)
+    ES = scale_minmax(ES)
+
+    FinalScores = (RM + ES)/2
     return(FinalScores)
   }
 }

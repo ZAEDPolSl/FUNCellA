@@ -96,15 +96,48 @@ pathCERNO<- function(X, pathway) {
   X_ranked<-Rank_data(X)
 
   idprog <- cli_progress_bar("Calculating CERNO scores", total=length(pathway))
-  dfCerno <- do.call(rbind, lapply(pathway, function(path) {
+  df_enrich <- do.call(rbind, lapply(pathway, function(path) {
     df_path <- extract_pathway(X_ranked,path)
     row_AUC <- Calc_AUC(X_ranked,df_path)
     cli_progress_update(id = idprog)
     return(row_AUC)
   }))
   cli_progress_done(idprog)
-  dfCerno<-as.data.frame(dfCerno)
-  rownames(dfCerno) <- names(pathway)
+  df_enrich<-as.data.frame(df_enrich)
+  rownames(df_enrich) <- names(pathway)
   cli_alert_success('CERNO scores calculated')
-  return(dfCerno)
+  return(df_enrich)
+}
+
+
+#' Function to perform Z-score integration pathway enrichment
+#'
+#' The function...
+#'
+#' @param X matrix of data.
+#' @param pathway list of pathways to analysis.
+#'
+#' @return A data.frame with pathways in rows and samples in columns.
+#'
+#'
+#' @import cli
+#' @export
+#'
+pathZScore<- function(X, pathway) {
+  cli_alert_info("Data normalization")
+  X_normed <- scale_zscore(X)
+
+  idprog <- cli_progress_bar("Calculating Z-score enrichment", total=length(pathway))
+  df_enrich <- do.call(rbind, lapply(pathway, function(path) {
+    df_path <- extract_pathway(X_normed,path)
+    row_score <- colSums(df_path)/sqrt(nrow(df_path))
+    cli_progress_update(id = idprog)
+    return(row_score)
+  }))
+
+  cli_progress_done(idprog)
+  df_enrich<-as.data.frame(df_enrich)
+  rownames(df_enrich) <- names(pathway)
+  cli_alert_success('Z-score enrichment calculated')
+  return(df_enrich)
 }
