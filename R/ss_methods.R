@@ -14,13 +14,15 @@
 #' oncogenic KRAS-driven cancers require TBK1.
 #' Nature, 462(5):108-112, 2009.
 #'
+#' @import cli
 #' @export
 #'
 pathssGSEA<-function(X,pathway){
-  df_path <- ssgseaParam(as.matrix(X), pathway)
-  df_path <- as.data.frame(gsva(df_path))
-  rownames(df_path)<-names(pathway)
-return(df_path)
+  df_enrich <- ssgseaParam(as.matrix(X), pathway)
+  df_enrich <- as.data.frame(gsva(df_enrich))
+  rownames(df_enrich)<-names(pathway)
+  cli_alert_info("ssGSEA enrichment calculated")
+return(df_enrich)
 }
 
 #' Function to perform Mean pathway enrichment
@@ -32,15 +34,22 @@ return(df_path)
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
 #'
-#'
+#' @import cli
 #' @export
 #'
 pathMean <- function(X,pathway){
-  df_path <- as.data.frame(do.call(rbind, lapply(pathway, function(path) colMeans(extract_pathway(X,path)))))
-  rownames(df_path) <- names(pathway)
-  return(df_path)
-}
+  idprog <- cli_progress_bar("Calculating mean scores", total=length(pathway))
+  df_enrich <- as.data.frame(do.call(rbind, lapply(pathway, function(path) {
+    cli_progress_update(id = idprog)
+    colMeans(extract_pathway(X, path))
+  })))
+  cli_progress_done(idprog)
+  df_enrich <- as.data.frame(df_enrich)
+  rownames(df_enrich) <- names(pathway)
+  cli_alert_success("Mean scores calculated")
 
+  return(df_enrich)
+}
 
 #' Function to perform JASMINE pathway enrichment
 #'
@@ -61,19 +70,19 @@ pathMean <- function(X,pathway){
 #'
 pathJASMINE<-function(X,pathway,type="oddsratio"){
 
-
   idprog <- cli_progress_bar("Calculating JASMINE scores", total=length(pathway))
-  df_path <- as.data.frame(do.call(rbind, lapply(pathway, function(path) {
+  df_enrich <- as.data.frame(do.call(rbind, lapply(pathway, function(path) {
     result <- as.vector(JASMINE(X, path, type))
     cli_progress_update(id = idprog)
     return(result)
   })))
 
   cli_progress_done(idprog)
-  rownames(df_path) <- names(pathway)
-  colnames(df_path) <- colnames(X)
+  df_enrich <- as.data.frame(df_enrich)
+  rownames(df_enrich) <- names(pathway)
+  colnames(df_enrich) <- colnames(X)
   cli_alert_success('JASMINE scores calculated')
-  return(df_path)
+  return(df_enrich)
 }
 
 #' Function to perform CERNO pathway enrichment
@@ -89,6 +98,7 @@ pathJASMINE<-function(X,pathway,type="oddsratio"){
 #' eight other algorithms. Bioinformatics, 2019, 35.24: 5146-5154.
 #'
 #' @import cli
+#' @import dplyr
 #' @export
 #'
 pathCERNO<- function(X, pathway) {
@@ -103,7 +113,7 @@ pathCERNO<- function(X, pathway) {
     return(row_AUC)
   }))
   cli_progress_done(idprog)
-  df_enrich<-as.data.frame(df_enrich)
+  df_enrich <- as.data.frame(df_enrich)
   rownames(df_enrich) <- names(pathway)
   cli_alert_success('CERNO scores calculated')
   return(df_enrich)
@@ -136,8 +146,37 @@ pathZScore<- function(X, pathway) {
   }))
 
   cli_progress_done(idprog)
-  df_enrich<-as.data.frame(df_enrich)
+  df_enrich <- as.data.frame(df_enrich)
   rownames(df_enrich) <- names(pathway)
   cli_alert_success('Z-score enrichment calculated')
+  return(df_enrich)
+}
+
+#' Function to perform BINA pathway enrichment
+#'
+#' The function...
+#'
+#' @param X matrix of data.
+#' @param pathway list of pathways to analysis.
+#'
+#' @return A data.frame with pathways in rows and samples in columns.
+#'
+#'
+#' @import cli
+#' @export
+#'
+pathBINA <- function(X, pathway) {
+  idprog <- cli_progress_bar("Calculating BINA scores", total = length(pathway))
+  df_enrich <- do.call(rbind, lapply(pathway, function(path) {
+    df <- extract_pathway(X, path)
+    row <- colSums((df != 0) / nrow(df))
+    row_logit <- log((row + 0.1) / (1 - row + 0.1))
+    cli_progress_update(id = idprog)
+    return(row_logit)
+  }))
+  cli_progress_done(idprog)
+  rownames(df_enrich) <- names(pathway)
+  colnames(df_enrich) <- colnames(X)
+  cli_alert_success("BINA scores calculated")
   return(df_enrich)
 }
