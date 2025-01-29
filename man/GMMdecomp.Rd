@@ -4,7 +4,7 @@
 \alias{GMMdecomp}
 \title{Function for GMM decomposition of pathways}
 \usage{
-GMMdecomp(X, K = 10, multiply = T, parallel = F)
+GMMdecomp(X, K = 10, parallel = F)
 }
 \arguments{
 \item{X}{matrix of data enrichment scores rows pathways columns samples.}
