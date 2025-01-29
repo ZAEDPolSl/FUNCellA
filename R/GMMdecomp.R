@@ -11,7 +11,7 @@
 #' @import dpGMM cli
 #'
 #' @export
-GMMdecomp<-function(X, K=10, multiply=T, parallel=F){
+GMMdecomp<-function(X, K=10, parallel=F){
 
   opt<-dpGMM::GMM_1D_opts
   opt$max_iter<-1000
