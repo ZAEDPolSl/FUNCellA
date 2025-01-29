@@ -6,7 +6,7 @@
 #'
 #' @return A vector of ranked genes.
 #'
-find_last_consecutive_true <- function(row) {
+last_consecutive_true <- function(row) {
   true_indices <- which(row)
   if (length(true_indices) == 0) {
     return(NA)
@@ -46,7 +46,7 @@ km_search<-function(params,thrs){
       if (ord[length(ord)]==F){
         thr=max(thrs,na.rm = T)
       } else{
-        take<-find_last_consecutive_true(ord)
+        take<-last_consecutive_true(ord)
         thr<-min(thrs[take-1],na.rm=T)
       }
     }
