@@ -1,9 +1,9 @@
-#' Function for GMM threshold
+#' Function for GMM decomposition of pathways
 #'
 #' Function reduce genes to pathways.
 #'
 #' @param X matrix of data enrichment scores rows pathways columns samples.
-#' @param K maximum number of components for GMM decomposition
+#' @param K maximum number of components for GMM decomposition.
 #' @param parallel default FALSE. Lunching parallel computing.
 #'
 #' @return Function returns...
@@ -31,6 +31,6 @@ GMMdecomp<-function(X, K=10, multiply=T, parallel=F){
   cli_progress_done(idprog)
   cli_alert_success('GMM calculated')
 
-names(ret)<-rownames(X)
-return(ret)
+  names(ret)<-rownames(X)
+  return(ret)
 }
