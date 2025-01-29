@@ -1,10 +1,13 @@
-#' Function for selecting thresholds ofor pathway activity
+#' Function for selecting thresholds for pathway activity
 #'
-#' Function reduce genes to pathways.
+#' Function search for thresholds which indicates samples with relative significant pathway activity.
+#' The process is performed for GMM decomposition output.
 #'
-#' @param gmms output from GMMdecomp function.
+#' @param gmms output from GMMdecomp function or list of outputs from dpGMM package.
+#' Each first list level should refer to the decomposition of one pathway.
+#' Second level of list should include variable threshold (vector of thresholds) and model (matrix with model parameters).
 #'
-#' @return Function returns...
+#' @return List of thresholds for each investigated pathway based on GMM decomposition.
 #'
 #' @import cli
 #'

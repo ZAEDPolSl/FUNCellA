@@ -20,7 +20,7 @@ last_consecutive_true <- function(row) {
 #'
 #' The function...
 #'
-#' @param params matrix of GMM decomposition parameters. Rows represent clusters columns represent GMM parameters with following order: mean, sd, alpha.
+#' @param params matrix of GMM decomposition parameters. Rows represent clusters while columns represent GMM parameters with following order: mean, sd, alpha.
 #' @param thrs vector of thresholds of GMM decomposition.
 #'
 #' @return a numeric value with threshold.
