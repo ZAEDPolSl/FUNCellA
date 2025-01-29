@@ -98,7 +98,6 @@ pathJASMINE<-function(X,pathway,type="oddsratio"){
 #' eight other algorithms. Bioinformatics, 2019, 35.24: 5146-5154.
 #'
 #' @import cli
-#' @import dplyr
 #' @export
 #'
 pathCERNO<- function(X, pathway) {
