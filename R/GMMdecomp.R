@@ -22,7 +22,6 @@ GMMdecomp <- function(X, K=10, multiply = TRUE, parallel = FALSE) {
   opt$quick_stop <- FALSE
   opt$SW <- 0.05
   opt$sigmas.dev <- 0
-
   cli_alert_info("Start calculating GMM decompositions")
 
   row_multiple <- function(row) {
@@ -31,15 +30,16 @@ GMMdecomp <- function(X, K=10, multiply = TRUE, parallel = FALSE) {
       tmp <- tmp * 10
     }
 
-
     result <- runGMM(tmp, opts = opt)
-
 
     if (multiply) {
       result$model$mu <- result$model$mu / 10
       result$model$sigma <- result$model$sigma / 10
       result$threshold <- result$threshold / 10
+      tmp <- tmp / 10
     }
+    dist.plot <- generate_dist(tmp, result$model$alpha, result$model$mu, result$model$sigma, 1e4)
+    result$fig <- plot_gmm_1D(tmp, dist.plot, Y = NULL, threshold = result$threshold, pal = "Blues")
     return(result)
   }
 
