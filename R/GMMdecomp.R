@@ -22,7 +22,6 @@ GMMdecomp <- function(X, K=10, multiply = TRUE, parallel = FALSE) {
   opt$quick_stop <- FALSE
   opt$SW <- 0.05
   opt$sigmas.dev <- 0
-
   cli_alert_info("Start calculating GMM decompositions")
 
   row_multiple <- function(row) {
