@@ -6,6 +6,8 @@
 #'
 #' @return A vector of ranked genes.
 #'
+#' @importFrom utils tail
+#'
 last_consecutive_true <- function(row) {
   true_indices <- which(row)
   if (length(true_indices) == 0) {
