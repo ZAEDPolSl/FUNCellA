@@ -7,7 +7,7 @@
 km_search(params, thrs)
 }
 \arguments{
-\item{params}{matrix of GMM decomposition parameters. Rows represent clusters columns represent GMM parameters with following order: mean, sd, alpha.}
+\item{params}{matrix of GMM decomposition parameters. Rows represent clusters while columns represent GMM parameters with following order: mean, sd, alpha.}
 
 \item{thrs}{vector of thresholds of GMM decomposition.}
 }

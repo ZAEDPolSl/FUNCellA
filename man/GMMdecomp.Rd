@@ -4,14 +4,16 @@
 \alias{GMMdecomp}
 \title{Function for GMM decomposition of pathways}
 \usage{
-GMMdecomp(X, K = 10, parallel = F)
+GMMdecomp(X, K = 10, multiply = TRUE, parallel = FALSE)
 }
 \arguments{
 \item{X}{matrix of data enrichment scores rows pathways columns samples.}
 
-\item{K}{maximum number of components for GMM decomposition.}
+\item{K}{maximum number of components for GMM decomposition (default: 10).}
 
-\item{parallel}{default FALSE. Lunching parallel computing.}
+\item{multiply}{logical, scaling values by 10 before fitting GMM (default: TRUE).}
+
+\item{parallel}{logical, lunching parallel computing (default: FALSE).}
 }
 \value{
 Function returns...
