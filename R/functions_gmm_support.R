@@ -30,29 +30,41 @@ last_consecutive_true <- function(row) {
 #' @import factoextra
 #'
 km_search<-function(params,thrs){
-  for(c in 1:ncol(params)){if(length(unique(params[,c])) > 1){params[,c] <- scale(params[,c])}}
+
+  # One or two distribution
+  if (nrow(params) <= 2) {
+    return(max(thrs, na.rm = TRUE))
+  }
+
+  # ---- K-means part ----
+  # scaling parameters
+  params <- apply(params, 2, function(col) if (length(unique(col)) > 1) scale(col) else col)
+
+  # k-means run
   opt_k <- fviz_nbclust(params, FUNcluster = kmeans, method = "silhouette", k.max = nrow(params)-1, iter.max = 20)
   max_cluster <- as.numeric(opt_k$data$clusters[which.max(opt_k$data$y)])
-  clut <- kmeans(params, max_cluster)
+  clusters <- kmeans(params, max_cluster)
 
+  # ---- threshold with k-means ----
+  # Edge case: no of cluster equals no of parameters
+  if (length(unique(clusters$cluster)) == nrow(params)) {
+    return(max(thrs, na.rm = TRUE))
+  }
 
-  if(length(unique(clut$cluster)) == nrow(params)){
-    thr<-max(thrs,na.rm=T)
-  } else {
-    ord<-(clut$cluster==rownames(clut$centers)[which.max(clut$centers[,1])])
-    if (all(diff(ord) >= 0)){
+  ord<-(clusters$cluster==rownames(clusters$centers)[which.max(clusters$centers[,1])])
+  if (all(diff(ord) >= 0)){
       take<-which(ord)
-      thr<-min(thrs[take-1],na.rm=T)
+      threshold<-min(thrs[take-1],na.rm=T)
 
-    }else{
+  }else{
       if (ord[length(ord)]==F){
-        thr=max(thrs,na.rm = T)
+        threshold=max(thrs,na.rm = T)
       } else{
         take<-last_consecutive_true(ord)
-        thr<-min(thrs[take-1],na.rm=T)
+        threshold<-min(thrs[take-1],na.rm=T)
       }
-    }
-
   }
-  return(thr)
+
+
+  return(threshold)
 }

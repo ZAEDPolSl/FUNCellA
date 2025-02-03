@@ -7,13 +7,13 @@
 GMMdecomp(X, K = 10, multiply = TRUE, parallel = FALSE)
 }
 \arguments{
-\item{X}{matrix of data enrichment scores rows pathways columns samples.}
+\item{X}{data.frame of data enrichment scores (rows: pathways, columns: samples).}
 
-\item{K}{maximum number of components for GMM decomposition (default: 10).}
+\item{K}{Maximum number of components for GMM decomposition (default: 10).}
 
-\item{multiply}{logical, scaling values by 10 before fitting GMM (default: TRUE).}
+\item{multiply}{Logical, whether to scale values by 10 before fitting GMM (default: TRUE).}
 
-\item{parallel}{logical, lunching parallel computing (default: FALSE).}
+\item{parallel}{Logical, whether to use parallel computing (default: FALSE). (Not implemented yet)}
 }
 \value{
 Function returns...

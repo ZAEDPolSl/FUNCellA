@@ -2,10 +2,10 @@
 #'
 #' Function reduce genes to pathways.
 #'
-#' @param X matrix of data enrichment scores rows pathways columns samples.
-#' @param K maximum number of components for GMM decomposition (default: 10).
-#' @param multiply logical, scaling values by 10 before fitting GMM (default: TRUE).
-#' @param parallel logical, lunching parallel computing (default: FALSE).
+#' @param X data.frame of data enrichment scores (rows: pathways, columns: samples).
+#' @param K Maximum number of components for GMM decomposition (default: 10).
+#' @param multiply Logical, whether to scale values by 10 before fitting GMM (default: TRUE).
+#' @param parallel Logical, whether to use parallel computing (default: FALSE). (Not implemented yet)
 #'
 #' @return Function returns...
 #'
@@ -14,7 +14,24 @@
 #'
 #' @export
 GMMdecomp <- function(X, K=10, multiply = TRUE, parallel = FALSE) {
+  # ---- Parameter validation ----
+  if (!is.data.frame(X)) {
+    cli_abort(c("x" = "Input X must be a data.frame"))
+  }
 
+  if (!is.numeric(K) || K <= 0 || K %% 1 != 0) {
+    cli_abort(c("x" = "K must be a positive integer."))
+  }
+
+  if (!is.logical(multiply)) {
+    cli_abort(c("x" = "multiply must be a logical value (TRUE or FALSE)."))
+  }
+
+  if (!is.logical(parallel)) {
+    cli_abort(c("x" = "parallel must be a logical value (TRUE or FALSE)."))
+  }
+
+  # ---- GMM options setup ----
   opt <- dpGMM::GMM_1D_opts
   opt$max_iter <- 1000
   opt$KS <- K
@@ -22,8 +39,10 @@ GMMdecomp <- function(X, K=10, multiply = TRUE, parallel = FALSE) {
   opt$quick_stop <- FALSE
   opt$SW <- 0.05
   opt$sigmas.dev <- 0
+
   cli_alert_info("Start calculating GMM decompositions")
 
+  # ---- Helper for row calculation ----
   row_multiple <- function(row) {
     tmp <- as.numeric(row)
     if (multiply) {
@@ -43,11 +62,22 @@ GMMdecomp <- function(X, K=10, multiply = TRUE, parallel = FALSE) {
     return(result)
   }
 
+  # ---- GMM Calculation ----
   idprog <- cli_progress_bar("Calculating GMM decompositions", total = nrow(X))
-  results_list <- lapply(1:nrow(X), function(i) {
-    cli_progress_update(id = idprog)
-    row_multiple(X[i, ])
-  })
+
+  if (parallel) {
+    if (.Platform$OS.type == "windows") {
+
+    } else {
+      future::plan(future::multicore)
+    }
+  } else{
+    results_list <- lapply(1:nrow(X), function(i) {
+      cli_progress_update(id = idprog)
+      row_multiple(X[i, ])
+    })
+  }
+
   cli_progress_done(idprog)
   cli_alert_success('GMM calculated')
 

@@ -13,32 +13,41 @@
 #' @return Function returns...
 #'
 #' @import cli
-#' @importFrom methods hasArg
 #'
 #'
 #' @export
 gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_max=500,type="oddsratio"){
-  # parameters check part ----
-  if (!hasArg("X")){
-    stop("No data.")}
+  # ---- Parameter validation ----
+  if (missing(X) || is.null(X)) {
+    cli_abort(c("x" = "No data provided (X)."))
+  }
 
-  if (!hasArg("pathway")){
-    stop("No pathway list.")}
+  if (is.null(rownames(X))) {
+    cli_abort(c("x" = "The input assay object doesn't have row names."))
+  }
 
-  if (filt_cov<0 | filt_cov>1){
-    stop("filt_cov has to be value from 0 to 1")}
+  if (missing(pathway) || is.null(pathway)) {
+    cli_abort(c("x" = "No pathway list provided."))
+  }
 
-  method <- match.arg(method,choices=c('ssGSEA','Mean','BINA',"CERNO","ZSc",'JASMINE'))
+  if (!is.numeric(filt_cov) || filt_cov < 0 || filt_cov > 1) {
+    cli_abort(c("x" = "filt_cov must be a numeric value between 0 and 1."))
+  }
 
-  # check of filtration by coverage ----
-  if (filt_cov!=0){
-    pathway<-filter_cover(X,pathway,filt_cov)
-  } else {cli_alert_success("No filtration due to coverage")}
+  valid_methods <- c('ssGSEA', 'Mean', 'BINA', "CERNO", "ZSc", 'JASMINE')
+  method <- match.arg(method, choices = valid_methods)
 
-  # check of filtration by pathways size ----
+  # ---- Filtering steps ----
+  # Coverage-based filtering
+  if (filt_cov != 0) {
+    pathway <- filter_cover(X, pathway, filt_cov)
+  } else {
+    invisible(cli_alert_success("No filtration due to coverage"))
+  }
+  # Filter pathways by size
   pathway<-filter_minmax(pathway,filt_min,filt_max)
 
-  # run of gene to path transformation ----
+  # ---- Gene-2-pathway transformation ----
   switch(method,
       "ssGSEA"= df_path<-pathssGSEA(X,pathway),
       "Mean" =  df_path<-pathMean(X,pathway),
