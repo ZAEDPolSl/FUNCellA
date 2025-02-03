@@ -30,13 +30,9 @@ Rank_dropout<- function(X,g_vec){
 #' @importFrom dplyr desc
 #'
 #'
-Rank_data <- function(X){
-  rank_df <- as.data.frame(lapply(X, function(col) {
-    rank(desc(as.numeric(col)), ties.method = "average")
-  }))
-  rownames(rank_df) <- rownames(X)
-  colnames(rank_df) <- colnames(X)
-  return(rank_df)
+Rank_data <- function(X) {
+  rank_matrix <- apply(X, 2, function(col) rank(-as.numeric(col), ties.method = "average"))
+  return(as.data.frame(rank_matrix, row.names = rownames(X)))
 }
 
 #' Function to extract matrix of genes in pathway
