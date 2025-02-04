@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions_ss_support.R
 \name{Rank_data}
 \alias{Rank_data}
-\title{Function to rank data}
+\title{Function to rank data within sample}
 \usage{
 Rank_data(X)
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{X}{matrix or data.frame of data.}
 }
 \value{
 A data.frame with ranked genes rows and samples in columns.

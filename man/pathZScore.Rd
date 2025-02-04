@@ -7,7 +7,7 @@
 pathZScore(X, pathway)
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{X}{matrix or data.frame of data (rows: genes/features, columns: samples).}
 
 \item{pathway}{list of pathways to analysis.}
 }

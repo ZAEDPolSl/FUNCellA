@@ -19,19 +19,20 @@ Rank_dropout<- function(X,g_vec){
   return(final_rank)
 }
 
-#' Function to rank data
+#' Function to rank data within sample
 #'
 #' The function...
 #'
-#' @param X matrix of data.
+#' @param X matrix or data.frame of data.
 #'
 #' @return A data.frame with ranked genes rows and samples in columns.
 #'
-#' @importFrom dplyr desc
+#' @importFrom matrixStats colRanks
 #'
 #'
 Rank_data <- function(X) {
-  rank_matrix <- apply(X, 2, function(col) rank(-as.numeric(col), ties.method = "average"))
+  X<--X
+  rank_matrix<- colRanks(as.matrix(X), ties.method="average", preserveShape=TRUE, decreasing=TRUE)
   return(as.data.frame(rank_matrix, row.names = rownames(X)))
 }
 

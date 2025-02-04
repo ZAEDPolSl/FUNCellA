@@ -15,5 +15,5 @@ Remotes: git::https://github.com/ZAEDPolSl/dpGMM
 Depends:
     R (>= 3.5), GSVA, cli, dpGMM, factoextra
 Imports:
-    methods, matrixStats, dplyr, utils
+    methods, matrixStats, utils
 RoxygenNote: 7.3.2

@@ -2,7 +2,7 @@
 #'
 #' The function...
 #'
-#' @param X matrix of data.
+#' @param X X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
@@ -29,7 +29,7 @@ return(df_enrich)
 #'
 #' The function...
 #'
-#' @param X matrix of data.
+#' @param X X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
@@ -55,7 +55,7 @@ pathMean <- function(X,pathway){
 #'
 #' The function...
 #'
-#' @param X matrix of data.
+#' @param X X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
 #' @param type type of adjustment of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.
 #'
@@ -89,7 +89,7 @@ pathJASMINE<-function(X,pathway,type="oddsratio"){
 #'
 #' The function...
 #'
-#' @param X matrix of data.
+#' @param X X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
@@ -123,7 +123,7 @@ pathCERNO<- function(X, pathway) {
 #'
 #' The function...
 #'
-#' @param X matrix of data.
+#' @param X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
@@ -155,7 +155,7 @@ pathZScore<- function(X, pathway) {
 #'
 #' The function...
 #'
-#' @param X matrix of data.
+#' @param X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
