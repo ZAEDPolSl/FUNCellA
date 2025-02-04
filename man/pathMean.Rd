@@ -7,7 +7,7 @@
 pathMean(X, pathway)
 }
 \arguments{
-\item{X}{X matrix or data.frame of data (rows: genes/features, columns: samples).}
+\item{X}{matrix or data.frame of data (rows: genes/features, columns: samples).}
 
 \item{pathway}{list of pathways to analysis.}
 }

@@ -2,7 +2,7 @@
 #'
 #' The function...
 #'
-#' @param X X matrix or data.frame of data (rows: genes/features, columns: samples).
+#' @param X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
@@ -25,11 +25,37 @@ pathssGSEA<-function(X,pathway){
 return(df_enrich)
 }
 
+#' Function to perform AUCell pathway enrichment
+#'
+#' The function...
+#'
+#' @param X matrix or data.frame of data (rows: genes/features, columns: samples).
+#' @param pathway list of pathways to analysis.
+#'
+#' @return A data.frame with pathways in rows and samples in columns.
+#'
+#' @import AUCell
+#' @import cli
+#'
+#' @references to fill
+#'
+#' @export
+#'
+pathAUCell<-function(X,pathway){
+  cells_rankings <- AUCell_buildRankings(as.matrix(X))
+  AUCs <- AUCell_calcAUC(pathway, cells_rankings, aucMaxRank=0.25*nrow(X), nCores=1)
+  df_enrich<-AUCs@assays@data@listData$AUC
+  rownames(df_enrich)<-names(pathway)
+  cli_alert_info("AUCell enrichment calculated")
+  return(df_enrich)
+}
+
+
 #' Function to perform Mean pathway enrichment
 #'
 #' The function...
 #'
-#' @param X X matrix or data.frame of data (rows: genes/features, columns: samples).
+#' @param X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
@@ -55,7 +81,7 @@ pathMean <- function(X,pathway){
 #'
 #' The function...
 #'
-#' @param X X matrix or data.frame of data (rows: genes/features, columns: samples).
+#' @param X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
 #' @param type type of adjustment of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.
 #'
@@ -89,7 +115,7 @@ pathJASMINE<-function(X,pathway,type="oddsratio"){
 #'
 #' The function...
 #'
-#' @param X X matrix or data.frame of data (rows: genes/features, columns: samples).
+#' @param X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
 #'
 #' @return A data.frame with pathways in rows and samples in columns.
@@ -103,6 +129,7 @@ pathJASMINE<-function(X,pathway,type="oddsratio"){
 pathCERNO<- function(X, pathway) {
   cli_alert_info("Ranking calculation")
   X_ranked<-Rank_data(X)
+  cli_alert_success('Ranks calculated')
 
   idprog <- cli_progress_bar("Calculating CERNO scores", total=length(pathway))
   df_enrich <- do.call(rbind, lapply(pathway, function(path) {
@@ -135,6 +162,7 @@ pathCERNO<- function(X, pathway) {
 pathZScore<- function(X, pathway) {
   cli_alert_info("Data normalization")
   X_normed <- scale_zscore(X)
+  cli_alert_success('Data normalized')
 
   idprog <- cli_progress_bar("Calculating Z-score enrichment", total=length(pathway))
   df_enrich <- do.call(rbind, lapply(pathway, function(path) {

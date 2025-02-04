@@ -19,7 +19,7 @@ gene2path(
 
 \item{pathway}{list of pathways to analysis.}
 
-\item{method}{methods for single-sample pathway enrichment analysis.}
+\item{method}{methods for single-sample pathway enrichment analysis. LIST them!}
 
 \item{filt_cov}{numeric vector of length 1. Minimum \% of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65\% will be taken.}
 

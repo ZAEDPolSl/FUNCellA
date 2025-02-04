@@ -4,7 +4,7 @@
 #'
 #' @param X matrix or data.frame of data (rows: genes/features, columns: samples).
 #' @param pathway list of pathways to analysis.
-#' @param method methods for single-sample pathway enrichment analysis.
+#' @param method methods for single-sample pathway enrichment analysis. LIST them!
 #' @param filt_cov numeric vector of length 1. Minimum \% of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65\% will be taken.
 #' @param filt_min numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.
 #' @param filt_max numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.
@@ -34,7 +34,7 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_m
     cli_abort(c("x" = "filt_cov must be a numeric value between 0 and 1."))
   }
 
-  valid_methods <- c('ssGSEA', 'Mean', 'BINA', "CERNO", "ZSc", 'JASMINE')
+  valid_methods <- c('ssGSEA', 'Mean', 'BINA', "CERNO", "ZSc", 'JASMINE',"AUCell")
   method <- match.arg(method, choices = valid_methods)
 
   # ---- Filtering steps ----
@@ -54,7 +54,8 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_m
       "JASMINE" = df_path<-pathJASMINE(X,pathway,type),
       "CERNO" = df_path<-pathCERNO(X,pathway),
       "ZSc" = df_path<-pathZScore(X,pathway),
-      "BINA" = df_path<-pathBINA(X,pathway)
+      "BINA" = df_path<-pathBINA(X,pathway),
+      "AUCell" = df_path<-pathAUCell(X,pathway)
     )
 
 
