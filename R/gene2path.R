@@ -38,14 +38,16 @@ gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_m
   method <- match.arg(method, choices = valid_methods)
 
   # ---- Filtering steps ----
+  # Filter pathways by size
+  pathway<-filter_minmax(pathway,filt_min,filt_max)
+
   # Coverage-based filtering
   if (filt_cov != 0) {
     pathway <- filter_cover(X, pathway, filt_cov)
   } else {
     invisible(cli_alert_success("No filtration due to coverage"))
   }
-  # Filter pathways by size
-  pathway<-filter_minmax(pathway,filt_min,filt_max)
+
 
   # ---- Gene-2-pathway transformation ----
   switch(method,

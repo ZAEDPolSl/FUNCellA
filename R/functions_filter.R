@@ -13,16 +13,21 @@
 filter_cover<- function(X,pathway,filt_cov){
   cli_alert_info("PATHWAY COVERAGE FILTRATION")
   name <- c()
-  for (i in 1:length(pathway)){
+  for (i in seq_along(pathway)){
     df <- X[rownames(X) %in% pathway[[i]],]
-    if(nrow(df) != 0){
-      cof<-round(nrow(df)/length(pathway[[i]]), digits = 2)
-      if(cof < filt_cov){
-        #print(paste0("Removed path:",names(pathway[i]) ," with coverage: ",cof*100,"%"))
-        name <- append(name, names(pathway[i]))
-      }
-    }else{
-      name <- c(name, names(pathway[i]))
+
+     if (is.matrix(df) && nrow(df) != 0){
+          cof<-round(nrow(df)/length(pathway[[i]]), digits = 2)
+          if(cof < filt_cov){
+            name <- append(name, names(pathway[i]))
+          }
+     } else if(is.vector(df)){
+       cof<-round(length(df)/length(pathway[[i]]), digits = 2)
+       if(cof < filt_cov){
+         name <- append(name, names(pathway[i]))
+       }
+     }else {
+       name <- c(name, names(pathway[i]))
     }
   }
   pathway[name] = NULL
