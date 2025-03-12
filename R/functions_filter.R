@@ -13,6 +13,7 @@
 filter_cover<- function(X,pathway,filt_cov){
   cli_alert_info("PATHWAY COVERAGE FILTRATION")
   name <- c()
+  X<-as.matrix(X)
   for (i in seq_along(pathway)){
     df <- X[rownames(X) %in% pathway[[i]],]
 
