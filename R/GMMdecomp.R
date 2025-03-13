@@ -30,7 +30,7 @@ GMMdecomp <- function(X, K=10, multiply = TRUE, IC="BIC",parallel = FALSE) {
   }
 
   IC_list <- c("AIC","AICc", "BIC", "ICL-BIC", "LR")
-  if (!opts$IC %in% IC_list) {
+  if (!IC %in% IC_list) {
     stop("Criterion not implemented. Please use AIC, AICc, BIC, ICL-BIC or LR")
   }
 
