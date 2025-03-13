@@ -4,7 +4,7 @@
 \alias{GMMdecomp}
 \title{Function for GMM decomposition of pathways}
 \usage{
-GMMdecomp(X, K = 10, multiply = TRUE, parallel = FALSE)
+GMMdecomp(X, K = 10, multiply = TRUE, IC = "BIC", parallel = FALSE)
 }
 \arguments{
 \item{X}{data.frame of data enrichment scores (rows: pathways, columns: samples).}
@@ -12,6 +12,9 @@ GMMdecomp(X, K = 10, multiply = TRUE, parallel = FALSE)
 \item{K}{Maximum number of components for GMM decomposition (default: 10).}
 
 \item{multiply}{Logical, whether to scale values by 10 before fitting GMM (default: TRUE).}
+
+\item{IC}{Information criterion used to select the number of model components.
+Possible methods are "AIC","AICc", "BIC" (default), "ICL-BIC" or "LR".}
 
 \item{parallel}{Logical, whether to use parallel computing (default: FALSE). (Not implemented yet)}
 }

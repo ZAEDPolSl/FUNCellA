@@ -5,6 +5,8 @@
 #' @param X data.frame of data enrichment scores (rows: pathways, columns: samples).
 #' @param K Maximum number of components for GMM decomposition (default: 10).
 #' @param multiply Logical, whether to scale values by 10 before fitting GMM (default: TRUE).
+#' @param IC Information criterion used to select the number of model components.
+#' Possible methods are "AIC","AICc", "BIC" (default), "ICL-BIC" or "LR".
 #' @param parallel Logical, whether to use parallel computing (default: FALSE). (Not implemented yet)
 #'
 #' @return Function returns...
@@ -13,7 +15,7 @@
 #' @import cli
 #'
 #' @export
-GMMdecomp <- function(X, K=10, multiply = TRUE, parallel = FALSE) {
+GMMdecomp <- function(X, K=10, multiply = TRUE, IC="BIC",parallel = FALSE) {
   # ---- Parameter validation ----
   if (!is.data.frame(X)) {
     cli_abort(c("x" = "Input X must be a data.frame"))
@@ -25,6 +27,11 @@ GMMdecomp <- function(X, K=10, multiply = TRUE, parallel = FALSE) {
 
   if (!is.logical(multiply)) {
     cli_abort(c("x" = "multiply must be a logical value (TRUE or FALSE)."))
+  }
+
+  IC_list <- c("AIC","AICc", "BIC", "ICL-BIC", "LR")
+  if (!opts$IC %in% IC_list) {
+    stop("Criterion not implemented. Please use AIC, AICc, BIC, ICL-BIC or LR")
   }
 
   if (!is.logical(parallel)) {
@@ -39,6 +46,7 @@ GMMdecomp <- function(X, K=10, multiply = TRUE, parallel = FALSE) {
   opt$quick_stop <- FALSE
   opt$SW <- 0.05
   opt$sigmas.dev <- 0
+  opt$IC<-IC
 
   cli_alert_info("Start calculating GMM decompositions")
 

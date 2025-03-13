@@ -192,7 +192,11 @@ JASMINE <- function(X,g_vec,type="oddsratio")
     }
     ES = scale_minmax(ES)
 
-    FinalScores = (RM + ES)/2
+    if (sum(is.na(ES))==length(ES)){
+      FinalScores = RM
+    } else{
+      FinalScores = (RM + ES)/2
+    }
     return(FinalScores)
   }
 }
