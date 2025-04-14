@@ -15,7 +15,7 @@ filter_cover<- function(X,pathway,filt_cov){
   name <- c()
   X<-as.matrix(X)
   for (i in seq_along(pathway)){
-    df <- X[rownames(X) %in% pathway[[i]],]
+    df <- X[match(rownames(X),pathway[[i]]),]
 
      if (is.matrix(df) && nrow(df) != 0){
           cof<-round(nrow(df)/length(pathway[[i]]), digits = 2)

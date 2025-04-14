@@ -44,7 +44,7 @@ return(df_enrich)
 pathAUCell<-function(X,pathway){
   cells_rankings <- AUCell_buildRankings(as.matrix(X))
   AUCs <- AUCell_calcAUC(pathway, cells_rankings, aucMaxRank=0.25*nrow(X), nCores=1)
-  df_enrich<-AUCs@assays@data@listData$AUC
+  df_enrich<-as.data.frame(AUCs@assays@data@listData$AUC)
   rownames(df_enrich)<-names(pathway)
   cli_alert_info("AUCell enrichment calculated")
   return(df_enrich)
@@ -202,6 +202,7 @@ pathBINA <- function(X, pathway) {
     return(row_logit)
   }))
   cli_progress_done(idprog)
+  df_enrich <- as.data.frame(df_enrich)
   rownames(df_enrich) <- names(pathway)
   colnames(df_enrich) <- colnames(X)
   cli_alert_success("BINA scores calculated")
