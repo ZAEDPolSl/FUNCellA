@@ -50,7 +50,11 @@ Rank_data <- function(X) {
 #'
 extract_pathway <- function(X,g_vec){
   g_vec<-unlist(g_vec)
-  data_path <- X[rownames(X) %in% g_vec,]
+  poz<-match(g_vec,rownames(X))
+  poz<-poz[!is.na(poz)]
+
+
+  data_path <- X[poz,]
   tmp <- rowVars(as.matrix(data_path))
 
   data_path <- data_path[!(is.na(tmp)==T | tmp == 0),]
