@@ -19,7 +19,6 @@ filter_cover<- function(X,pathway,filt_cov){
     poz<-match(pathway[[i]],rownames(X))
     poz<-poz[!is.na(poz)]
     df <- X[poz,]
-    print(dim(df))
      if (is.matrix(df) && nrow(df) != 0){
           cof<-round(nrow(df)/length(pathway[[i]]), digits = 2)
           if(cof < filt_cov){
