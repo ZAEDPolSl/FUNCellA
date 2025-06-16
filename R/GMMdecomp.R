@@ -64,9 +64,10 @@ GMMdecomp <- function(X, K=10, multiply = TRUE, IC="BIC",parallel = FALSE) {
       result$model$sigma <- result$model$sigma / 10
       result$threshold <- result$threshold / 10
       tmp <- tmp / 10
+
+      dist.plot <- generate_dist(tmp, result$model$alpha, result$model$mu, result$model$sigma, 1e4)
+      result$fig <- plot_gmm_1D(tmp, dist.plot, Y = NULL, threshold = result$threshold, pal = "Blues")
     }
-    dist.plot <- generate_dist(tmp, result$model$alpha, result$model$mu, result$model$sigma, 1e4)
-    result$fig <- plot_gmm_1D(tmp, dist.plot, Y = NULL, threshold = result$threshold, pal = "Blues")
     return(result)
   }
 
