@@ -14,7 +14,7 @@ JASMINE(X, g_vec, type = "oddsratio")
 
 \item{g_vec}{vector of gene names from pathway.}
 
-\item{type}{type of adjustemnt of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.}
+\item{type}{type of adjustment of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.}
 }
 \value{
 A vector of normalized JASMINE score.

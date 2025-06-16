@@ -37,7 +37,8 @@ return(df_enrich)
 #' @import AUCell
 #' @import cli
 #'
-#' @references to fill
+#' @source \url{https://www.bioconductor.org/packages/release/bioc/html/AUCell.html}
+#' @references Aibar S, Bravo Gonzalez-Blas C, Moerman T, Huynh-Thu V, Imrichova H, Hulselmans G, Rambow F, Marine J, Geurts P, Aerts J, van den Oord J, Kalender Atak Z, Wouters J, Aerts S (2017). “SCENIC: Single-Cell Regulatory Network Inference And Clustering.” Nature Methods, 14, 1083-1086. doi:10.1038/nmeth.4463.
 #'
 #' @export
 #'

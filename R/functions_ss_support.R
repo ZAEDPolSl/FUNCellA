@@ -53,7 +53,6 @@ extract_pathway <- function(X,g_vec){
   poz<-match(g_vec,rownames(X))
   poz<-poz[!is.na(poz)]
 
-
   data_path <- X[poz,]
   tmp <- rowVars(as.matrix(data_path))
 
