@@ -28,6 +28,7 @@ last_consecutive_true <- function(row) {
 #' @return a numeric value with threshold.
 #'
 #' @import factoextra
+#' @importFrom stats kmeans
 #'
 km_search<-function(params,thrs){
 
