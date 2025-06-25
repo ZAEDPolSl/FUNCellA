@@ -45,75 +45,125 @@ single-sample pathway enrichment methods. It supports filtering pathways based o
 and size, and allows adjustment of specific scoring methods.
 }
 \details{
-The function first filters pathways by minimum and maximum size and optionally by coverage of genes
-in the dataset \code{X}. Then, it applies the selected single-sample enrichment method as described below:
+This function filters and scores pathways using one of several single-sample enrichment methods.
+Each method uses a different scoring strategy. See below for method descriptions.
 
+Method summaries:
 \describe{
-\item{\code{ssGSEA}}{
+\item{ssGSEA}{
   Single sample Gene Set Enrichment Analysis (ssGSEA) is a non-parametric method
   that computes an enrichment score for each gene set and sample by calculating
   the normalized difference between the empirical cumulative distribution functions (CDFs)
   of gene expression ranks inside and outside the gene set (\code{\link{pathssGSEA}}).
 
-  The implementation used here leverages the \pkg{GSVA} package and follows the
+  The implementation used here leverages the \pkg{GSVA} (Hänzelmann et al. (2013)) package and follows the
   final normalization step described by Barbie et al. (2009), where pathway scores
   are normalized by dividing by the range of calculated values.
 }
 
-\item{\code{Mean}}{
+\item{Mean}{
    Calculates the mean expression of pathway genes per sample, providing a simple aggregate score
 (\code{\link{pathMean}}). Function reflects \code{addModuleScore} from Seurat package.
 }
 
-\item{\code{BINA}}{
+\item{BINA}{
    Binary scoring method based on the proportion of pathway genes expressed (non-zero) in each sample, and run
    logit-transformation to generate scores (\code{\link{pathBINA}}).
    }
 
-\item{\code{CERNO}}{
-   Implements the CERNO pathway enrichment test (\code{\link{pathCERNO}}) based on cumulative sums
-   of ranked gene expression to calculate an Area Under the Curve (AUC) statistic, measuring pathway activity.
+\item{CERNO}{
+  Implements the CERNO pathway enrichment test (\code{\link{pathCERNO}}), which calculates pathway activity
+  using a non-parametric approach based on gene expression ranks. For each gene set, the method evaluates whether
+  the genes in the set are enriched toward the top (or bottom) of a ranked gene list for each sample.
+  Specifically, it computes an Area Under the Curve (AUC)-like statistic derived from the Mann–Whitney U test.
+
+  The AUC score is computed as:
+  \deqn{
+  \text{AUC}_\gamma = \frac{n_\gamma (n - n_\gamma) + \frac{n_\gamma(n_\gamma + 1)}{2} - R_\gamma}{n_\gamma (n - n_\gamma)}
+  }
+  where \( n \) is the total number of genes, \( n_\gamma \) is the number of genes in the pathway,
+  and \( R_\gamma \) is the sum of their ranks in a given sample.
+
+  Scores closer to 1 indicate that genes in the pathway tend to have higher ranks (greater activity),
+  while values closer to 0 suggest lower relative activity.
+
+  This approach enables robust and distribution-free inference of pathway activity, particularly useful
+  in transcriptomic analyses. Its extensive implementation was presented in Zyla et al. (2019).
+  }
+
+\item{JASMINE}{
+  Applies the JASMINE scoring method (\code{\link{pathJASMINE}}), designed specifically for single-cell expression data.
+  It integrates two main components:
+  \enumerate{
+    \item Dropout-based gene ranking using \code{\link{Rank_dropout}}, which estimates expression strength based on the rank of non-zero values.
+    \item Effect size estimation via either odds ratio (\code{\link{Calc_OR}}) or likelihood (\code{\link{Calc_Likelihood}}), capturing differential dropout patterns.
+  }
+  Both components are normalized using min-max scaling, and their average is used as the final score.
+  By default, the method uses the odds ratio for effect size estimation.
+}
+
+ \item{AUCell}{
+ Computes pathway activity using the AUCell method (\code{\link{pathAUCell}}),
+   which estimates gene set enrichment per sample by calculating the Area Under the Curve (AUC)
+   of the recovery curve of gene set members across a ranked gene expression profile.
+   Conceptually, the AUC reflects the proportion of pathway genes found within the top-ranked
+   genes of each sample. The number of top genes considered is controlled is set to 5% of the total number of genes.
+   For details see Aibar et al. (2017).
    }
 
-\item{\code{Z-score}}{
+ \item{Z-score}{
   The Z-score method standardizes gene expression values across samples and
   calculates a combined enrichment score for each gene set using the Stouffer integration of Z scores.
 
   Specifically, for a gene set \eqn{G = \{1, \dots, k\}} with standardized
   expression values \eqn{z_1, \dots, z_k} for a given sample, the combined
-  Z-score \eqn{Z_{\G}} is computed as:
+  Z-score \eqn{Z_G} is computed as:
   \deqn{
-    Z_{\G} = \frac{\sum_{i=1}^{k} z_i}{\sqrt{k}}
+    Z_G = \frac{\sum_{i=1}^{k} z_i}{\sqrt{k}}
   }
 
   This approach is based on Lee et al. (2008) and aggregates standardized gene
   expression values to reflect pathway activity while accounting for gene set size. The aggregation itself is known as Stouffer integration method.
 }
-
-\item{\code{JASMINE}}{
-  Applies the JASMINE scoring method (\code{\link{pathJASMINE}}), designed for single-cell data.
-  It integrates dropout-based gene ranking (\code{\link{Rank_dropout}}) with effect size adjustment using
-  odds ratio (\code{\link{Calc_OR}}) or likelihood (\code{\link{Calc_Likelihood}}), normalized via min-max scaling.}
-
- \item{\code{AUCell}}{
-   Computes pathway activity using the AUCell method (\code{\link{pathAUCell}}),
-   which evaluates the Area Under the Curve (AUC) of gene expression rankings within each sample.}
 }
 }
 \examples{
 \dontrun{
- # X: gene expression matrix, pathway: list of gene sets
+ # X: gene expression matrix
+ data(pathways)
  pathway_scores <- gene2path(X, pathway, method = "ssGSEA", filt_cov = 0.65)
 }
+
 }
 \references{
+Aibar, S., Bravo González-Blas, C., Moerman, T., Huynh-Thu, V.A., Imrichová, H., Hulselmans, G.,
+Rambow, F., Marine, J.C., Geurts, P., Aerts, J., van den Oord, J., Kalender Atak, Z., Wouters, J., & Aerts, S. (2017).
+SCENIC: Single-cell regulatory network inference and clustering.
+*Nature Methods*, *14*, 1083–1086.
+\doi{10.1038/nmeth.4463}
+
 Barbie, D.A., Tamayo, P., Boehm, J.S., et al. (2009).
 Systematic RNA interference reveals that oncogenic KRAS-driven cancers require TBK1.
 *Nature*, *462*(7273), 108–112.
 \doi{10.1038/nature08460}
 
+Hänzelmann, S., Castelo, R., & Guinney, J. (2013).
+GSVA: gene set variation analysis for microarray and RNA-seq data.
+*BMC Bioinformatics*, *14*, 7.
+\doi{10.1186/1471-2105-14-7}
+
 Lee, E., Chuang, H.Y., Kim, J.W., Ideker, T., & Lee, D. (2008).
 Inferring pathway activity toward precise disease classification.
 *PLoS Computational Biology*, *4*(11), e1000217.
 \doi{10.1371/journal.pcbi.1000217}
+
+Noureen, N., Ye, Z., Chen, Y., Wang, X., & Zheng, S. (2022).
+Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
+*Elife*, *11*, e71994.
+\doi{10.7554/eLife.71994}
+
+Zyla, J., Marczyk, M., Domaszewska, T., Kaufmann, S. H., Polanska, J., & Weiner III, J. (2019).
+Gene set enrichment for reproducible science: comparison of CERNO and eight other algorithms.
+*Bioinformatics*, *35*(24), 5146–5154.
+\doi{10.1093/bioinformatics/btz447}
 }

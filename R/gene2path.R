@@ -20,13 +20,13 @@
 #'   Possible values are \code{"oddsratio"} (default) or \code{"likelihood"}. This parameter is only used when \code{method = "JASMINE"}.
 #'
 #' @return A data.frame with pathways as rows and samples as columns containing pathway activity scores.
-#'
 #' @details
-#' The function first filters pathways by minimum and maximum size and optionally by coverage of genes
-#' in the dataset \code{X}. Then, it applies the selected single-sample enrichment method as described below:
+#' This function filters and scores pathways using one of several single-sample enrichment methods.
+#' Each method uses a different scoring strategy. See below for method descriptions.
 #'
+#' Method summaries:
 #' \describe{
-#' \item{\code{ssGSEA}}{
+#' \item{ssGSEA}{
 #'   Single sample Gene Set Enrichment Analysis (ssGSEA) is a non-parametric method
 #'   that computes an enrichment score for each gene set and sample by calculating
 #'   the normalized difference between the empirical cumulative distribution functions (CDFs)
@@ -37,17 +37,17 @@
 #'   are normalized by dividing by the range of calculated values.
 #' }
 #'
-#' \item{\code{Mean}}{
+#' \item{Mean}{
 #'    Calculates the mean expression of pathway genes per sample, providing a simple aggregate score
 #' (\code{\link{pathMean}}). Function reflects \code{addModuleScore} from Seurat package.
 #' }
 #'
-#' \item{\code{BINA}}{
+#' \item{BINA}{
 #'    Binary scoring method based on the proportion of pathway genes expressed (non-zero) in each sample, and run
 #'    logit-transformation to generate scores (\code{\link{pathBINA}}).
 #'    }
 #'
-#' \item{\code{CERNO}}{
+#' \item{CERNO}{
 #'   Implements the CERNO pathway enrichment test (\code{\link{pathCERNO}}), which calculates pathway activity
 #'   using a non-parametric approach based on gene expression ranks. For each gene set, the method evaluates whether
 #'   the genes in the set are enriched toward the top (or bottom) of a ranked gene list for each sample.
@@ -67,22 +67,7 @@
 #'   in transcriptomic analyses. Its extensive implementation was presented in Zyla et al. (2019).
 #'   }
 #'
-#' \item{\code{Z-score}}{
-#'   The Z-score method standardizes gene expression values across samples and
-#'   calculates a combined enrichment score for each gene set using the Stouffer integration of Z scores.
-#'
-#'   Specifically, for a gene set \eqn{G = \{1, \dots, k\}} with standardized
-#'   expression values \eqn{z_1, \dots, z_k} for a given sample, the combined
-#'   Z-score \eqn{Z_{\G}} is computed as:
-#'   \deqn{
-#'     Z_{\G} = \frac{\sum_{i=1}^{k} z_i}{\sqrt{k}}
-#'   }
-#'
-#'   This approach is based on Lee et al. (2008) and aggregates standardized gene
-#'   expression values to reflect pathway activity while accounting for gene set size. The aggregation itself is known as Stouffer integration method.
-#' }
-#'
-#' \item{\code{JASMINE}}{
+#' \item{JASMINE}{
 #'   Applies the JASMINE scoring method (\code{\link{pathJASMINE}}), designed specifically for single-cell expression data.
 #'   It integrates two main components:
 #'   \enumerate{
@@ -93,7 +78,7 @@
 #'   By default, the method uses the odds ratio for effect size estimation.
 #' }
 #'
-#'  \item{\code{AUCell}}{
+#'  \item{AUCell}{
 #'  Computes pathway activity using the AUCell method (\code{\link{pathAUCell}}),
 #'    which estimates gene set enrichment per sample by calculating the Area Under the Curve (AUC)
 #'    of the recovery curve of gene set members across a ranked gene expression profile.
@@ -102,6 +87,21 @@
 #'    For details see Aibar et al. (2017).
 #'    }
 #'
+#'  \item{Z-score}{
+#'   The Z-score method standardizes gene expression values across samples and
+#'   calculates a combined enrichment score for each gene set using the Stouffer integration of Z scores.
+#'
+#'   Specifically, for a gene set \eqn{G = \{1, \dots, k\}} with standardized
+#'   expression values \eqn{z_1, \dots, z_k} for a given sample, the combined
+#'   Z-score \eqn{Z_G} is computed as:
+#'   \deqn{
+#'     Z_G = \frac{\sum_{i=1}^{k} z_i}{\sqrt{k}}
+#'   }
+#'
+#'   This approach is based on Lee et al. (2008) and aggregates standardized gene
+#'   expression values to reflect pathway activity while accounting for gene set size. The aggregation itself is known as Stouffer integration method.
+#' }
+#' }
 #' @import cli
 #'
 #' @examples

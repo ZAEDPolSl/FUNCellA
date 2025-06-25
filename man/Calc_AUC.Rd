@@ -2,18 +2,42 @@
 % Please edit documentation in R/functions_ss_support.R
 \name{Calc_AUC}
 \alias{Calc_AUC}
-\title{Function to calculate AUC for CERNO pathway enrichment}
+\title{Calculate AUC for CERNO pathway enrichment}
 \usage{
 Calc_AUC(X, df)
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{X}{A numeric matrix or data.frame of ranked expression values, where rows are genes/features
+and columns are samples. Typically obtained via \code{\link{Rank_data}}.}
 
-\item{df}{data.frame of ranked genes in pathway.}
+\item{df}{A data.frame containing a subset of \code{X} with ranked expression values for genes
+in a specific pathway (i.e., a result of \code{\link{extract_pathway}} applied to ranked data).}
 }
 \value{
-A vector of CERNO AUC calculation.
+A numeric vector of AUC values, one per sample, representing CERNO enrichment scores.
 }
 \description{
-The function...
+This function calculates the Area Under the Curve (AUC) for pathway gene ranks
+using the CERNO test, which is based on the Mann–Whitney U-statistic. It compares
+the distribution of gene ranks in a pathway against all other genes in the ranked expression matrix.
+}
+\details{
+The AUC score is computed as:
+  \deqn{
+  \text{AUC}_\gamma = \frac{n_\gamma (n - n_\gamma) + \frac{n_\gamma(n_\gamma + 1)}{2} - R_\gamma}{n_\gamma (n - n_\gamma)}
+  }
+  where \( n \) is the total number of genes, \( n_\gamma \) is the number of genes in the pathway,
+  and \( R_\gamma \) is the sum of their ranks in a given sample.
+
+  Scores closer to 1 indicate that genes in the pathway tend to have higher ranks (greater activity),
+  while values closer to 0 suggest lower relative activity.
+}
+\references{
+Zyla, J., Marczyk, M., Domaszewska, T., Kaufmann, S. H., Polanska, J., & Weiner III, J. (2019).
+Gene set enrichment for reproducible science: comparison of CERNO and eight other algorithms.
+*Bioinformatics*, *35*(24), 5146–5154.
+\doi{10.1093/bioinformatics/btz447}
+}
+\seealso{
+\code{\link{pathCERNO}}, \code{\link{Rank_data}}, \code{\link{extract_pathway}}
 }
