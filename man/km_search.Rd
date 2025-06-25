@@ -2,18 +2,27 @@
 % Please edit documentation in R/functions_gmm_support.R
 \name{km_search}
 \alias{km_search}
-\title{Function to find threshold based on GMM parameters}
+\title{Determine GMM Threshold Using K-Means Clustering}
 \usage{
 km_search(params, thrs)
 }
 \arguments{
-\item{params}{matrix of GMM decomposition parameters. Rows represent clusters while columns represent GMM parameters with following order: mean, sd, alpha.}
+\item{params}{A numeric matrix of GMM decomposition parameters. Each row corresponds to one component
+(cluster), with columns in the order: mean, standard deviation, and alpha (mixing proportion).}
 
-\item{thrs}{vector of thresholds of GMM decomposition.}
+\item{thrs}{A numeric vector of thresholds produced during GMM decomposition (typically one per component).}
 }
 \value{
-a numeric value with threshold.
+A single numeric value representing the selected GMM threshold.
 }
 \description{
-The function...
+This function selects an optimal threshold from a Gaussian Mixture Model (GMM) decomposition,
+using k-means clustering on the GMM component parameters (mean, standard deviation, and weight).
+It uses silhouette analysis to estimate the optimal number of clusters and then identifies
+the most relevant cluster for defining the threshold.
+}
+\details{
+If the number of components is one or two, the function simply returns the maximum threshold.
+Otherwise, it scales the parameters, performs k-means clustering, and selects the minimum
+threshold corresponding to the cluster with the highest mean.
 }

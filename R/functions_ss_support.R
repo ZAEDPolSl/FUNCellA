@@ -1,13 +1,22 @@
-#' Function to rank data without zero counts
+#' Rank Genes Excluding Zero Counts
 #'
-#' The function...
+#' This function ranks non-zero gene expression values within a sample and calculates
+#' the average normalized rank for a given set of genes (pathway).
+#' It excludes zero counts (dropouts) from ranking to focus on expressed genes.
 #'
-#' @param X matrix of data.
-#' @param g_vec vector of gene names from pathway.
+#' @param X A numeric matrix or data.frame with genes/features as rows and samples as columns.
+#' @param g_vec Character vector of gene names representing the gene set/pathway.
 #'
-#' @return A vector of ranked genes.
+#' @return A numeric value representing the average normalized rank of genes in \code{g_vec}
+#'   relative to all non-zero genes in \code{X}.
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
+#'
+#' @references
+#' Noureen, N., Ye, Z., Chen, Y., Wang, X., & Zheng, S. (2022).
+#' Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
+#' *Elife*, *11*, e71994.
+#' \doi{10.7554/eLife.71994}
 #'
 Rank_dropout<- function(X,g_vec){
 
@@ -19,13 +28,15 @@ Rank_dropout<- function(X,g_vec){
   return(final_rank)
 }
 
-#' Function to rank data within sample
+#' Rank Genes Within Each Sample
 #'
-#' The function...
+#' This function ranks gene expression values across genes within each sample (column-wise),
+#' using average ranks for ties.
 #'
-#' @param X matrix or data.frame of data.
+#' @param X A numeric matrix or data.frame with genes/features as rows and samples as columns.
 #'
-#' @return A data.frame with ranked genes rows and samples in columns.
+#' @return A data.frame of the same dimensions as \code{X}, containing ranked values
+#'   for each gene within each sample (higher expression values receive lower ranks).
 #'
 #' @importFrom matrixStats colRanks
 #'
@@ -38,12 +49,16 @@ Rank_data <- function(X) {
 
 #' Function to extract matrix of genes in pathway
 #'
-#' The function...
+#' This function extracts and returns the expression matrix corresponding to genes in a specified pathway.
+#' Genes with zero or undefined variance across samples are removed to ensure informative input
+#' for downstream analysis.
 #'
-#' @param X matrix of data.
-#' @param g_vec vector of gene names from pathway.
+#' @param X A numeric matrix or data.frame with genes/features as rows and samples as columns.
+#'   Row names (gene identifiers) must be provided.
+#' @param g_vec Character vector of gene names representing the gene set/pathway.
 #'
-#' @return A data.frame with pathway genes in rows and samples in columns.
+#' @return A data.frame containing only the genes in \code{g_vec} that are present in \code{X},
+#'   excluding genes with zero or missing variance.
 #'
 #' @importFrom matrixStats rowVars
 #'
@@ -61,15 +76,38 @@ extract_pathway <- function(X,g_vec){
 }
 
 
-#' Function to calculate AUC for CERNO pathway enrichment
+#' Calculate AUC for CERNO pathway enrichment
 #'
-#' The function...
+#' This function calculates the Area Under the Curve (AUC) for pathway gene ranks
+#' using the CERNO test, which is based on the Mann–Whitney U-statistic. It compares
+#' the distribution of gene ranks in a pathway against all other genes in the ranked expression matrix.
 #'
-#' @param X matrix of data.
-#' @param df data.frame of ranked genes in pathway.
 #'
-#' @return A vector of CERNO AUC calculation.
+#' @param X A numeric matrix or data.frame of ranked expression values, where rows are genes/features
+#'   and columns are samples. Typically obtained via \code{\link{Rank_data}}.
+#' @param df A data.frame containing a subset of \code{X} with ranked expression values for genes
+#'   in a specific pathway (i.e., a result of \code{\link{extract_pathway}} applied to ranked data).
 #'
+#' @return A numeric vector of AUC values, one per sample, representing CERNO enrichment scores.
+#'
+#' @details
+#' The AUC score is computed as:
+#'   \deqn{
+#'   \text{AUC}_\gamma = \frac{n_\gamma (n - n_\gamma) + \frac{n_\gamma(n_\gamma + 1)}{2} - R_\gamma}{n_\gamma (n - n_\gamma)}
+#'   }
+#'   where \( n \) is the total number of genes, \( n_\gamma \) is the number of genes in the pathway,
+#'   and \( R_\gamma \) is the sum of their ranks in a given sample.
+#'
+#'   Scores closer to 1 indicate that genes in the pathway tend to have higher ranks (greater activity),
+#'   while values closer to 0 suggest lower relative activity.
+#'
+#' @seealso \code{\link{pathCERNO}}, \code{\link{Rank_data}}, \code{\link{extract_pathway}}
+#'
+#' @references
+#' Zyla, J., Marczyk, M., Domaszewska, T., Kaufmann, S. H., Polanska, J., & Weiner III, J. (2019).
+#' Gene set enrichment for reproducible science: comparison of CERNO and eight other algorithms.
+#' *Bioinformatics*, *35*(24), 5146–5154.
+#' \doi{10.1093/bioinformatics/btz447}
 #'
 Calc_AUC <- function(X,df) {
   row_AUC <- apply(as.matrix(df), 2, function(col) {
@@ -80,16 +118,32 @@ Calc_AUC <- function(X,df) {
   return(row_AUC)
 }
 
-#' Function to calculated Odds Ratio in JASMINE pathway enrichment
+#' Calculate Odds Ratios for JASMINE Pathway Enrichment
 #'
-#' The function...
+#' This function computes the odds ratio (OR) for each sample, assessing the enrichment
+#' of a pathway by comparing the presence (non-zero expression) of genes in the pathway
+#' versus those not in the pathway. It is used as an effect size component in the
+#' JASMINE scoring method for single-cell data.
 #'
-#' @param X matrix of data.
-#' @param g_vec vector of gene names from pathway.
+#' @param X A numeric matrix or data.frame with genes/features as rows and samples as columns.
+#'   Row names (gene identifiers) must be provided.
+#' @param g_vec Character vector of gene names representing the gene set/pathway.
 #'
-#' @return A vector of odds ratios.
+#' @return A numeric vector of odds ratios, one per sample. Higher values indicate stronger
+#'   enrichment of the pathway's genes in the expressed gene set of each sample.
+#'
+#' @details
+#' The odds ratio is computed based on the contingency table of expressed vs. non-expressed
+#' genes for both pathway and non-pathway genes. A pseudocount is used to prevent division
+#' by zero in cases with no expression.
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
+#'
+#' @references
+#' Noureen, N., Ye, Z., Chen, Y., Wang, X., & Zheng, S. (2022).
+#' Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
+#' *Elife*, *11*, e71994.
+#' \doi{10.7554/eLife.71994}
 #'
 Calc_OR <- function(X,g_vec){
   sig_gene_indices <- which(rownames(X) %in% g_vec)
@@ -105,16 +159,27 @@ Calc_OR <- function(X,g_vec){
   return(OR)
 }
 
-#' Function to calculated Likelihood in JASMINE pathway enrichment
+#' Function to calculate Likelihood score in JASMINE pathway enrichment
 #'
-#' The function...
+#' This function computes the likelihood ratio statistic for pathway enrichment,
+#' comparing the expression of genes in the provided gene set  against non-pathway genes
+#' across all samples. The output reflects the relative likelihood that genes in the pathway
+#' are enriched in the non-zero expression profile of each sample.
 #'
-#' @param X matrix of data.
-#' @param g_vec vector of gene names from pathway.
+#' @param X A numeric matrix or data.frame with genes/features as rows and samples as columns.
+#'   Row names (gene identifiers) must be provided.
+#' @param g_vec Character vector of gene names representing the gene set/pathway.
 #'
-#' @return A vector of likelihoods.
+#' @return A numeric vector of likelihood ratios, one per sample. Higher values indicate stronger
+#'   enrichment of the pathway's genes in the expressed gene set of each sample.
 #'
 #' @source \url{https://github.com/NNoureen/JASMINE}
+#'
+#' @references
+#' Noureen, N., Ye, Z., Chen, Y., Wang, X., & Zheng, S. (2022).
+#' Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
+#' *Elife*, *11*, e71994.
+#' \doi{10.7554/eLife.71994}
 #'
 Calc_Likelihood <- function(X, g_vec) {
   sig_gene_indices <- which(rownames(X) %in% g_vec)
@@ -134,14 +199,18 @@ Calc_Likelihood <- function(X, g_vec) {
   return(LR)
 }
 
-#' Function to min-max normalization
+#' Function for Min-Max Normalization
 #'
-#' The function...
+#' This function applies min-max normalization to a numeric vector, scaling the values to the range [0, 1].
+#' It is commonly used to standardize feature values before further analysis or scoring.
 #'
-#' @param x vector of of data.
+#' @param x A numeric vector of data to be normalized.
 #'
-#' @return A vector of normalized data.
+#' @return A numeric vector of the same length as \code{x}.
 #'
+#' @examples
+#' scale_minmax(c(2, 4, 6, 8))
+#' # Returns: c(0, 0.333, 0.667, 1)
 #'
 scale_minmax <- function(x)
 {
@@ -149,35 +218,70 @@ scale_minmax <- function(x)
   return(x_scale)
 }
 
-#' Function to z-score normalization
+#' Function for Z-Score Normalization
 #'
-#' The function...
+#' This function applies z-score normalization (standardization) across each row of a numeric matrix or to a numeric vector.
+#' For matrices, it standardizes each row to have a mean of 0 and standard deviation of 1.
+#' For vectors, it standardizes the values globally.
 #'
-#' @param X matrix or vector of of data.
+#' @param X A numeric matrix or vector. For matrices, rows are standardized independently.
 #'
-#' @return A matrix or vector of normalized data.
+#' @return A numeric matrix or vector of the same shape as \code{X}, containing z-score normalized values.
 #'
 #' @importFrom stats sd
 #'
-scale_zscore <- function(X)
-{
-  row_means <- rowMeans(X)
-  row_sds <- apply(X, 1, sd)
-  x_scale <- (X - row_means) / row_sds
-  return(x_scale)
+#' @examples
+#' mat <- matrix(1:9, nrow = 3, byrow = TRUE)
+#' scale_zscore(mat)
+#'
+#' vec <- c(1, 2, 3, 4, 5)
+#' scale_zscore(vec)
+#'
+scale_zscore <- function(X) {
+  if (is.vector(X)) {
+    x_mean <- mean(X)
+    x_sd <- sd(X)
+    return((X - x_mean) / x_sd)
+  } else {
+    row_means <- rowMeans(X)
+    row_sds <- apply(X, 1, sd)
+    x_scale <- (X - row_means) / row_sds
+    return(x_scale)
+  }
 }
 
-#' Function to calculate JASMINE score pathway enrichment
+#' JASMINE Pathway Enrichment Scoring Function
 #'
-#' The function...
+#' This function computes pathway enrichment scores using the JASMINE method, which is designed for single-cell data.
+#' JASMINE integrates a dropout-based gene ranking component with an effect size adjustment using either the odds ratio
+#' (default) or a likelihood-based statistic. The scores are normalized via min-max scaling, and the final score is the
+#' average of the ranking and the effect size components.
 #'
-#' @param X matrix of data.
-#' @param g_vec vector of gene names from pathway.
-#' @param type type of adjustment of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.
+#' @param X A numeric matrix or data.frame with genes/features as rows and samples as columns.
+#'   Row names (gene identifiers) must be provided.
+#' @param g_vec Character vector of gene names representing the gene set/pathway.
+#' @param type A character string indicating the type of effect size adjustment to use.
+#'   Valid options are \code{"oddsratio"} (default) and \code{"likelihood"}.
 #'
-#' @return A vector of normalized JASMINE score.
+#' @return A numeric vector of normalized JASMINE scores, one per sample/cell. Higher scores indicate greater pathway activity.
 #'
+#' @details
+#' The JASMINE score is computed by:
+#' \itemize{
+#'   \item Ranking expressed genes (non-zero) using a dropout-aware strategy.
+#'   \item Calculating an effect size (odds ratio or likelihood) to quantify overrepresentation.
+#'   \item Scaling both components via min-max normalization.
+#'   \item Averaging the two normalized components for the final score.
+#' }
+#' If the effect size cannot be computed (e.g., all values are \code{NA}), the score is based solely on the ranking component.
+
 #' @source \url{https://github.com/NNoureen/JASMINE}
+#'
+#' @references
+#' Noureen, N., Ye, Z., Chen, Y., Wang, X., & Zheng, S. (2022).
+#' Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
+#' *Elife*, *11*, e71994.
+#' \doi{10.7554/eLife.71994}
 #'
 JASMINE <- function(X,g_vec,type="oddsratio")
 {

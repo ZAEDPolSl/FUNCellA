@@ -2,16 +2,18 @@
 % Please edit documentation in R/functions_ss_support.R
 \name{Rank_data}
 \alias{Rank_data}
-\title{Function to rank data within sample}
+\title{Rank Genes Within Each Sample}
 \usage{
 Rank_data(X)
 }
 \arguments{
-\item{X}{matrix or data.frame of data.}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.}
 }
 \value{
-A data.frame with ranked genes rows and samples in columns.
+A data.frame of the same dimensions as \code{X}, containing ranked values
+  for each gene within each sample (higher expression values receive lower ranks).
 }
 \description{
-The function...
+This function ranks gene expression values across genes within each sample (column-wise),
+using average ranks for ties.
 }

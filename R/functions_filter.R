@@ -1,10 +1,14 @@
-#' Function to check coverage of gene-pathway mapping
+#' Filter Pathways by Gene Coverage in Expression Data
 #'
-#' The function...
+#' This function filters out pathways from a list based on the fraction of their genes that
+#' are present (mapped) in the expression matrix \code{X}. Only pathways meeting the minimum coverage
+#' threshold \code{filt_cov} are retained.
 #'
-#' @param X matrix of data.
-#' @param pathway list of pathways to analysis
-#' @param filt_cov numeric vector of length 1. Minimum \% of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65\% will be taken.
+#' @param X A numeric matrix or data.frame with genes/features as rows and samples as columns.
+#'   Row names (gene identifiers) must be provided.
+#' @param pathway A named list of pathways, where each element is a character vector of gene identifiers.
+#' @param filt_cov Numeric value between 0 and 1 indicating the minimum fraction of pathway genes
+#'   that must be present in \code{X} to include the pathway. Default is 0 (no coverage filtering).
 #'
 #' @return A list of filtered pathways.
 #'
@@ -39,13 +43,16 @@ filter_cover<- function(X,pathway,filt_cov){
   return(pathway)
 }
 
-#' Function to remove pathways from analysis by their size
+#' Filter Pathways by Size
 #'
-#' The function...
+#' This function removes pathways from a list based on the number of genes they contain. It is typically used
+#' prior to enrichment analysis to exclude pathways that are too small or too large, which may bias the results.
 #'
-#' @param pathway list of pathways to analysis
-#' @param filt_min numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.
-#' @param filt_max numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.
+#' @param pathway A named list of pathways, where each element is a character vector of gene identifiers.
+#' @param filt_min Integer specifying the minimum size (number of genes) a pathway must have after mapping to \code{X}.
+#'   Default is 15.
+#' @param filt_max Integer specifying the maximum size (number of genes) a pathway can have after mapping to \code{X}.
+#'   Default is 500.
 #'
 #' @return A list of filtered pathways.
 #'

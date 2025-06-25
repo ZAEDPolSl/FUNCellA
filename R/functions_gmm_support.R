@@ -1,10 +1,21 @@
-#' Function to find last consecutive true
+#' Find the Last Run of Consecutive TRUE Values
 #'
-#' The function...
+#' This function identifies the indices of the last contiguous (consecutive) sequence
+#' of \code{TRUE} values within a logical vector.
 #'
-#' @param row vector of data
+#' @param row A logical vector (e.g., output of a comparison or logical condition).
 #'
-#' @return A vector of ranked genes.
+#' @return An integer vector of indices corresponding to the last consecutive \code{TRUE} segment.
+#' If no \code{TRUE} values are found, returns \code{NA}.
+#'
+#' @examples
+#' x <- c(FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE)
+#' last_consecutive_true(x)
+#' # Returns: 5 6 7
+#'
+#' y <- c(FALSE, FALSE, FALSE)
+#' last_consecutive_true(y)
+#' # Returns: NA
 #'
 #' @importFrom utils tail
 #'
@@ -18,14 +29,22 @@ last_consecutive_true <- function(row) {
   return(last_run)
 }
 
-#' Function to find threshold based on GMM parameters
+#' Determine GMM Threshold Using K-Means Clustering
 #'
-#' The function...
+#' This function selects an optimal threshold from a Gaussian Mixture Model (GMM) decomposition,
+#' using k-means clustering on the GMM component parameters (mean, standard deviation, and weight).
+#' It uses silhouette analysis to estimate the optimal number of clusters and then identifies
+#' the most relevant cluster for defining the threshold.
 #'
-#' @param params matrix of GMM decomposition parameters. Rows represent clusters while columns represent GMM parameters with following order: mean, sd, alpha.
-#' @param thrs vector of thresholds of GMM decomposition.
+#' If the number of components is one or two, the function simply returns the maximum threshold.
+#' Otherwise, it scales the parameters, performs k-means clustering, and selects the minimum
+#' threshold corresponding to the cluster with the highest mean.
 #'
-#' @return a numeric value with threshold.
+#' @param params A numeric matrix of GMM decomposition parameters. Each row corresponds to one component
+#'   (cluster), with columns in the order: mean, standard deviation, and alpha (mixing proportion).
+#' @param thrs A numeric vector of thresholds produced during GMM decomposition (typically one per component).
+#'
+#' @return A single numeric value representing the selected GMM threshold.
 #'
 #' @import factoextra
 #' @importFrom stats kmeans

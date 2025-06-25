@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions_ss_support.R
 \name{Rank_dropout}
 \alias{Rank_dropout}
-\title{Function to rank data without zero counts}
+\title{Rank Genes Excluding Zero Counts}
 \source{
 \url{https://github.com/NNoureen/JASMINE}
 }
@@ -10,13 +10,22 @@
 Rank_dropout(X, g_vec)
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.}
 
-\item{g_vec}{vector of gene names from pathway.}
+\item{g_vec}{Character vector of gene names representing the gene set/pathway.}
 }
 \value{
-A vector of ranked genes.
+A numeric value representing the average normalized rank of genes in \code{g_vec}
+  relative to all non-zero genes in \code{X}.
 }
 \description{
-The function...
+This function ranks non-zero gene expression values within a sample and calculates
+the average normalized rank for a given set of genes (pathway).
+It excludes zero counts (dropouts) from ranking to focus on expressed genes.
+}
+\references{
+Noureen, N., Ye, Z., Chen, Y., Wang, X., & Zheng, S. (2022).
+Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
+*Elife*, *11*, e71994.
+\doi{10.7554/eLife.71994}
 }

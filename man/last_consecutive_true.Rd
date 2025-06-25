@@ -2,16 +2,28 @@
 % Please edit documentation in R/functions_gmm_support.R
 \name{last_consecutive_true}
 \alias{last_consecutive_true}
-\title{Function to find last consecutive true}
+\title{Find the Last Run of Consecutive TRUE Values}
 \usage{
 last_consecutive_true(row)
 }
 \arguments{
-\item{row}{vector of data}
+\item{row}{A logical vector (e.g., output of a comparison or logical condition).}
 }
 \value{
-A vector of ranked genes.
+An integer vector of indices corresponding to the last consecutive \code{TRUE} segment.
+If no \code{TRUE} values are found, returns \code{NA}.
 }
 \description{
-The function...
+This function identifies the indices of the last contiguous (consecutive) sequence
+of \code{TRUE} values within a logical vector.
+}
+\examples{
+x <- c(FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE)
+last_consecutive_true(x)
+# Returns: 5 6 7
+
+y <- c(FALSE, FALSE, FALSE)
+last_consecutive_true(y)
+# Returns: NA
+
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions_ss_support.R
 \name{JASMINE}
 \alias{JASMINE}
-\title{Function to calculate JASMINE score pathway enrichment}
+\title{JASMINE Pathway Enrichment Scoring Function}
 \source{
 \url{https://github.com/NNoureen/JASMINE}
 }
@@ -10,15 +10,36 @@
 JASMINE(X, g_vec, type = "oddsratio")
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{g_vec}{vector of gene names from pathway.}
+\item{g_vec}{Character vector of gene names representing the gene set/pathway.}
 
-\item{type}{type of adjustment of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.}
+\item{type}{A character string indicating the type of effect size adjustment to use.
+Valid options are \code{"oddsratio"} (default) and \code{"likelihood"}.}
 }
 \value{
-A vector of normalized JASMINE score.
+A numeric vector of normalized JASMINE scores, one per sample/cell. Higher scores indicate greater pathway activity.
 }
 \description{
-The function...
+This function computes pathway enrichment scores using the JASMINE method, which is designed for single-cell data.
+JASMINE integrates a dropout-based gene ranking component with an effect size adjustment using either the odds ratio
+(default) or a likelihood-based statistic. The scores are normalized via min-max scaling, and the final score is the
+average of the ranking and the effect size components.
+}
+\details{
+The JASMINE score is computed by:
+\itemize{
+  \item Ranking expressed genes (non-zero) using a dropout-aware strategy.
+  \item Calculating an effect size (odds ratio or likelihood) to quantify overrepresentation.
+  \item Scaling both components via min-max normalization.
+  \item Averaging the two normalized components for the final score.
+}
+If the effect size cannot be computed (e.g., all values are \code{NA}), the score is based solely on the ranking component.
+}
+\references{
+Noureen, N., Ye, Z., Chen, Y., Wang, X., & Zheng, S. (2022).
+Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
+*Elife*, *11*, e71994.
+\doi{10.7554/eLife.71994}
 }

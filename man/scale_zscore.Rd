@@ -2,16 +2,26 @@
 % Please edit documentation in R/functions_ss_support.R
 \name{scale_zscore}
 \alias{scale_zscore}
-\title{Function to z-score normalization}
+\title{Function for Z-Score Normalization}
 \usage{
 scale_zscore(X)
 }
 \arguments{
-\item{X}{matrix or vector of of data.}
+\item{X}{A numeric matrix or vector. For matrices, rows are standardized independently.}
 }
 \value{
-A matrix or vector of normalized data.
+A numeric matrix or vector of the same shape as \code{X}, containing z-score normalized values.
 }
 \description{
-The function...
+This function applies z-score normalization (standardization) across each row of a numeric matrix or to a numeric vector.
+For matrices, it standardizes each row to have a mean of 0 and standard deviation of 1.
+For vectors, it standardizes the values globally.
+}
+\examples{
+mat <- matrix(1:9, nrow = 3, byrow = TRUE)
+scale_zscore(mat)
+
+vec <- c(1, 2, 3, 4, 5)
+scale_zscore(vec)
+
 }

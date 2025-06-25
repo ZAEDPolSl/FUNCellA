@@ -2,20 +2,23 @@
 % Please edit documentation in R/functions_filter.R
 \name{filter_minmax}
 \alias{filter_minmax}
-\title{Function to remove pathways from analysis by their size}
+\title{Filter Pathways by Size}
 \usage{
 filter_minmax(pathway, filt_min, filt_max)
 }
 \arguments{
-\item{pathway}{list of pathways to analysis}
+\item{pathway}{A named list of pathways, where each element is a character vector of gene identifiers.}
 
-\item{filt_min}{numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.}
+\item{filt_min}{Integer specifying the minimum size (number of genes) a pathway must have after mapping to \code{X}.
+Default is 15.}
 
-\item{filt_max}{numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.}
+\item{filt_max}{Integer specifying the maximum size (number of genes) a pathway can have after mapping to \code{X}.
+Default is 500.}
 }
 \value{
 A list of filtered pathways.
 }
 \description{
-The function...
+This function removes pathways from a list based on the number of genes they contain. It is typically used
+prior to enrichment analysis to exclude pathways that are too small or too large, which may bias the results.
 }

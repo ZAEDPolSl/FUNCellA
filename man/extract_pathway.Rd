@@ -7,13 +7,17 @@
 extract_pathway(X, g_vec)
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{g_vec}{vector of gene names from pathway.}
+\item{g_vec}{Character vector of gene names representing the gene set/pathway.}
 }
 \value{
-A data.frame with pathway genes in rows and samples in columns.
+A data.frame containing only the genes in \code{g_vec} that are present in \code{X},
+  excluding genes with zero or missing variance.
 }
 \description{
-The function...
+This function extracts and returns the expression matrix corresponding to genes in a specified pathway.
+Genes with zero or undefined variance across samples are removed to ensure informative input
+for downstream analysis.
 }

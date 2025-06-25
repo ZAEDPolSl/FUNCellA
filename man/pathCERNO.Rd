@@ -2,22 +2,42 @@
 % Please edit documentation in R/ss_methods.R
 \name{pathCERNO}
 \alias{pathCERNO}
-\title{Function to perform CERNO pathway enrichment}
+\title{Wrapper to CERNO pathway enrichment}
 \usage{
 pathCERNO(X, pathway)
 }
 \arguments{
-\item{X}{matrix or data.frame of data (rows: genes/features, columns: samples).}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{pathway}{list of pathways to analysis.}
+\item{pathway}{A named list of pathways, where each element is a character vector of gene identifiers.}
 }
 \value{
-A data.frame with pathways in rows and samples in columns.
+A data.frame with pathways as rows and samples as columns containing pathway activity scores.
 }
 \description{
-The function...
+Implements the CERNO pathway enrichment test, which calculates pathway activity
+  using a non-parametric approach based on gene expression ranks. For each gene set, the method evaluates whether
+  the genes in the set are enriched toward the top (or bottom) of a ranked gene list for each sample.
+  Specifically, it computes an Area Under the Curve (AUC)-like statistic derived from the Mann–Whitney U test.
+}
+\details{
+The AUC score is computed as:
+  \deqn{
+  \text{AUC}_\gamma = \frac{n_\gamma (n - n_\gamma) + \frac{n_\gamma(n_\gamma + 1)}{2} - R_\gamma}{n_\gamma (n - n_\gamma)}
+  }
+  where \( n \) is the total number of genes, \( n_\gamma \) is the number of genes in the pathway,
+  and \( R_\gamma \) is the sum of their ranks in a given sample.
+
+  Scores closer to 1 indicate that genes in the pathway tend to have higher ranks (greater activity),
+  while values closer to 0 suggest lower relative activity.
+
+  This approach enables robust and distribution-free inference of pathway activity, particularly useful
+  in transcriptomic analyses. Its extensive implementation was presented in Zyla et al. (2019).
 }
 \references{
-Zyla, J. et al. Gene set enrichment for reproducible science: comparison of CERNO and
-eight other algorithms. Bioinformatics, 2019, 35.24: 5146-5154.
+Zyla, J., Marczyk, M., Domaszewska, T., Kaufmann, S. H., Polanska, J., & Weiner III, J. (2019).
+Gene set enrichment for reproducible science: comparison of CERNO and eight other algorithms.
+*Bioinformatics*, *35*(24), 5146–5154.
+\doi{10.1093/bioinformatics/btz447}
 }

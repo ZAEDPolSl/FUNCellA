@@ -2,7 +2,7 @@
 % Please edit documentation in R/GMMdecomp.R
 \name{GMMdecomp}
 \alias{GMMdecomp}
-\title{Function for GMM decomposition of pathways}
+\title{Function for GMM Decomposition of Pathway Scores}
 \usage{
 GMMdecomp(X, K = 10, multiply = TRUE, IC = "BIC", parallel = FALSE)
 }
@@ -13,14 +13,25 @@ GMMdecomp(X, K = 10, multiply = TRUE, IC = "BIC", parallel = FALSE)
 
 \item{multiply}{Logical, whether to scale values by 10 before fitting GMM (default: TRUE).}
 
-\item{IC}{Information criterion used to select the number of model components.
-Possible methods are "AIC","AICc", "BIC" (default), "ICL-BIC" or "LR".}
+\item{IC}{Character string indicating the information criterion to use for model selection.
+Options are: \code{"AIC"}, \code{"AICc"}, \code{"BIC"} (default), \code{"ICL-BIC"}, or \code{"LR"}.}
 
-\item{parallel}{Logical, whether to use parallel computing (default: FALSE). (Not implemented yet)}
+\item{parallel}{Logical indicating whether to perform decomposition in parallel. Default is \code{FALSE}.
+(Note: Parallel execution is not yet implemented.)}
 }
 \value{
-Function returns...
+A named list of GMM decomposition results for each pathway (row in \code{X}). Each element in the is a list containing:
+\itemize{
+  \item \code{model}: The fitted GMM model parameters (mixture weights, means, and standard deviations).
+  \item \code{threshold}: The decision threshold calculated by the model.
+  \item Other diagnostics or intermediate outputs from \code{runGMM} in \code{dpGMM} package.
+}
 }
 \description{
-Function reduce genes to pathways.
+Performs Gaussian Mixture Model (GMM) decomposition on pathway enrichment scores across samples.
+This function reduces pathway-level data to probabilistic components, which can help detect multimodal activity patterns in gene sets.
+}
+\details{
+This function uses the \pkg{dpGMM} package to fit 1D GMMs on each pathway's expression profile across samples. When \code{multiply = TRUE},
+the data is scaled before fitting and rescaled afterward for interpretability. GMMs can help identify active vs. inactive subpopulations or other structured heterogeneity in pathway activity.
 }

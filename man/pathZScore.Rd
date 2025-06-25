@@ -2,18 +2,37 @@
 % Please edit documentation in R/ss_methods.R
 \name{pathZScore}
 \alias{pathZScore}
-\title{Function to perform Z-score integration pathway enrichment}
+\title{Wrapper to Z-score pathway enrichment}
 \usage{
 pathZScore(X, pathway)
 }
 \arguments{
-\item{X}{matrix or data.frame of data (rows: genes/features, columns: samples).}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{pathway}{list of pathways to analysis.}
+\item{pathway}{A named list of pathways, where each element is a character vector of gene identifiers.}
 }
 \value{
-A data.frame with pathways in rows and samples in columns.
+A data.frame with pathways as rows and samples as columns containing pathway activity scores.
 }
 \description{
-The function...
+The Z-score method standardizes gene expression values across samples and
+  calculates a combined enrichment score for each gene set using the Stouffer integration of Z scores.
+}
+\details{
+Specifically, for a gene set \eqn{G = \{1, \dots, k\}} with standardized
+  expression values \eqn{z_1, \dots, z_k} for a given sample, the combined
+  Z-score \eqn{Z_{\G}} is computed as:
+  \deqn{
+    Z_{\G} = \frac{\sum_{i=1}^{k} z_i}{\sqrt{k}}
+  }
+
+  This approach is based on Lee et al. (2008) and aggregates standardized gene
+  expression values to reflect pathway activity while accounting for gene set size. The aggregation itself is known as Stouffer integration method.
+}
+\references{
+Lee, E., Chuang, H.Y., Kim, J.W., Ideker, T., & Lee, D. (2008).
+Inferring pathway activity toward precise disease classification.
+*PLoS Computational Biology*, *4*(11), e1000217.
+\doi{10.1371/journal.pcbi.1000217}
 }

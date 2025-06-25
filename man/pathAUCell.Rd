@@ -2,7 +2,7 @@
 % Please edit documentation in R/ss_methods.R
 \name{pathAUCell}
 \alias{pathAUCell}
-\title{Function to perform AUCell pathway enrichment}
+\title{Wrapper to AUCell pathway enrichment}
 \source{
 \url{https://www.bioconductor.org/packages/release/bioc/html/AUCell.html}
 }
@@ -10,16 +10,25 @@
 pathAUCell(X, pathway)
 }
 \arguments{
-\item{X}{matrix or data.frame of data (rows: genes/features, columns: samples).}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{pathway}{list of pathways to analysis.}
+\item{pathway}{A named list of pathways, where each element is a character vector of gene identifiers.}
 }
 \value{
-A data.frame with pathways in rows and samples in columns.
+A data.frame with pathways as rows and samples as columns containing pathway activity scores.
 }
 \description{
-The function...
+Computes pathway activity using the AUCell method, which estimates gene set enrichment per sample by calculating the Area Under the Curve (AUC)
+   of the recovery curve of gene set members across a ranked gene expression profile.
+   Conceptually, the AUC reflects the proportion of pathway genes found within the top-ranked
+   genes of each sample. The number of top genes considered is controlled is set to 5% of the total number of genes.
+   For details see Aibar et al. (2017).
 }
 \references{
-Aibar S, Bravo Gonzalez-Blas C, Moerman T, Huynh-Thu V, Imrichova H, Hulselmans G, Rambow F, Marine J, Geurts P, Aerts J, van den Oord J, Kalender Atak Z, Wouters J, Aerts S (2017). “SCENIC: Single-Cell Regulatory Network Inference And Clustering.” Nature Methods, 14, 1083-1086. doi:10.1038/nmeth.4463.
+Aibar, S., Bravo González-Blas, C., Moerman, T., Huynh-Thu, V.A., Imrichová, H., Hulselmans, G.,
+Rambow, F., Marine, J.C., Geurts, P., Aerts, J., van den Oord, J., Kalender Atak, Z., Wouters, J., & Aerts, S. (2017).
+SCENIC: Single-cell regulatory network inference and clustering.
+*Nature Methods*, *14*, 1083–1086.
+\doi{10.1038/nmeth.4463}
 }

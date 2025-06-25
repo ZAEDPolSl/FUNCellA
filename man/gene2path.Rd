@@ -2,7 +2,7 @@
 % Please edit documentation in R/gene2path.R
 \name{gene2path}
 \alias{gene2path}
-\title{Function to transform genes to pathway level by single-sample approaches}
+\title{Transform Gene-level Data to Pathway-level Scores Using Single-Sample Methods}
 \usage{
 gene2path(
   X,
@@ -15,23 +15,105 @@ gene2path(
 )
 }
 \arguments{
-\item{X}{matrix or data.frame of data (rows: genes/features, columns: samples).}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{pathway}{list of pathways to analysis.}
+\item{pathway}{A named list of pathways, where each element is a character vector of gene identifiers.}
 
-\item{method}{methods for single-sample pathway enrichment analysis. LIST them!}
+\item{method}{A character string specifying the single-sample enrichment method to use.
+Possible values are: \code{"ssGSEA"}, \code{"Mean"}, \code{"BINA"}, \code{"CERNO"}, \code{"ZSc"}, \code{"JASMINE"}, and \code{"AUCell"}.
+Default is \code{"ssGSEA"}.}
 
-\item{filt_cov}{numeric vector of length 1. Minimum \% of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65\% will be taken.}
+\item{filt_cov}{Numeric value between 0 and 1 indicating the minimum fraction of pathway genes
+that must be present in \code{X} to include the pathway. Default is 0 (no coverage filtering).}
 
-\item{filt_min}{numeric vector of length 1. Minimum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 15.}
+\item{filt_min}{Integer specifying the minimum size (number of genes) a pathway must have after mapping to \code{X}.
+Default is 15.}
 
-\item{filt_max}{numeric vector of length 1. Maximum size of the resulting pathway after gene identifier mapping. By default, the minimum size is 500.}
+\item{filt_max}{Integer specifying the maximum size (number of genes) a pathway can have after mapping to \code{X}.
+Default is 500.}
 
-\item{type}{type of adjustment of JASMINE score. By default 'oddsratio", another possible input is "likelihood". Parameter only valid for JASMINE method.}
+\item{type}{Character string indicating the type of adjustment used in the JASMINE method.
+Possible values are \code{"oddsratio"} (default) or \code{"likelihood"}. This parameter is only used when \code{method = "JASMINE"}.}
 }
 \value{
-Function returns...
+A data.frame with pathways as rows and samples as columns containing pathway activity scores.
 }
 \description{
-Function reduce genes to pathways.
+This function reduces gene-level data to pathway-level activity scores using a variety of
+single-sample pathway enrichment methods. It supports filtering pathways based on coverage
+and size, and allows adjustment of specific scoring methods.
+}
+\details{
+The function first filters pathways by minimum and maximum size and optionally by coverage of genes
+in the dataset \code{X}. Then, it applies the selected single-sample enrichment method as described below:
+
+\describe{
+\item{\code{ssGSEA}}{
+  Single sample Gene Set Enrichment Analysis (ssGSEA) is a non-parametric method
+  that computes an enrichment score for each gene set and sample by calculating
+  the normalized difference between the empirical cumulative distribution functions (CDFs)
+  of gene expression ranks inside and outside the gene set (\code{\link{pathssGSEA}}).
+
+  The implementation used here leverages the \pkg{GSVA} package and follows the
+  final normalization step described by Barbie et al. (2009), where pathway scores
+  are normalized by dividing by the range of calculated values.
+}
+
+\item{\code{Mean}}{
+   Calculates the mean expression of pathway genes per sample, providing a simple aggregate score
+(\code{\link{pathMean}}). Function reflects \code{addModuleScore} from Seurat package.
+}
+
+\item{\code{BINA}}{
+   Binary scoring method based on the proportion of pathway genes expressed (non-zero) in each sample, and run
+   logit-transformation to generate scores (\code{\link{pathBINA}}).
+   }
+
+\item{\code{CERNO}}{
+   Implements the CERNO pathway enrichment test (\code{\link{pathCERNO}}) based on cumulative sums
+   of ranked gene expression to calculate an Area Under the Curve (AUC) statistic, measuring pathway activity.
+   }
+
+\item{\code{Z-score}}{
+  The Z-score method standardizes gene expression values across samples and
+  calculates a combined enrichment score for each gene set using the Stouffer integration of Z scores.
+
+  Specifically, for a gene set \eqn{G = \{1, \dots, k\}} with standardized
+  expression values \eqn{z_1, \dots, z_k} for a given sample, the combined
+  Z-score \eqn{Z_{\G}} is computed as:
+  \deqn{
+    Z_{\G} = \frac{\sum_{i=1}^{k} z_i}{\sqrt{k}}
+  }
+
+  This approach is based on Lee et al. (2008) and aggregates standardized gene
+  expression values to reflect pathway activity while accounting for gene set size. The aggregation itself is known as Stouffer integration method.
+}
+
+\item{\code{JASMINE}}{
+  Applies the JASMINE scoring method (\code{\link{pathJASMINE}}), designed for single-cell data.
+  It integrates dropout-based gene ranking (\code{\link{Rank_dropout}}) with effect size adjustment using
+  odds ratio (\code{\link{Calc_OR}}) or likelihood (\code{\link{Calc_Likelihood}}), normalized via min-max scaling.}
+
+ \item{\code{AUCell}}{
+   Computes pathway activity using the AUCell method (\code{\link{pathAUCell}}),
+   which evaluates the Area Under the Curve (AUC) of gene expression rankings within each sample.}
+}
+}
+\examples{
+\dontrun{
+ # X: gene expression matrix, pathway: list of gene sets
+ pathway_scores <- gene2path(X, pathway, method = "ssGSEA", filt_cov = 0.65)
+}
+}
+\references{
+Barbie, D.A., Tamayo, P., Boehm, J.S., et al. (2009).
+Systematic RNA interference reveals that oncogenic KRAS-driven cancers require TBK1.
+*Nature*, *462*(7273), 108–112.
+\doi{10.1038/nature08460}
+
+Lee, E., Chuang, H.Y., Kim, J.W., Ideker, T., & Lee, D. (2008).
+Inferring pathway activity toward precise disease classification.
+*PLoS Computational Biology*, *4*(11), e1000217.
+\doi{10.1371/journal.pcbi.1000217}
 }

@@ -2,18 +2,20 @@
 % Please edit documentation in R/ss_methods.R
 \name{pathBINA}
 \alias{pathBINA}
-\title{Function to perform BINA pathway enrichment}
+\title{Wrapper to BINA pathway enrichment}
 \usage{
 pathBINA(X, pathway)
 }
 \arguments{
-\item{X}{matrix or data.frame of data (rows: genes/features, columns: samples).}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{pathway}{list of pathways to analysis.}
+\item{pathway}{A named list of pathways, where each element is a character vector of gene identifiers.}
 }
 \value{
-A data.frame with pathways in rows and samples in columns.
+A data.frame with pathways as rows and samples as columns containing pathway activity scores.
 }
 \description{
-The function...
+Binary scoring method based on the proportion of pathway genes expressed (non-zero) in each sample, and run
+   logit-transformation to generate scores.
 }

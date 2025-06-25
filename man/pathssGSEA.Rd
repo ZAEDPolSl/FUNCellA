@@ -2,7 +2,7 @@
 % Please edit documentation in R/ss_methods.R
 \name{pathssGSEA}
 \alias{pathssGSEA}
-\title{Function to perform ssGSEA pathway enrichment}
+\title{Wrapper to ssGSEA pathway enrichment}
 \source{
 \url{https://github.com/rcastelo/GSVA}
 }
@@ -10,18 +10,33 @@
 pathssGSEA(X, pathway)
 }
 \arguments{
-\item{X}{matrix or data.frame of data (rows: genes/features, columns: samples).}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{pathway}{list of pathways to analysis.}
+\item{pathway}{A named list of pathways, where each element is a character vector of gene identifiers.}
 }
 \value{
-A data.frame with pathways in rows and samples in columns.
+A data.frame with pathways as rows and samples as columns containing pathway activity scores.
 }
 \description{
-The function...
+The function ryns Single sample Gene Set Enrichment Analysis (ssGSEA) a non-parametric method
+  that computes an enrichment score for each gene set and sample by calculating
+  the normalized difference between the empirical cumulative distribution functions (CDFs)
+  of gene expression ranks inside and outside the gene set (\code{\link{pathssGSEA}}).
+}
+\details{
+The implementation used here leverages the \pkg{GSVA} (Hänzelmann et al. (2013)) package and follows the
+  final normalization step described by Barbie et al. (2009), where pathway scores
+  are normalized by dividing by the range of calculated values.
 }
 \references{
-Barbie, D.A. et al. Systematic RNA interference reveals that
-oncogenic KRAS-driven cancers require TBK1.
-Nature, 462(5):108-112, 2009.
+Barbie, D.A., Tamayo, P., Boehm, J.S., et al. (2009).
+Systematic RNA interference reveals that oncogenic KRAS-driven cancers require TBK1.
+*Nature*, *462*(7273), 108–112.
+\doi{10.1038/nature08460}
+
+Hänzelmann, S., Castelo, R., & Guinney, J. (2013).
+GSVA: gene set variation analysis for microarray and RNA-seq data.
+*BMC Bioinformatics*, *14*, 7.
+\doi{10.1186/1471-2105-14-7}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions_ss_support.R
 \name{Calc_Likelihood}
 \alias{Calc_Likelihood}
-\title{Function to calculated Likelihood in JASMINE pathway enrichment}
+\title{Function to calculate Likelihood score in JASMINE pathway enrichment}
 \source{
 \url{https://github.com/NNoureen/JASMINE}
 }
@@ -10,13 +10,24 @@
 Calc_Likelihood(X, g_vec)
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{g_vec}{vector of gene names from pathway.}
+\item{g_vec}{Character vector of gene names representing the gene set/pathway.}
 }
 \value{
-A vector of likelihoods.
+A numeric vector of likelihood ratios, one per sample. Higher values indicate stronger
+  enrichment of the pathway's genes in the expressed gene set of each sample.
 }
 \description{
-The function...
+This function computes the likelihood ratio statistic for pathway enrichment,
+comparing the expression of genes in the provided gene set  against non-pathway genes
+across all samples. The output reflects the relative likelihood that genes in the pathway
+are enriched in the non-zero expression profile of each sample.
+}
+\references{
+Noureen, N., Ye, Z., Chen, Y., Wang, X., & Zheng, S. (2022).
+Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
+*Elife*, *11*, e71994.
+\doi{10.7554/eLife.71994}
 }

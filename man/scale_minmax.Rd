@@ -2,16 +2,22 @@
 % Please edit documentation in R/functions_ss_support.R
 \name{scale_minmax}
 \alias{scale_minmax}
-\title{Function to min-max normalization}
+\title{Function for Min-Max Normalization}
 \usage{
 scale_minmax(x)
 }
 \arguments{
-\item{x}{vector of of data.}
+\item{x}{A numeric vector of data to be normalized.}
 }
 \value{
-A vector of normalized data.
+A numeric vector of the same length as \code{x}.
 }
 \description{
-The function...
+This function applies min-max normalization to a numeric vector, scaling the values to the range [0, 1].
+It is commonly used to standardize feature values before further analysis or scoring.
+}
+\examples{
+scale_minmax(c(2, 4, 6, 8))
+# Returns: c(0, 0.333, 0.667, 1)
+
 }

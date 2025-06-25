@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions_ss_support.R
 \name{Calc_OR}
 \alias{Calc_OR}
-\title{Function to calculated Odds Ratio in JASMINE pathway enrichment}
+\title{Calculate Odds Ratios for JASMINE Pathway Enrichment}
 \source{
 \url{https://github.com/NNoureen/JASMINE}
 }
@@ -10,13 +10,29 @@
 Calc_OR(X, g_vec)
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{g_vec}{vector of gene names from pathway.}
+\item{g_vec}{Character vector of gene names representing the gene set/pathway.}
 }
 \value{
-A vector of odds ratios.
+A numeric vector of odds ratios, one per sample. Higher values indicate stronger
+  enrichment of the pathway's genes in the expressed gene set of each sample.
 }
 \description{
-The function...
+This function computes the odds ratio (OR) for each sample, assessing the enrichment
+of a pathway by comparing the presence (non-zero expression) of genes in the pathway
+versus those not in the pathway. It is used as an effect size component in the
+JASMINE scoring method for single-cell data.
+}
+\details{
+The odds ratio is computed based on the contingency table of expressed vs. non-expressed
+genes for both pathway and non-pathway genes. A pseudocount is used to prevent division
+by zero in cases with no expression.
+}
+\references{
+Noureen, N., Ye, Z., Chen, Y., Wang, X., & Zheng, S. (2022).
+Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
+*Elife*, *11*, e71994.
+\doi{10.7554/eLife.71994}
 }

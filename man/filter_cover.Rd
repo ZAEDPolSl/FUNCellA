@@ -2,20 +2,24 @@
 % Please edit documentation in R/functions_filter.R
 \name{filter_cover}
 \alias{filter_cover}
-\title{Function to check coverage of gene-pathway mapping}
+\title{Filter Pathways by Gene Coverage in Expression Data}
 \usage{
 filter_cover(X, pathway, filt_cov)
 }
 \arguments{
-\item{X}{matrix of data.}
+\item{X}{A numeric matrix or data.frame with genes/features as rows and samples as columns.
+Row names (gene identifiers) must be provided.}
 
-\item{pathway}{list of pathways to analysis}
+\item{pathway}{A named list of pathways, where each element is a character vector of gene identifiers.}
 
-\item{filt_cov}{numeric vector of length 1. Minimum \% of pathway coverage after gene mapping. By default is 0 (no filtration), the 0.65 will indicate that only pathway with coverage of genes larger than 65\% will be taken.}
+\item{filt_cov}{Numeric value between 0 and 1 indicating the minimum fraction of pathway genes
+that must be present in \code{X} to include the pathway. Default is 0 (no coverage filtering).}
 }
 \value{
 A list of filtered pathways.
 }
 \description{
-The function...
+This function filters out pathways from a list based on the fraction of their genes that
+are present (mapped) in the expression matrix \code{X}. Only pathways meeting the minimum coverage
+threshold \code{filt_cov} are retained.
 }
