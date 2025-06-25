@@ -2,15 +2,9 @@ Package: SinglePathGMM
 Type: Package
 Title: Single-sample Pathway Enrichment with thresholdings
 Version: 0.1.0
-Authors@R: c(
-  person("Joanna", "Zyla", email = "joanna.zyla@polsl.pl", role = c("aut", "cre"), 
-         comment = c(ORCID = "0000-0002-2895-7969")),
-  person("Aleksandra", "Bilska", email = "aleksandra.bilska@ipipan.waw.pl", role = "aut")
-)
+Authors@R: c(person("Joanna", "Zyla", email = "joanna.zyla@polsl.pl", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2895-7969")), person("Aleksandra", "Bilska", email = "aleksandra.bilska@ipipan.waw.pl", role = "aut"))
 Maintainer: Joanna Zyla <joanna.zyla@polsl.pl>
-Description: Provides a wrapper for single-sample pathway enrichment algorithms. 
-  Additional functionality includes sample-level thresholding using various methods 
-  such as Gaussian Mixture Models (GMM), AUCell thresholding, and k-means clustering.
+Description: Description: Provides a wrapper for single-sample pathway enrichment algorithms. Additional functionality includes sample-level thresholding using various methods such as Gaussian Mixture Models (GMM), AUCell thresholding, and k-means clustering.
 URL: https://github.com/ZAEDPolSl/SinglePathGMM
 License: GPL (>= 3)
 Encoding: UTF-8

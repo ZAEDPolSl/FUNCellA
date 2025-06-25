@@ -1,17 +1,23 @@
-#' Function for threshold pathway activity scores by AUCell approach.
+#' Thresholding pathway activity scores using the AUCell approach
 #'
-#' Function search for thresholds which indicates samples with relative significant pathway activity.
-#' The process is performed based on AUCell methods
+#' Applies the AUCell package's methodology to identify thresholds that indicate
+#' samples with relatively high pathway activity. This function determines, for each
+#' pathway, which samples exhibit significant enrichment based on expression rankings.
 #'
-#' @param df_path matrix or data.frame of pathway activity scores (rows: path, columns: samples).
+#' @param df_path A numeric matrix or data.frame of pathway activity scores,
+#'   where rows correspond to pathways and columns to samples.
 #'
-#' @return vector of thresholds for AUCell method.
+#' @return A vector of threshold values.
+#'   For detailed behavior, refer to the AUCell package documentation.
 #'
 #' @import cli AUCell
 #'
 #' @source \url{https://www.bioconductor.org/packages/release/bioc/html/AUCell.html}
-#' @references Aibar S, Bravo Gonzalez-Blas C, Moerman T, Huynh-Thu V, Imrichova H, Hulselmans G, Rambow F, Marine J, Geurts P, Aerts J, van den Oord J, Kalender Atak Z, Wouters J, Aerts S (2017). “SCENIC: Single-Cell Regulatory Network Inference And Clustering.” Nature Methods, 14, 1083-1086. doi:10.1038/nmeth.4463.
-#'
+#' @references Aibar, S., Bravo González-Blas, C., Moerman, T., Huynh-Thu, V.A.,
+#'   Imrichová, H., Hulselmans, G., Rambow, F., Marine, J.C., Geurts, P., Aerts, J.,
+#'   van den Oord, J., Kalender Atak, Z., Wouters, J., & Aerts, S. (2017).
+#'   SCENIC: Single-Cell Regulatory Network Inference And Clustering. *Nature Methods*, 14, 1083–1086.
+#'   \doi{10.1038/nmeth.4463}
 #'
 #' @export
 #'

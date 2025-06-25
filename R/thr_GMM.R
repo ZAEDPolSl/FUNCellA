@@ -1,13 +1,23 @@
-#' Function for selecting thresholds for pathway activity based on GMM decoposition.
+#' Threshold selection for pathway activity using GMM decomposition
 #'
-#' Function search for thresholds which indicates samples with relative significant pathway activity.
-#' The process is performed for GMM decomposition output.
+#' This function selects thresholds indicating samples with relatively high pathway activity
+#' based on Gaussian Mixture Model (GMM) decomposition. It processes GMM output from the
+#' \code{dpGMM} package or the \code{GMMdecomp} function, extracting thresholds using different
+#' strategies, including maximum threshold (Top1) and optional k-means-based refinement.
 #'
-#' @param gmms output from GMMdecomp function or list of outputs from dpGMM package.
-#' Each first list level should refer to the decomposition of one pathway.
-#' Second level of list should include variable threshold (vector of thresholds) and model (matrix with model parameters).
+#' @param gmms A list of GMM decomposition results, where each top-level list element corresponds
+#'   to one pathway. Each element should contain:
+#'   \describe{
+#'     \item{\code{threshold}}{A numeric vector of threshold values derived from the GMM.}
+#'     \item{\code{model}}{A matrix of GMM parameters (e.g., means, variances and alphas for each component).}
+#'   }
 #'
-#' @return List of thresholds for each investigated pathway based on GMM decomposition.
+#' @return A named list of thresholding results per pathway. For each pathway, a sublist is returned with:
+#'   \describe{
+#'     \item{\code{Kmeans_thr}}{Threshold selected based on k-means clustering of GMM parameters.}
+#'     \item{\code{Top1_thr}}{Top threshold (maximum of the available thresholds).}
+#'     \item{\code{All_thr}}{All threshold values derived from the GMM.}
+#'   }
 #'
 #' @import cli
 #'
