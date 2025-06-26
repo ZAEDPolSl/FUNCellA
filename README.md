@@ -1,4 +1,4 @@
-# FUNCellA <img src='man/logo/logo.png' align="right" height="140" />
+# FUNCellA <img src='man/logo/FUNCellaA.png' align="right" height="140" />
 Here is created a package for single-sample pathway enrichment with GMM cell clustering
 
 if (!requireNamespace("BiocManager", quietly = TRUE))
