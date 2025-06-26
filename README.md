@@ -31,8 +31,8 @@ devtools::install_github("ZAEDPolSl/FUNCellA")
 ```
 ## Example of run
 ### Data
-At first let's perpare a data. You need a matrix or data.frame of you molecular biology data e.g. scRNA-Seq counts. You can use your own data or check the example from Seurat Pacakge.
-It is very important that in rownames will have your features names (genes/transripts) of the same name as in the pathways as you would like to chcek.
+At first let's perpare a data. You need a matrix or data.frame of your molecular biology data e.g. scRNA-Seq counts. You can use your own data or check the example from Seurat Pacakge.
+It is very important that in rownames you will have features names (genes/transripts) of the same name as in the pathways you would like to chcek.
 ``` r
 library(FUNCellA)
 # data - A numeric matrix or data.frame with genes/features as rows and samples as columns. Row names (gene identifiers) must be provided.
@@ -50,7 +50,7 @@ paths <- list(
 
 ### Thresholding
 
-# REFERENCES
+## REFERENCES
 Aibar, S., Bravo González-Blas, C., Moerman, T., Huynh-Thu, V.A., Imrichová, H., Hulselmans, G., Rambow, F., Marine, J.C., Geurts, P., Aerts, J., van den Oord, J., Kalender Atak, Z., Wouters, J., & Aerts, S (2017). SCENIC: Single-cell regulatory network inference and clustering. *Nature Methods*, *14*, 1083–1086.\
 Barbie, D.A., Tamayo, P., Boehm, J.S., et al. (2009). Systematic RNA interference reveals that oncogenic KRAS-driven cancers require TBK1. *Nature*, *462*(7273), 108–112.\
 Hänzelmann, S., Castelo, R., & Guinney, J. (2013). GSVA: gene set variation analysis for microarray and RNA-seq data. *BMC Bioinformatics*, *14*, 7.\
