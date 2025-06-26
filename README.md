@@ -15,7 +15,7 @@ Implemented thresholding solutions:
 2) k-means
 3) GMM thresholding with Top 1 and k-means adjustment (Zyla et al. 2025?)
 
-# Installation
+## Installation
 As the FUNCellA uses other packages from Biocunductor please install at first GSVA and AUCell pacakges.
 ``` r
 if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -29,7 +29,8 @@ install.packages("devtools")
 devtools::install_github("ZAEDPolSl/dpGMM")
 devtools::install_github("ZAEDPolSl/FUNCellA")
 ```
-# Example of run
+## Example of run
+### Data
 At first let's perpare a data. You need a matrix or data.frame of you molecular biology data e.g. scRNA-Seq counts. You can use your own data or check the example from Seurat Pacakge.
 It is very important that in rownames will have your features names (genes/transripts) of the same name as in the pathways as you would like to chcek.
 ``` r
@@ -39,12 +40,15 @@ rownames(data)
 ```
 Next you need pathways to analysis. You can use example in pacakge or creat your own.
 ``` r
-data(pathways)  # examplary pathways in the pacakge
+data(pathways)  # examplary pathways in the package
 paths <- list(
   path1 = c("MCAM", "THY1", "KLF4", "PDGFRB", "SOX2", "VCAM1", "ITGB1"),
   path2 = c("PECAM1", "CD34", "KIT", "NT5E", "CD44")
 )
 ```
+### Single-sample enrichment
+
+### Thresholding
 
 # REFERENCES
 Aibar, S., Bravo González-Blas, C., Moerman, T., Huynh-Thu, V.A., Imrichová, H., Hulselmans, G., Rambow, F., Marine, J.C., Geurts, P., Aerts, J., van den Oord, J., Kalender Atak, Z., Wouters, J., & Aerts, S (2017). SCENIC: Single-cell regulatory network inference and clustering. *Nature Methods*, *14*, 1083–1086.\
