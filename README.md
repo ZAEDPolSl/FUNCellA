@@ -1,4 +1,4 @@
-# SinglePathGMM
+# FUNCellA <img src='man/logo/logo.jpg' align="right" height="140" />
 Here is created a package for single-sample pathway enrichment with GMM cell clustering
 
 if (!requireNamespace("BiocManager", quietly = TRUE))
