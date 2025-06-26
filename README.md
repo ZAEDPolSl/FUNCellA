@@ -1,4 +1,4 @@
-# FUNCellA <img src='man/logo/FUNCellaA.png' align="right" height="140" />
+# FUNCellA <img src='man/logo/FUNCellaA.png' align="right" height="150" />
 The presented package provides a wrapper solution for single-sample pathway enrichment algorithms. Additional functionality includes sample-level thresholding.
 
 Implemented single-sample enrichment algorithms:
