@@ -79,10 +79,10 @@ Method summaries:
 
   The AUC score is computed as:
   \deqn{
-  \text{AUC}_\gamma = \frac{n_\gamma (n - n_\gamma) + \frac{n_\gamma(n_\gamma + 1)}{2} - R_\gamma}{n_\gamma (n - n_\gamma)}
+  \text{AUC}_G = \frac{n_G (n - n_G) + \frac{n_G(n_G + 1)}{2} - R_G}{n_G (n - n_G)}
   }
-  where \( n \) is the total number of genes, \( n_\gamma \) is the number of genes in the pathway,
-  and \( R_\gamma \) is the sum of their ranks in a given sample.
+  where \( n \) is the total number of genes, \( n_G \) is the number of genes in the pathway,
+  and \( R_G \) is the sum of their ranks in a given sample.
 
   Scores closer to 1 indicate that genes in the pathway tend to have higher ranks (greater activity),
   while values closer to 0 suggest lower relative activity.
@@ -111,7 +111,7 @@ Method summaries:
    For details see Aibar et al. (2017).
    }
 
- \item{Z-score}{
+ \item{ZSc}{
   The Z-score method standardizes gene expression values across samples and
   calculates a combined enrichment score for each gene set using the Stouffer integration of Z scores.
 

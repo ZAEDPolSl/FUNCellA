@@ -171,12 +171,12 @@ pathJASMINE<-function(X,pathway,type="oddsratio"){
 #'   the genes in the set are enriched toward the top (or bottom) of a ranked gene list for each sample.
 #'   Specifically, it computes an Area Under the Curve (AUC)-like statistic derived from the Mann–Whitney U test.
 #'
-#'   The AUC score is computed as:
+#'  The AUC score is computed as:
 #'   \deqn{
-#'   \text{AUC}_\gamma = \frac{n_\gamma (n - n_\gamma) + \frac{n_\gamma(n_\gamma + 1)}{2} - R_\gamma}{n_\gamma (n - n_\gamma)}
+#'   \text{AUC}_G = \frac{n_G (n - n_G) + \frac{n_G(n_G + 1)}{2} - R_G}{n_G (n - n_G)}
 #'   }
-#'   where \( n \) is the total number of genes, \( n_\gamma \) is the number of genes in the pathway,
-#'   and \( R_\gamma \) is the sum of their ranks in a given sample.
+#'   where \( n \) is the total number of genes, \( n_G \) is the number of genes in the pathway,
+#'   and \( R_G \) is the sum of their ranks in a given sample.
 #'
 #'   Scores closer to 1 indicate that genes in the pathway tend to have higher ranks (greater activity),
 #'   while values closer to 0 suggest lower relative activity.
