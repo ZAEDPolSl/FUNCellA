@@ -1,14 +1,14 @@
 # FUNCellA <img src='man/logo/FUNCellaA.png' align="right" height="140" />
-The presented package provides a wrapper solution for single-sample pathway enrichment algorithms. Additional functionality includes sample-level thresholding. using various methods such as Gaussian Mixture Models (GMM), AUCell thresholding, and k-means clustering.
+The presented package provides a wrapper solution for single-sample pathway enrichment algorithms. Additional functionality includes sample-level thresholding.
 
 Implemented single-sample enrichment algorithms:
-1) ssGSEA (Barbie et al. 2009, Hänzelmann et al. 2013)
-2) CERNO AUU (Zyla et al. 2019)
-3) Z-score (Lee et al. 2008)
-4) Mean
-5) JASMINE (Noureen et al. 2022)
-6) AUCell scoring (Aibar et al. 2017)
-7) BINA (Zyla et al. 2025?)
+1) AUCell scoring (Aibar et al. 2017) - scRNA-Seq only
+2) BINA (Zyla et al. 2025?) - scRNA-Seq only
+3) CERNO AUC (Zyla et al. 2019)
+4) JASMINE (Noureen et al. 2022) - scRNA-Seq only
+5) Mean
+6) ssGSEA (Barbie et al. 2009, Hänzelmann et al. 2013)
+7) Z-score (Lee et al. 2008)
 
 Implemented thresholding solutions:
 1) AUCell package thresholding (Aibar et al. 2017)
