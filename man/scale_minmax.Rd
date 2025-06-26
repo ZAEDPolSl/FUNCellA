@@ -19,5 +19,5 @@ It is commonly used to standardize feature values before further analysis or sco
 \examples{
 scale_minmax(c(2, 4, 6, 8))
 # Returns: c(0, 0.333, 0.667, 1)
-
 }
+\keyword{internal}

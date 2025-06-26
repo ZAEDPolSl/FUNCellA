@@ -27,3 +27,4 @@ last_consecutive_true(y)
 # Returns: NA
 
 }
+\keyword{internal}

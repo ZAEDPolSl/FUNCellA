@@ -21,3 +21,4 @@ This function extracts and returns the expression matrix corresponding to genes 
 Genes with zero or undefined variance across samples are removed to ensure informative input
 for downstream analysis.
 }
+\keyword{internal}

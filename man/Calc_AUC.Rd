@@ -41,3 +41,4 @@ Gene set enrichment for reproducible science: comparison of CERNO and eight othe
 \seealso{
 \code{\link{pathCERNO}}, \code{\link{Rank_data}}, \code{\link{extract_pathway}}
 }
+\keyword{internal}

@@ -23,5 +23,5 @@ scale_zscore(mat)
 
 vec <- c(1, 2, 3, 4, 5)
 scale_zscore(vec)
-
 }
+\keyword{internal}

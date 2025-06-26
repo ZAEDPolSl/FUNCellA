@@ -17,7 +17,7 @@
 #' Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
 #' *Elife*, *11*, e71994.
 #' \doi{10.7554/eLife.71994}
-#'
+#' @keywords internal
 Rank_dropout<- function(X,g_vec){
 
   subdata = X[X!=0]
@@ -40,7 +40,7 @@ Rank_dropout<- function(X,g_vec){
 #'
 #' @importFrom matrixStats colRanks
 #'
-#'
+#' @keywords internal
 Rank_data <- function(X) {
   X<--X
   rank_matrix<- colRanks(as.matrix(X), ties.method="average", preserveShape=TRUE, decreasing=TRUE)
@@ -62,7 +62,7 @@ Rank_data <- function(X) {
 #'
 #' @importFrom matrixStats rowVars
 #'
-#'
+#' @keywords internal
 extract_pathway <- function(X,g_vec){
   g_vec<-unlist(g_vec)
   poz<-match(g_vec,rownames(X))
@@ -108,7 +108,7 @@ extract_pathway <- function(X,g_vec){
 #' Gene set enrichment for reproducible science: comparison of CERNO and eight other algorithms.
 #' *Bioinformatics*, *35*(24), 5146–5154.
 #' \doi{10.1093/bioinformatics/btz447}
-#'
+#' @keywords internal
 Calc_AUC <- function(X,df) {
   row_AUC <- apply(as.matrix(df), 2, function(col) {
     cell <- as.numeric(col)
@@ -144,7 +144,7 @@ Calc_AUC <- function(X,df) {
 #' Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
 #' *Elife*, *11*, e71994.
 #' \doi{10.7554/eLife.71994}
-#'
+#' @keywords internal
 Calc_OR <- function(X,g_vec){
   sig_gene_indices <- which(rownames(X) %in% g_vec)
   non_sig_gene_indices <- setdiff(seq_len(nrow(X)), sig_gene_indices)
@@ -180,7 +180,7 @@ Calc_OR <- function(X,g_vec){
 #' Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
 #' *Elife*, *11*, e71994.
 #' \doi{10.7554/eLife.71994}
-#'
+#' @keywords internal
 Calc_Likelihood <- function(X, g_vec) {
   sig_gene_indices <- which(rownames(X) %in% g_vec)
   non_sig_gene_indices <- setdiff(seq_len(nrow(X)), sig_gene_indices)
@@ -211,7 +211,7 @@ Calc_Likelihood <- function(X, g_vec) {
 #' @examples
 #' scale_minmax(c(2, 4, 6, 8))
 #' # Returns: c(0, 0.333, 0.667, 1)
-#'
+#' @keywords internal
 scale_minmax <- function(x)
 {
   x_scale = (x - min(x))/(max(x)- min(x))
@@ -236,7 +236,7 @@ scale_minmax <- function(x)
 #'
 #' vec <- c(1, 2, 3, 4, 5)
 #' scale_zscore(vec)
-#'
+#' @keywords internal
 scale_zscore <- function(X) {
   if (is.vector(X)) {
     x_mean <- mean(X)
@@ -282,7 +282,7 @@ scale_zscore <- function(X) {
 #' Signature-scoring methods developed for bulk samples are not adequate for cancer single-cell RNA sequencing data.
 #' *Elife*, *11*, e71994.
 #' \doi{10.7554/eLife.71994}
-#'
+#' @keywords internal
 JASMINE <- function(X,g_vec,type="oddsratio")
 {
   g_vec<-unlist(g_vec)

@@ -17,3 +17,4 @@ A data.frame of the same dimensions as \code{X}, containing ranked values
 This function ranks gene expression values across genes within each sample (column-wise),
 using average ranks for ties.
 }
+\keyword{internal}

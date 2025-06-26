@@ -26,3 +26,4 @@ If the number of components is one or two, the function simply returns the maxim
 Otherwise, it scales the parameters, performs k-means clustering, and selects the minimum
 threshold corresponding to the cluster with the highest mean.
 }
+\keyword{internal}

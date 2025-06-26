@@ -18,7 +18,7 @@
 #' # Returns: NA
 #'
 #' @importFrom utils tail
-#'
+#' @keywords internal
 last_consecutive_true <- function(row) {
   true_indices <- which(row)
   if (length(true_indices) == 0) {
@@ -48,7 +48,7 @@ last_consecutive_true <- function(row) {
 #'
 #' @import factoextra
 #' @importFrom stats kmeans
-#'
+#' @keywords internal
 km_search<-function(params,thrs){
 
   # One or two distribution

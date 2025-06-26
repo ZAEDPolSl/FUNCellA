@@ -29,3 +29,4 @@ Signature-scoring methods developed for bulk samples are not adequate for cancer
 *Elife*, *11*, e71994.
 \doi{10.7554/eLife.71994}
 }
+\keyword{internal}
