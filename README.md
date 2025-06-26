@@ -29,7 +29,22 @@ install.packages("devtools")
 devtools::install_github("ZAEDPolSl/dpGMM")
 devtools::install_github("ZAEDPolSl/FUNCellA")
 ```
-
+# Example of run
+At first let's perpare a data. You need a matrix or data.frame of you molecular biology data e.g. scRNA-Seq counts. You can use your own data or check the example from Seurat Pacakge.
+It is very important that in rownames will have your features names (genes/transripts) of the same name as in the pathways as you would like to chcek.
+``` r
+library(FUNCellA)
+# data - A numeric matrix or data.frame with genes/features as rows and samples as columns. Row names (gene identifiers) must be provided.
+rownames(data)
+```
+Next you need pathways to analysis. You can use example in pacakge or creat your own.
+``` r
+data(pathways)  # examplary pathways in the pacakge
+paths <- list(
+  path1 = c("MCAM", "THY1", "KLF4", "PDGFRB", "SOX2", "VCAM1", "ITGB1"),
+  path2 = c("PECAM1", "CD34", "KIT", "NT5E", "CD44")
+)
+```
 
 # REFERENCES
 Aibar, S., Bravo González-Blas, C., Moerman, T., Huynh-Thu, V.A., Imrichová, H., Hulselmans, G., Rambow, F., Marine, J.C., Geurts, P., Aerts, J., van den Oord, J., Kalender Atak, Z., Wouters, J., & Aerts, S (2017). SCENIC: Single-cell regulatory network inference and clustering. *Nature Methods*, *14*, 1083–1086.\
