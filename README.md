@@ -27,7 +27,7 @@ Next install package from git by devtools.
 ``` r
 install.packages("devtools")
 devtools::install_github("ZAEDPolSl/dpGMM")
-devtools::install_github("ZAEDPolSl/SinglePathGMM")
+devtools::install_github("ZAEDPolSl/FUNCellA")
 ```
 
 
