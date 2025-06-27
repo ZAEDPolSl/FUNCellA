@@ -53,6 +53,18 @@ path_level<-gene2path(data, pathways)
 ?gene2path
 ```
 ### Thresholding
+Finally, you can group samples by their pathways activity (each pathway separately). For AUCell package thresholding and simple K-measn you use results from previous step.
+```r
+# extracte only 3 pathwasy to speed up
+TA<-thr_AUCell(path_level[1:3,])
+TKM<-thr_KM(path_level[1:3,])
+```
+For GMM solution at first you need to performe decomposition of signal and than perfrome thresholding search.
+```r
+# extracte only 3 pathwasy to speed up
+res_gmm<-GMMdecomp(path_level[1:3,], K=10, multiply = T)
+TGMM<-thr_GMM(res_gmm)
+```
 
 ## REFERENCES
 Aibar, S., Bravo González-Blas, C., Moerman, T., Huynh-Thu, V.A., Imrichová, H., Hulselmans, G., Rambow, F., Marine, J.C., Geurts, P., Aerts, J., van den Oord, J., Kalender Atak, Z., Wouters, J., & Aerts, S (2017). SCENIC: Single-cell regulatory network inference and clustering. *Nature Methods*, *14*, 1083–1086.\
