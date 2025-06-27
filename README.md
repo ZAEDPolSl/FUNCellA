@@ -38,7 +38,7 @@ library(FUNCellA)
 # data - A numeric matrix or data.frame with genes/features as rows and samples as columns. Row names (gene identifiers) must be provided.
 rownames(data)
 ```
-Next you need pathways to analysis. You can use example in pacakge or creat your own.
+Next you need pathways to analysis. You can use example in package or create your own.
 ``` r
 data(pathways)  # examplary pathways in the package
 paths <- list(
@@ -47,19 +47,19 @@ paths <- list(
 )
 ```
 ### Single-sample enrichment
-Now let's run transformation from genes/feature level to pahway level using gene2path function. By default it will use CERNO approach and apply some filtration; for deatailes see help.
+Now let's run transformation from genes/feature level to pahway level using gene2path function. By default it will use CERNO approach and apply some filtration; for details see help.
 ``` r
 path_level<-gene2path(data, pathways)
 ?gene2path
 ```
 ### Thresholding
-Finally, you can group samples by their pathways activity (each pathway separately). For AUCell package thresholding and simple K-measn you use results from previous step.
+Finally, you can group samples by their pathways activity (each pathway separately). For AUCell package thresholding and simple K-means you use results from previous step.
 ```r
 # extracte only 3 pathwasy to speed up
 TA<-thr_AUCell(path_level[1:3,])
 TKM<-thr_KM(path_level[1:3,])
 ```
-For GMM solution at first you need to performe decomposition of signal and than perfrome thresholding search.
+For GMM solution at first you need to perform decomposition of signal and then perform thresholding search.
 ```r
 # extracte only 3 pathwasy to speed up
 res_gmm<-GMMdecomp(path_level[1:3,], K=10, multiply = T)
