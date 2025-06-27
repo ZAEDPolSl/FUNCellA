@@ -56,14 +56,12 @@ path_level<-gene2path(data, pathways)
 ### Thresholding
 Finally, you can group samples by their pathways activity (each pathway separately). For AUCell package thresholding and simple K-means you use results from previous step.
 ```r
-# extracte only 3 pathwasy to speed up
-TA<-thr_AUCell(path_level[1:3,])
-TKM<-thr_KM(path_level[1:3,])
+TA<-thr_AUCell(path_level)
+TKM<-thr_KM(path_level)
 ```
 For GMM solution at first you need to perform decomposition of signal and then perform thresholding search.
 ```r
-# extracte only 3 pathwasy to speed up
-res_gmm<-GMMdecomp(path_level[1:3,], K=10, multiply = T)
+res_gmm<-GMMdecomp(path_level, K=10, multiply = T)
 TGMM<-thr_GMM(res_gmm)
 ```
 
