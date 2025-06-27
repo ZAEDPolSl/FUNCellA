@@ -7,7 +7,7 @@
 gene2path(
   X,
   pathway,
-  method = "ssGSEA",
+  method = "CERNO",
   filt_cov = 0,
   filt_min = 15,
   filt_max = 500,
@@ -22,7 +22,7 @@ Row names (gene identifiers) must be provided.}
 
 \item{method}{A character string specifying the single-sample enrichment method to use.
 Possible values are: \code{"ssGSEA"}, \code{"Mean"}, \code{"BINA"}, \code{"CERNO"}, \code{"ZSc"}, \code{"JASMINE"}, and \code{"AUCell"}.
-Default is \code{"ssGSEA"}.}
+Default is \code{"CERNO"}.}
 
 \item{filt_cov}{Numeric value between 0 and 1 indicating the minimum fraction of pathway genes
 that must be present in \code{X} to include the pathway. Default is 0 (no coverage filtering).}

@@ -9,7 +9,7 @@
 #' @param pathway A named list of pathways, where each element is a character vector of gene identifiers.
 #' @param method A character string specifying the single-sample enrichment method to use.
 #'   Possible values are: \code{"ssGSEA"}, \code{"Mean"}, \code{"BINA"}, \code{"CERNO"}, \code{"ZSc"}, \code{"JASMINE"}, and \code{"AUCell"}.
-#'   Default is \code{"ssGSEA"}.
+#'   Default is \code{"CERNO"}.
 #' @param filt_cov Numeric value between 0 and 1 indicating the minimum fraction of pathway genes
 #'   that must be present in \code{X} to include the pathway. Default is 0 (no coverage filtering).
 #' @param filt_min Integer specifying the minimum size (number of genes) a pathway must have after mapping to \code{X}.
@@ -144,7 +144,7 @@
 #' \doi{10.1093/bioinformatics/btz447}
 #'
 #' @export
-gene2path<- function(X, pathway, method = "ssGSEA",filt_cov=0,filt_min=15,filt_max=500,type="oddsratio"){
+gene2path<- function(X, pathway, method = "CERNO",filt_cov=0,filt_min=15,filt_max=500,type="oddsratio"){
   # ---- Parameter validation ----
   if (missing(X) || is.null(X)) {
     cli_abort(c("x" = "No data provided (X)."))
