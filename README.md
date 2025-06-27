@@ -35,7 +35,8 @@ At first let's perpare a data. You need a matrix or data.frame of your molecular
 It is very important that in rownames you will have features names (genes/transripts) of the same name as in the pathways you would like to chcek.
 ``` r
 library(FUNCellA)
-# data - A numeric matrix or data.frame with genes/features as rows and samples as columns. Row names (gene identifiers) must be provided.
+# data - A numeric matrix or data.frame with genes/features as rows and samples as columns.
+# Row names (gene identifiers) must be provided.
 rownames(data)
 ```
 Next you need pathways to analysis. You can use example in package or create your own.
