@@ -47,7 +47,11 @@ paths <- list(
 )
 ```
 ### Single-sample enrichment
-
+Now let's run transformation from genes/feature level to pahway level using gene2path function. By default it will use CERNO approach and apply some filtration; for deatailes see help.
+``` r
+path_level<-gene2path(data, pathways)
+?gene2path
+```
 ### Thresholding
 
 ## REFERENCES
