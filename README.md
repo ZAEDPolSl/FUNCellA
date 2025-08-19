@@ -37,6 +37,9 @@ renv::install("ZAEDPolSl/FUNCellA")
 ```
 This should work without any additional steps. However, if the GSVA or AUCell are not available and you get errors, please install them manually.
 
+## Running on the remote server
+Alternatively, you can use our website application available [here](https://dssoftware.aei.polsl.pl/FUNCellA). It is free of charge and it does not store your data. Feel free to use it!
+
 ## Example of run
 ### Data
 At first let's prepare a data. You need a matrix or data.frame of your molecular biology data e.g. scRNA-Seq counts. You can use your own data or check the example from Seurat Pacakge.
