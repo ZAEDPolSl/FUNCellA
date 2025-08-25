@@ -81,18 +81,19 @@ Examplary plots for GMM with k-keamsn loos as follows:
 ``` r
 visG[[1]]PAS
 ```
-<img src='man/logo/p_pas.png' align="left" height="450" /><br style="clear: both;">
+<img src='man/logo/p_pas.png' align="left" height="500" />
 
 #### pathway cluster by GMM
 ``` r
 visG[[1]]clusters
 ```
+<img src='man/logo/p_clusters.png' align="left" height="500" />
 
 #### GMM decomposition with cluster coloring
 ``` r
-visG[[1]]Pgmm
+visG[[1]]gmm
 ```
-
+<img src='man/logo/p_gmm.png' align="left" height="500" />
 
 ## REFERENCES
 Aibar, S., Bravo González-Blas, C., Moerman, T., Huynh-Thu, V.A., Imrichová, H., Hulselmans, G., Rambow, F., Marine, J.C., Geurts, P., Aerts, J., van den Oord, J., Kalender Atak, Z., Wouters, J., & Aerts, S (2017). SCENIC: Single-cell regulatory network inference and clustering. *Nature Methods*, *14*, 1083–1086.\
