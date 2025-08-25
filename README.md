@@ -76,6 +76,23 @@ visK<-vis_KM(PR, path_level, TKM)
 # Visualisation of GMM with k-means approach for pathway acvtivation
 visG<-vis_GMM(PR,path_level, res_gmm, thr_method="KM")
 ```
+Examplary plots for GMM with k-keamsn loos as follows:
+#### pathway level signal
+``` r
+visG[[1]]PAS
+```
+<img src='man/logo/p_pas.png' align="left" height="350" />
+
+#### pathway cluster by GMM
+``` r
+visG[[1]]clusters
+```
+
+#### GMM decomposition with cluster coloring
+``` r
+visG[[1]]Pgmm
+```
+
 
 ## REFERENCES
 Aibar, S., Bravo González-Blas, C., Moerman, T., Huynh-Thu, V.A., Imrichová, H., Hulselmans, G., Rambow, F., Marine, J.C., Geurts, P., Aerts, J., van den Oord, J., Kalender Atak, Z., Wouters, J., & Aerts, S (2017). SCENIC: Single-cell regulatory network inference and clustering. *Nature Methods*, *14*, 1083–1086.\
