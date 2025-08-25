@@ -81,7 +81,7 @@ Examplary plots for GMM with k-keamsn loos as follows:
 ``` r
 visG[[1]]PAS
 ```
-<img src='man/logo/p_pas.png' align="left" height="350" />
+<img src='man/logo/p_pas.png' align="left" height="450" /><br style="clear: both;">
 
 #### pathway cluster by GMM
 ``` r
