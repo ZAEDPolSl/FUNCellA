@@ -64,6 +64,18 @@ For GMM solution at first you need to perform decomposition of signal and then p
 res_gmm<-GMMdecomp(path_level, K=10, multiply = T)
 TGMM<-thr_GMM(res_gmm)
 ```
+### Visulaisation
+Additionally, basic visualisation are available if user have some dimensionality reductions outputs for data.
+``` r
+# PR - A numeric matrix or data.frame with two columns (first and second dimensions of the reduced space, e.g. PCA, UMAP or t-SNE coordinates)
+```
+In package implementation of visualisation for k-means resluts ang GMM decomposition are avaliable.
+``` r
+# Visualisation of k-means approach for pathway acvtivation
+visK<-vis_KM(PR, path_level, TKM)
+# Visualisation of GMM with k-means approach for pathway acvtivation
+visG<-vis_GMM(PR,path_level, res_gmm, thr_method="KM")
+```
 
 ## REFERENCES
 Aibar, S., Bravo González-Blas, C., Moerman, T., Huynh-Thu, V.A., Imrichová, H., Hulselmans, G., Rambow, F., Marine, J.C., Geurts, P., Aerts, J., van den Oord, J., Kalender Atak, Z., Wouters, J., & Aerts, S (2017). SCENIC: Single-cell regulatory network inference and clustering. *Nature Methods*, *14*, 1083–1086.\
