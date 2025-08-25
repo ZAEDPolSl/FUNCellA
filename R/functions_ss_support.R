@@ -208,9 +208,6 @@ Calc_Likelihood <- function(X, g_vec) {
 #'
 #' @return A numeric vector of the same length as \code{x}.
 #'
-#' @examples
-#' scale_minmax(c(2, 4, 6, 8))
-#' # Returns: c(0, 0.333, 0.667, 1)
 #' @keywords internal
 scale_minmax <- function(x)
 {
@@ -230,12 +227,6 @@ scale_minmax <- function(x)
 #'
 #' @importFrom stats sd
 #'
-#' @examples
-#' mat <- matrix(1:9, nrow = 3, byrow = TRUE)
-#' scale_zscore(mat)
-#'
-#' vec <- c(1, 2, 3, 4, 5)
-#' scale_zscore(vec)
 #' @keywords internal
 scale_zscore <- function(X) {
   if (is.vector(X)) {

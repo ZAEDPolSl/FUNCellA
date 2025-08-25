@@ -14,8 +14,11 @@ where rows correspond to pathways and columns to samples.}
 number of clusters using the silhouette method (default: 10).}
 }
 \value{
-A binary matrix of the same dimensions as \code{df_path}, where
-  values are 1 for samples in the most active cluster per pathway, and 0 otherwise.
+A list with:
+\itemize{
+  \item \code{binary} – matrix of 0/1 assignments (cluster with relatvie pathway activation = 1).
+  \item \code{clusters} – matrix of full cluster assignments (1…k).
+}
 }
 \description{
 This function applies k-means clustering to threshold pathway activity scores

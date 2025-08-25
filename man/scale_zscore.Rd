@@ -17,11 +17,4 @@ This function applies z-score normalization (standardization) across each row of
 For matrices, it standardizes each row to have a mean of 0 and standard deviation of 1.
 For vectors, it standardizes the values globally.
 }
-\examples{
-mat <- matrix(1:9, nrow = 3, byrow = TRUE)
-scale_zscore(mat)
-
-vec <- c(1, 2, 3, 4, 5)
-scale_zscore(vec)
-}
 \keyword{internal}

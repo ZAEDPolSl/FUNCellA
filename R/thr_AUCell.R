@@ -19,6 +19,7 @@
 #'   SCENIC: Single-Cell Regulatory Network Inference And Clustering. *Nature Methods*, 14, 1083–1086.
 #'   \doi{10.1038/nmeth.4463}
 #'
+#' @import AUCell
 #' @export
 #'
 thr_AUCell<-function(df_path){

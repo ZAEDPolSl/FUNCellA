@@ -9,6 +9,7 @@
 #' If no \code{TRUE} values are found, returns \code{NA}.
 #'
 #' @examples
+#' \dontrun{
 #' x <- c(FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE)
 #' last_consecutive_true(x)
 #' # Returns: 5 6 7
@@ -16,7 +17,7 @@
 #' y <- c(FALSE, FALSE, FALSE)
 #' last_consecutive_true(y)
 #' # Returns: NA
-#'
+#'}
 #' @importFrom utils tail
 #' @keywords internal
 last_consecutive_true <- function(row) {

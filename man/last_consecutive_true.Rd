@@ -18,6 +18,7 @@ This function identifies the indices of the last contiguous (consecutive) sequen
 of \code{TRUE} values within a logical vector.
 }
 \examples{
+\dontrun{
 x <- c(FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE)
 last_consecutive_true(x)
 # Returns: 5 6 7
@@ -25,6 +26,6 @@ last_consecutive_true(x)
 y <- c(FALSE, FALSE, FALSE)
 last_consecutive_true(y)
 # Returns: NA
-
+}
 }
 \keyword{internal}
