@@ -69,9 +69,9 @@ extract_pathway <- function(X,g_vec){
   poz<-poz[!is.na(poz)]
 
   data_path <- X[poz,]
-  tmp <- rowVars(as.matrix(data_path))
-
-  data_path <- data_path[!(is.na(tmp)==T | tmp == 0),]
+  if (nrow(data_path)!=0){
+    tmp <- rowVars(as.matrix(data_path))
+    data_path <- data_path[!(is.na(tmp)==T | tmp == 0),]}
   return(data_path)
 }
 
